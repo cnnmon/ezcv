@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useRef } from "react";
 import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
+import { getLastImportantSymbol } from "../Resume/utils";
 import phrases from "../../constants/phrases";
 
 const styles = {
@@ -18,6 +19,7 @@ const styles = {
     border: "1px solid black",
     borderRadius: 5,
     backgroundColor: "white",
+    zIndex: 1,
   },
   list: {
     padding: 0,
@@ -51,11 +53,37 @@ function Item({ selected, entity: { name, description } }) {
   );
 }
 
+function isTriggerValid(caretPosition, textboxValue) {
+  if (textboxValue.lastIndexOf("\n", caretPosition) === -1) {
+    // if first line, checks if last index of / is first index of /
+    return (
+      textboxValue.lastIndexOf("/", caretPosition) === textboxValue.indexOf("/")
+    );
+  }
+
+  // ensures triggers can't be autocompleted on the same line as another trigger
+  return (
+    textboxValue.lastIndexOf("\n", caretPosition) >
+    getLastImportantSymbol(textboxValue, caretPosition - 1)
+  );
+}
+
 export default function Textbox({ setText }) {
+  const textbox = useRef();
+
   const triggers = {
     "/": {
-      dataProvider: (token) =>
-        phrases["/"].filter(({ name }) => name.includes(token.toLowerCase())),
+      dataProvider: (token) => {
+        const caretPosition = textbox.current.getCaretPosition() - 1;
+        const { value } = textbox.current.state;
+        if (isTriggerValid(caretPosition, value)) {
+          return phrases["/"].filter(({ name }) =>
+            name.includes(token.toLowerCase())
+          );
+        }
+
+        return [];
+      },
       component: Item,
       output: (item) => item.char,
     },
@@ -69,8 +97,10 @@ export default function Textbox({ setText }) {
       style={styles.textbox}
       dropdownStyle={styles.dropdown}
       listStyle={styles.list}
+      ref={textbox}
       containerStyle={styles.container}
       onChange={(e) => setText(e.target.value)}
+      placeholder="Type / for a menu..."
     />
   );
 }

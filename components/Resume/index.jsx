@@ -1,4 +1,5 @@
 import React from "react";
+import { getFirstImportantSymbol } from "./utils";
 import Education from "./education";
 
 const styles = {
@@ -26,11 +27,11 @@ const sectionMap = {
   other: Education,
 };
 
-export function getSection({ header, body }) {
+export function getSection({ header, body }, key) {
   const sectionKey = header.toLowerCase();
   if (sectionKey in sectionMap) {
     const Component = sectionMap[sectionKey];
-    return <Component header={header} body={body} />;
+    return <Component header={header} body={body} key={key} />;
   }
   return sectionMap.other;
 }
@@ -42,19 +43,21 @@ export function getHeader(text) {
 function getContent(text) {
   const lines = text.split(/\r?\n/);
   const content = [];
-  const sections = [];
+  const sections = [{ header: "", body: [] }];
   for (let i = 0; i < lines.length; i += 1) {
     const line = lines[i];
-    const currSection = sections.length - 1;
-    // change body into dictionary
-    // const firstWord = line.substring(1, spaceIndex - 1);
-
-    switch (line[0]) {
+    const firstImportantSymbol = getFirstImportantSymbol(line); // used to allow stray spaces/comments
+    switch (line[firstImportantSymbol]) {
       case ">":
-        sections[currSection].body.push(line.substring(1));
+        sections[sections.length - 1].body.push(
+          line.substring(firstImportantSymbol + 1)
+        );
         break;
       case "/":
-        sections.push({ header: line.substring(1), body: [] });
+        sections.push({
+          header: line.substring(firstImportantSymbol + 1),
+          body: [],
+        });
         break;
       default:
         break;
@@ -62,7 +65,7 @@ function getContent(text) {
   }
 
   for (let i = 0; i < sections.length; i += 1) {
-    content.push(getSection(sections[i]));
+    content.push(getSection(sections[i], i));
   }
 
   return content;
