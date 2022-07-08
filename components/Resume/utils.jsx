@@ -8,13 +8,16 @@ export function getDefaultFieldsString(fields) {
   const keys = Object.keys(fields);
   let defaultFields = "";
 
-  // assumes last key will always be "other"
-  for (let i = 0; i < keys.length - 1; i += 1) {
+  for (let i = 0; i < keys.length; i += 1) {
     const key = keys[i];
 
-    defaultFields += `>${key} ${fields[key]}`;
-    if (i < keys.length - 2) {
-      defaultFields += "\n";
+    if (key === 'other') {
+      const other = fields[key]
+      for (let j = 0; j < other.length; j += 1) {
+        defaultFields += `>${other[j]}${j < other.length - 1 ? "\n" : ""}`;
+      }
+    } else {
+      defaultFields += `>${key} ${fields[key]}${i < keys.length - 1 ? "\n" : ""}`;
     }
   }
 
