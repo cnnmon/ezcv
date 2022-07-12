@@ -11,13 +11,15 @@ export function getDefaultFieldsString(fields) {
   for (let i = 0; i < keys.length; i += 1) {
     const key = keys[i];
 
-    if (key === 'other') {
-      const other = fields[key]
+    if (key === "other") {
+      const other = fields[key];
       for (let j = 0; j < other.length; j += 1) {
-        defaultFields += `>${other[j]}${j < other.length - 1 ? "\n" : ""}`;
+        defaultFields += `>* ${other[j]}${j < other.length - 1 ? "\n" : ""}`;
       }
     } else {
-      defaultFields += `>${key} ${fields[key]}${i < keys.length - 1 ? "\n" : ""}`;
+      defaultFields += `>${key} ${fields[key]}${
+        i < keys.length - 1 ? "\n" : ""
+      }`;
     }
   }
 

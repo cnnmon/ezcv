@@ -2,15 +2,17 @@ import React, { useMemo } from "react";
 import { getHeader, getDefaultFieldsString, getFirstSpace } from "./utils";
 
 const styles = {
-  container: {
-    whiteSpace: "pre-line",
+  container: {},
+  left: {
+    width: "30%",
+    float: "left",
+    lineHeight: 0.4,
   },
-  body: {
-    lineHeight: 100,
+  right: {
+    width: "70%",
+    float: "right",
+    lineHeight: 0.4,
   },
-  block: {
-    display: 'block',
-  }
 };
 
 const fields = {
@@ -24,8 +26,10 @@ export const getDefaultEducationFields = () => getDefaultFieldsString(fields);
 
 export default function Education({ header, body }) {
   const content = useMemo(() => {
-    const state = {...fields}
-    Object.keys(state).forEach(key => state[key] = key === 'other' ? [] : null)
+    const state = { ...fields };
+    Object.keys(state).forEach((key) => {
+      state[key] = key === "other" ? [] : null;
+    });
 
     // change to /h2
     for (let i = 0; i < body.length; i += 1) {
@@ -33,7 +37,7 @@ export default function Education({ header, body }) {
       const spaceIndex = getFirstSpace(text);
       const key = text.substring(0, spaceIndex);
       const value = text.substring(spaceIndex + 1);
-      if (key in state && key !== 'other') {
+      if (key in state && key !== "other") {
         state[key] = value;
       } else if (text.length > 0) {
         state.other.push(text);
@@ -43,24 +47,25 @@ export default function Education({ header, body }) {
     return state;
   }, [body]);
 
-  const {degree, school, dates, gpa, coursework, other} = content
+  const { degree, school, dates, other } = content;
 
   return (
-    <div styles={styles.container}>
+    <>
       {getHeader(header)}
-      <div>
-        <p>
-          {degree && (<b>{degree}, </b>)}{school}
-        </p>
-        <br />
-        <span>{dates}</span>
-        <br />
-        <span>GPA: {gpa}</span>
-        <br />
-        <span>Coursework: {coursework}</span>
-        <br />
-        <span>{other.map((e) => <span>{e}</span>)}</span>
+      <div styles={styles.container}>
+        <div style={styles.left}>
+          <p>{dates}</p>
+        </div>
+        <div style={styles.right}>
+          <p>
+            {degree && <b>{degree}, </b>}
+            {school}
+          </p>
+          {other.map((e) => (
+            <p>{e}</p>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

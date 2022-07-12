@@ -1,5 +1,4 @@
 import React from "react";
-import { getFirstImportantSymbol } from "./utils";
 import Education from "./education";
 
 const styles = {
@@ -8,7 +7,7 @@ const styles = {
     height: "11in",
     border: "2px solid black",
     backgroundColor: "white",
-    transform: "scale(0.5);",
+    transform: "scale(0.7);",
     position: "absolute",
   },
   content: {
@@ -46,16 +45,22 @@ function getContent(text) {
   const sections = [{ header: "", body: [] }];
   for (let i = 0; i < lines.length; i += 1) {
     const line = lines[i];
-    const firstImportantSymbol = getFirstImportantSymbol(line); // used to allow stray spaces/comments
-    switch (line[firstImportantSymbol]) {
+    const trimmedLine = line.trim();
+    // const firstImportantSymbol = getFirstImportantSymbol(line); // used to allow stray spaces/comments
+    switch (trimmedLine[0]) {
       case ">":
-        sections[sections.length - 1].body.push(
-          line.substring(firstImportantSymbol + 1)
-        );
+        if (trimmedLine[1] === "*") {
+          // not super necessary, just here for readability
+          sections[sections.length - 1].body.push(
+            trimmedLine.substring(2).trim()
+          );
+        } else {
+          sections[sections.length - 1].body.push(trimmedLine.substring(1));
+        }
         break;
       case "/":
         sections.push({
-          header: line.substring(firstImportantSymbol + 1),
+          header: trimmedLine.substring(1),
           body: [],
         });
         break;
