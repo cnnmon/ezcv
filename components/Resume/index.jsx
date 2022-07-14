@@ -1,5 +1,5 @@
 import React from "react";
-import Education from "./education";
+import sections from "../Sections";
 
 const styles = {
   container: {
@@ -16,23 +16,13 @@ const styles = {
   },
 };
 
-const sectionMap = {
-  education: Education,
-  experience: Education,
-  projects: Education,
-  honors: Education,
-  skills: Education,
-  organizations: Education,
-  other: Education,
-};
-
 export function getSection({ header, body }, key) {
-  const sectionKey = header.toLowerCase();
-  if (sectionKey in sectionMap) {
-    const Component = sectionMap[sectionKey];
+  const searchKey = header.toLowerCase();
+  if (searchKey in sections) {
+    const Component = sections[searchKey];
     return <Component header={header} body={body} key={key} />;
   }
-  return sectionMap.other;
+  return sections.other;
 }
 
 export function getHeader(text) {
@@ -42,24 +32,23 @@ export function getHeader(text) {
 function getContent(text) {
   const lines = text.split(/\r?\n/);
   const content = [];
-  const sections = [{ header: "", body: [] }];
+  const s = [{ header: "", body: [] }];
   for (let i = 0; i < lines.length; i += 1) {
     const line = lines[i];
     const trimmedLine = line.trim();
-    // const firstImportantSymbol = getFirstImportantSymbol(line); // used to allow stray spaces/comments
     switch (trimmedLine[0]) {
       case ">":
         if (trimmedLine[1] === "*") {
           // not super necessary, just here for readability
-          sections[sections.length - 1].body.push(
+          s[s.length - 1].body.push(
             trimmedLine.substring(2).trim()
           );
         } else {
-          sections[sections.length - 1].body.push(trimmedLine.substring(1));
+          s[s.length - 1].body.push(trimmedLine.substring(1));
         }
         break;
       case "/":
-        sections.push({
+        s.push({
           header: trimmedLine.substring(1),
           body: [],
         });
@@ -69,8 +58,8 @@ function getContent(text) {
     }
   }
 
-  for (let i = 0; i < sections.length; i += 1) {
-    content.push(getSection(sections[i], i));
+  for (let i = 0; i < s.length; i += 1) {
+    content.push(getSection(s[i], i));
   }
 
   return content;

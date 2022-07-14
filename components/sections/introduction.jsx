@@ -1,37 +1,23 @@
 import React, { useMemo } from "react";
 import { getHeader, getDefaultFieldsString, getFirstSpace } from "./utils";
-
-const styles = {
-  container: {},
-  left: {
-    width: "30%",
-    float: "left",
-    lineHeight: 0.4,
-  },
-  right: {
-    width: "70%",
-    float: "right",
-    lineHeight: 0.4,
-  },
-};
+import sx from "./styles"
 
 const fields = {
-  school: "University of Clown, Cincinnati",
-  dates: "Aug 1555 - May 2020",
+  name: "Sans Undertale",
+  email: "sansundertale@gmail.com",
   degree: "B.A. Clown Science",
   other: ["GPA: 0.0", "Relevant Coursework: Clown Car Driving"],
 };
 
-export const getDefaultEducationFields = () => getDefaultFieldsString(fields);
+export const getDefaultIntroductionFields = () => getDefaultFieldsString(fields);
 
-export default function Education({ header, body }) {
+export default function Introduction({ header, body }) {
   const content = useMemo(() => {
     const state = { ...fields };
     Object.keys(state).forEach((key) => {
       state[key] = key === "other" ? [] : null;
     });
 
-    // change to /h2
     for (let i = 0; i < body.length; i += 1) {
       const text = body[i];
       const spaceIndex = getFirstSpace(text);
@@ -52,11 +38,11 @@ export default function Education({ header, body }) {
   return (
     <>
       {getHeader(header)}
-      <div styles={styles.container}>
-        <div style={styles.left}>
+      <div style={sx.container}>
+        <div style={sx.left}>
           <p>{dates}</p>
         </div>
-        <div style={styles.right}>
+        <div style={sx.right}>
           <p>
             {degree && <b>{degree}, </b>}
             {school}

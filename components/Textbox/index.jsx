@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
-import { getLastImportantSymbol } from "../Resume/utils";
-import phrases from "../../constants/phrases";
+import { getLastImportantSymbol } from "./utils";
+import phrases from "./phrases";
 
 const styles = {
   textbox: {
@@ -44,10 +44,10 @@ function Loading() {
   return <span>loading...</span>;
 }
 
-function Item({ selected, entity: { name, description } }) {
+function Item({ selected, entity: { display: { title, description } } }) {
   return (
     <div style={{ ...styles.item, ...(selected ? styles.selected : {}) }}>
-      <p>/{name}</p>
+      <p><b>{title}</b></p>
       <p>{description}</p>
     </div>
   );
