@@ -32,7 +32,7 @@ function PrintButton() {
 }
 
 export default function Home() {
-  const [text, setText] = useState("");
+  const [content, setContent] = useState([]);
   const resume = useRef();
 
   return (
@@ -45,10 +45,10 @@ export default function Home() {
       <main>
         <div style={styles.body}>
           <div style={{ ...styles.column, ...styles.text }}>
-            <Textbox setText={setText} />
+            <Textbox content={content} setContent={setContent} />
           </div>
           <div style={{ ...styles.column, ...styles.doc }}>
-            <Resume text={text} ref={resume} />
+            <Resume content={content} ref={resume} />
           </div>
         </div>
       </main>

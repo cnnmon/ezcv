@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
-import { getLastImportantSymbol } from "./utils";
-import phrases from "./phrases";
+import { getLastImportantSymbol, parseIntoContent } from "./utils";
+import { getSections } from "../Section";
 
 const styles = {
   textbox: {
@@ -40,6 +40,10 @@ const styles = {
   },
 };
 
+export const phrases = {
+  "/": getSections(),
+};
+
 function Loading() {
   return <span>loading...</span>;
 }
@@ -68,22 +72,29 @@ function isTriggerValid(caretPosition, textboxValue) {
   );
 }
 
-export default function Textbox({ setText }) {
+export default function Textbox({ content, setContent }) {
   const textbox = useRef();
+
+  const onTrigger = (token) => {
+    const caretPosition = textbox.current.getCaretPosition() - 1;
+    const { value } = textbox.current.state;
+    if (isTriggerValid(caretPosition, value)) {
+      const headers = content.map((c) => c.header)
+      return phrases["/"].filter(({ name }) =>
+        name.includes(token.toLowerCase()) && !headers.includes(name)
+      );
+    }
+    return [];
+  }
+
+  const onTextboxChange = (e) => {
+    const content = parseIntoContent(e.target.value)
+    setContent(content)
+  }
 
   const triggers = {
     "/": {
-      dataProvider: (token) => {
-        const caretPosition = textbox.current.getCaretPosition() - 1;
-        const { value } = textbox.current.state;
-        if (isTriggerValid(caretPosition, value)) {
-          return phrases["/"].filter(({ name }) =>
-            name.includes(token.toLowerCase())
-          );
-        }
-
-        return [];
-      },
+      dataProvider: onTrigger,
       component: Item,
       output: (item) => item.char,
     },
@@ -99,7 +110,7 @@ export default function Textbox({ setText }) {
       listStyle={styles.list}
       ref={textbox}
       containerStyle={styles.container}
-      onChange={(e) => setText(e.target.value)}
+      onChange={onTextboxChange}
       placeholder="Type / for a menu..."
     />
   );
