@@ -21,19 +21,18 @@ export default function Section({ header, body }) {
     const isCenter = tokens.includes("center")
     const isInline = tokens.includes("inline")
     const isBulleted = !tokens.includes("non-bulleted")
-    const isTitleAsHeader = tokens.includes("title-as-header")
     const isLargeHeader = tokens.includes("large-header")
 
     const getSection = () => (
       <>
-        {!isTitleAsHeader && getSectionTitle(title, subtitle, description)}
+        {getSectionTitle(title, subtitle, description)}
         {isInline ? getInlineItems(other) : getItems(other, isBulleted)}
       </>
     )
 
     return (
-      <div style={isCenter ? styles.center : undefined}>
-        {isFirst && header && getSectionHeader(isTitleAsHeader ? title : header, isLargeHeader)}
+      <div style={isCenter ? styles.center : undefined} key={key}>
+        {isFirst && getSectionHeader(header, isLargeHeader)}
         {getDatedSection(date, getSection())}
       </div>
     )
@@ -46,4 +45,5 @@ export default function Section({ header, body }) {
   );
 }
 
-export { getSections } from "./utils";
+export { getSections, getFields, sectionsTrigger, fieldsTrigger, styleTrigger } from "./autocomplete";
+export { getKeyValuePair } from "./utils";

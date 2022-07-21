@@ -1,5 +1,4 @@
-import { getEmptyFields } from "../Section";
-import { getKeyValuePair } from "../Section/utils";
+import { getEmptyFields, getKeyValuePair, sectionsTrigger, fieldsTrigger } from "../Section";
 
 export function getLastImportantSymbol(text, startingPoint) {
   return Math.max(
@@ -19,11 +18,11 @@ export function parseIntoContent(text) {
     return !title && !subtitle && !date && !description && other.length < 1
   }
 
-  function pushSectionToState(key, value, text) {
+  function pushSectionToState(text, key = null, value = null) {
     const currentSection = state[state.length - 1]
     const currentBody = currentSection.body;
     const currentFields = currentBody[currentBody.length - 1]
-    if (key in getEmptyFields(currentSection.header)) {
+    if (key && value && key in getEmptyFields(currentSection.header)) {
       if (key === "title" && !isCurrentFieldsEmpty(currentFields)) {
         // If title & last fields is not empty
         const emptyFields = getEmptyFields(currentSection.header)
@@ -41,11 +40,11 @@ export function parseIntoContent(text) {
     const line = lines[i].trim();
     const trimmedLine = line.substring(1);
     switch (line[0]) {
-      case ">":
+      case fieldsTrigger:
         const { key, value } = getKeyValuePair(trimmedLine)
-        pushSectionToState(key, value, trimmedLine)
+        pushSectionToState(trimmedLine, key, value)
         break;
-      case "/":
+      case sectionsTrigger:
         const currentSection = state[state.length - 1];
         const isCurrentSectionEmpty = currentSection.header !== "" && currentSection.body.length > 0
         if (isCurrentSectionEmpty) {
@@ -58,6 +57,9 @@ export function parseIntoContent(text) {
         }
         break;
       default:
+        if (line.length > 0) {
+          pushSectionToState(line)
+        }
         break;
     }
   }

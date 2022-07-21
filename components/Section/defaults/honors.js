@@ -1,4 +1,5 @@
-import { getMultiSectionDefaultFieldsString } from "./utils";
+import { getMultiSectionDefaultFieldsString } from "../utils";
+import { sectionsTrigger } from "../autocomplete";
 
 const key = "honors"
 
@@ -22,7 +23,7 @@ const getDefaultFields = () => getMultiSectionDefaultFieldsString(fields);
 export const getHonors = () => {
     return {
         name: key,
-        char: `/${key}\n${getDefaultFields()}`,
+        char: `${sectionsTrigger}${key}\n${getDefaultFields()}`,
         display: {
             title: "Honors",
             description: "Brag about your past awards and honors.",

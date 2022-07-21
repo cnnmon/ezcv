@@ -1,26 +1,5 @@
 import React from "react";
-import { getIntroduction } from "./introduction";
-import { getEducation } from "./education";
-import { getExperience } from "./experience";
-import { getProjects } from "./projects";
-import { getHonors } from "./honors";
-import { getOrganizations } from "./organizations";
-import { getSkills } from "./skills";
-
-// Autocomplete uses name, char, display; Rendering (Resume) uses settings
-export const getSections = () => {
-  return (
-    [
-      getIntroduction(),
-      getEducation(),
-      getExperience(),
-      getProjects(),
-      getHonors(),
-      getOrganizations(),
-      getSkills(),
-    ]
-  )
-};
+import { fieldsTrigger } from "./autocomplete";
 
 function getFirst(text, symbol, defaultValue) {
   const index = text.indexOf(symbol);
@@ -73,7 +52,7 @@ function getDefaultFieldsString(fields) {
       const other = fields[key];
       // Iterate through all "other" lines
       for (let j = 0; j < other.length; j += 1) {
-        defaultFields += `> ${other[j]}${j < other.length - 1 ? "\n" : ""}`;
+        defaultFields += `${other[j]}${j < other.length - 1 ? "\n" : ""}`;
       }
     } else {
       /*
@@ -85,7 +64,7 @@ function getDefaultFieldsString(fields) {
       const isLastKey = i < keys.length - 2 || !isOtherEmpty
       const value = fields[key]
 
-      defaultFields += `>${key} ${value}${
+      defaultFields += `${fieldsTrigger}${key} ${value}${
         isLastKey ? "\n" : ""
       }`;
     }
@@ -102,4 +81,9 @@ export function getMultiSectionDefaultFieldsString(fields) {
     result += `${getDefaultFieldsString(field)}${i < fields.length - 1 ? "\n\n" : ""}`;
   }
   return result;
+}
+
+export function getTodaysDate() {
+  const date = new Date();
+  return `${date.toLocaleString('en-us', { month: 'short', year: 'numeric' })} - Present`;
 }

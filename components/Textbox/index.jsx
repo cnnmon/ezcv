@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
 import { getLastImportantSymbol, parseIntoContent } from "./utils";
-import { getSections } from "../Section";
+import { getSections, getFields, sectionsTrigger, fieldsTrigger, styleTrigger } from "../Section";
 
 const styles = {
   textbox: {
@@ -40,12 +40,8 @@ const styles = {
   },
 };
 
-export const phrases = {
-  "/": getSections(),
-};
-
 function Loading() {
-  return <span>loading...</span>;
+  return <span>Loading...</span>;
 }
 
 function Item({ selected, entity: { display: { title, description } } }) {
@@ -57,31 +53,46 @@ function Item({ selected, entity: { display: { title, description } } }) {
   );
 }
 
-function isTriggerValid(caretPosition, textboxValue) {
-  if (textboxValue.lastIndexOf("\n", caretPosition) === -1) {
+// ensures triggers can't be autocompleted on the same line as another trigger
+function isTriggerValid(trigger, textbox) {
+  const caretPosition = textbox.current.getCaretPosition() - 1;
+  const { value } = textbox.current.state;
+
+  return true;
+
+  /*
+  if (value.lastIndexOf("\n", caretPosition) === -1) {
     // if first line, checks if last index of / is first index of /
     return (
-      textboxValue.lastIndexOf("/", caretPosition) === textboxValue.indexOf("/")
+      value.lastIndexOf(trigger, caretPosition) === value.indexOf(trigger)
     );
   }
 
-  // ensures triggers can't be autocompleted on the same line as another trigger
   return (
-    textboxValue.lastIndexOf("\n", caretPosition) >
-    getLastImportantSymbol(textboxValue, caretPosition - 1)
+    value.lastIndexOf("\n", caretPosition) >
+    getLastImportantSymbol(value, caretPosition - 1)
   );
+  */
 }
 
 export default function Textbox({ content, setContent }) {
   const textbox = useRef();
 
-  const onTrigger = (token) => {
-    const caretPosition = textbox.current.getCaretPosition() - 1;
-    const { value } = textbox.current.state;
-    if (isTriggerValid(caretPosition, value)) {
-      const headers = content.map((c) => c.header)
-      return phrases["/"].filter(({ name }) =>
-        name.includes(token.toLowerCase()) && !headers.includes(name)
+  // searches for headers that have not already been placed earlier
+  const onSectionsTrigger = (token) => {
+    if (isTriggerValid(sectionsTrigger, textbox)) {
+      const headers = content.flatMap(({header}, index) => [{header: header, key: index}]);
+      return getSections().filter(({ name }) =>
+        name.includes(token.toLowerCase()) && !headers.some(({header}) => header === name)
+      );
+    }
+    return [];
+  }
+
+  const onFieldsTrigger = (token) => {
+    if (isTriggerValid(fieldsTrigger, textbox)) {
+      return getFields().filter(({ name }) =>
+        name.includes(token.toLowerCase())
       );
     }
     return [];
@@ -93,25 +104,39 @@ export default function Textbox({ content, setContent }) {
   }
 
   const triggers = {
-    "/": {
-      dataProvider: onTrigger,
+    [sectionsTrigger]: {
+      dataProvider: onSectionsTrigger,
+      component: Item,
+      output: (item) => item.char,
+    },
+    [fieldsTrigger]: {
+      dataProvider: onFieldsTrigger,
       component: Item,
       output: (item) => item.char,
     },
   };
 
   return (
-    <ReactTextareaAutocomplete
-      loadingComponent={Loading}
-      trigger={triggers}
-      minChar={0}
-      style={styles.textbox}
-      dropdownStyle={styles.dropdown}
-      listStyle={styles.list}
-      ref={textbox}
-      containerStyle={styles.container}
-      onChange={onTextboxChange}
-      placeholder="Type / for a menu..."
-    />
+    <>
+      <p>
+        Type {sectionsTrigger} to start a section, or browse through example sections.
+        <br />
+        Type {fieldsTrigger} to fill up your section. Type {fieldsTrigger}title to start a new subsection.
+        <br />
+        Type {styleTrigger} to style your section.
+      </p>
+      <ReactTextareaAutocomplete
+        loadingComponent={Loading}
+        trigger={triggers}
+        minChar={0}
+        style={styles.textbox}
+        dropdownStyle={styles.dropdown}
+        listStyle={styles.list}
+        ref={textbox}
+        containerStyle={styles.container}
+        onChange={onTextboxChange}
+        placeholder={`Start building your resume here!`}
+      />
+    </>
   );
 }

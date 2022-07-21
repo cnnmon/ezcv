@@ -5,14 +5,15 @@ const styles = {
     margin: '15px 0 20px 0',
   },
   header: {
-    margin: '0 0 10px',
+    margin: '5px 0',
+    width: '100%',
   },
   center: {
     display: 'flex',
-    textAlign: 'center',
     alignItems: 'center',
     flexDirection: 'column',
     width: '100%',
+    textAlign: 'center',
   },
   inline: {
     display: 'flex',
@@ -39,7 +40,7 @@ const styles = {
 
 export function getSectionHeader(text, isLarge) {
   if (isLarge) {
-    return <h1>{text}</h1>;
+    return <h1 style={styles.header}>{text}</h1>;
   }
 
   return <h2 style={styles.header}>{text}</h2>;
