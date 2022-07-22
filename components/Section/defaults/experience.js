@@ -1,7 +1,7 @@
 import { getMultiSectionDefaultFieldsString } from "../utils";
-import { sectionsTrigger } from "../autocomplete";
+import { sectionsTrigger } from "../../constants";
 
-const key = "experience"
+const key = "experience";
 
 const fields = [
   {
@@ -18,17 +18,17 @@ const fields = [
     description: "Toronto",
     other: ["Did clown stuff", "Did more clown stuff"],
   },
-]
+];
 
 const getDefaultFields = () => getMultiSectionDefaultFieldsString(fields);
 
-export const getExperience = () => {
-    return {
-        name: key,
-        char: `${sectionsTrigger}${key}\n${getDefaultFields()}`,
-        display: {
-            title: "Experience",
-            description: "Brag about your past work & volunteer experiences.",
-        },
-    }
-}
+const getExperience = () => ({
+  name: key,
+  char: `${sectionsTrigger}${key}\n${getDefaultFields()}`,
+  display: {
+    title: "Experience",
+    description: "Brag about your past work & volunteer experiences.",
+  },
+});
+
+export default getExperience;

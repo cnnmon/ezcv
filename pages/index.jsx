@@ -3,6 +3,11 @@ import Head from "next/head";
 import ReactToPrint from "react-to-print";
 import Textbox from "../components/Textbox";
 import Resume from "../components/Resume";
+import {
+  sectionsTrigger,
+  fieldsTrigger,
+  styleTrigger,
+} from "../components/constants";
 
 const styles = {
   body: {
@@ -55,8 +60,15 @@ export default function Home() {
 
       <footer>
         <ReactToPrint trigger={PrintButton} content={() => resume.current} />
-        <br />
-        <p>fueled by red velvet lattes</p>
+        <p>
+          Type {sectionsTrigger} to start a section, or browse through example
+          sections.
+          <br />
+          Type {fieldsTrigger} to fill up your section. Type {fieldsTrigger}
+          title to start a new subsection.
+          <br />
+          Type {styleTrigger} to style your section.
+        </p>
       </footer>
     </>
   );

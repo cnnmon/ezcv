@@ -1,25 +1,27 @@
+import React from "react";
+
 const styles = {
   /* Global */
   section: {
     lineHeight: 0.4,
-    margin: '15px 0 20px 0',
+    margin: "15px 0 20px 0",
   },
   header: {
-    margin: '5px 0',
-    width: '100%',
+    margin: "5px 0",
+    width: "100%",
   },
   center: {
-    display: 'flex',
-    alignItems: 'center',
-    flexDirection: 'column',
-    width: '100%',
-    textAlign: 'center',
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "column",
+    width: "100%",
+    textAlign: "center",
   },
   inline: {
-    display: 'flex',
+    display: "flex",
   },
   inlineItem: {
-    margin: '0 10px 10px 0',
+    margin: "0 10px 10px 0",
   },
   /* Lists */
   list: {
@@ -27,7 +29,7 @@ const styles = {
     lineHeight: 1.1,
   },
   unbulleted: {
-    listStyleType: 'none',
+    listStyleType: "none",
   },
   /* Columns */
   left: {
@@ -53,31 +55,36 @@ export function getInlineItems(list) {
         <p style={styles.inlineItem}>{e}</p>
       ))}
     </div>
-  )
+  );
 }
 
 export function getItems(list, isBulleted = true) {
   return (
-    <div style={{...styles.list, ...(isBulleted ? {} : styles.unbulleted)}}>
-      {list.map((e, key) => (
-        <li key={key}>{e}</li>
+    <div style={{ ...styles.list, ...(isBulleted ? {} : styles.unbulleted) }}>
+      {list.map((e) => (
+        <li key={e.id}>{e}</li>
       ))}
     </div>
-  )
+  );
 }
 
 export function getSectionTitle(title, subtitle = null, description = null) {
   if (title === null) {
-    return null
+    return null;
   }
 
   return (
     <p style={styles.title}>
-      {title && <b>{title}{subtitle && ", "}</b>}
+      {title && (
+        <b>
+          {title}
+          {subtitle && ", "}
+        </b>
+      )}
       {subtitle}
       {description && ` — ${description}`}
     </p>
-  )
+  );
 }
 
 export function getDatedSection(date, body) {
@@ -88,11 +95,9 @@ export function getDatedSection(date, body) {
           <p>{date}</p>
         </div>
       )}
-      <div style={styles.right}>
-        {body}
-      </div>
+      <div style={styles.right}>{body}</div>
     </div>
-  )
+  );
 }
 
 export default styles;

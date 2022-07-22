@@ -1,5 +1,4 @@
-import React from "react";
-import { fieldsTrigger } from "./autocomplete";
+import { fieldsTrigger } from "../constants";
 
 function getFirst(text, symbol, defaultValue) {
   const index = text.indexOf(symbol);
@@ -14,31 +13,31 @@ export function getKeyValuePair(text) {
   const spaceIndex = getFirstSpace(text);
   const key = text.substring(0, spaceIndex);
   const value = text.substring(spaceIndex + 1);
-  return {key, value}
+  return { key, value };
 }
 
 // Converts single list of plaintext lines to lists in lists, representing different sections
 export function useMultiSectionBody(body) {
-    const state = [];
-    const section = [];
-    for (let i = 0; i < body.length; i += 1) {
-        const text = body[i];
-        const { key } = getKeyValuePair(body[i]);
-        if (key === "title") {
-            // Push all previous lines of text, reset section
-            state.push(section.slice())
-            section.splice(0, section.length)
-            section.push(text)
-        } else {
-            // If "title" is not the first line in the body, return everything as a single section
-            if (i === 0) {
-                return [body];
-            }
-            section.push(text)
-        }
+  const state = [];
+  const section = [];
+  for (let i = 0; i < body.length; i += 1) {
+    const text = body[i];
+    const { key } = getKeyValuePair(body[i]);
+    if (key === "title") {
+      // Push all previous lines of text, reset section
+      state.push(section.slice());
+      section.splice(0, section.length);
+      section.push(text);
+    } else {
+      // If "title" is not the first line in the body, return everything as a single section
+      if (i === 0) {
+        return [body];
+      }
+      section.push(text);
     }
-    state.push(section)
-    return state;
+  }
+  state.push(section);
+  return state;
 }
 
 function getDefaultFieldsString(fields) {
@@ -60,9 +59,9 @@ function getDefaultFieldsString(fields) {
         The library I'm using for the autocomplete textbox places an empty space after autocompleting
         This promotes good formatting given the empty space (encourages people to go to a blank line before a new section)
       */
-      const isOtherEmpty = fields["other"].length < 1
-      const isLastKey = i < keys.length - 2 || !isOtherEmpty
-      const value = fields[key]
+      const isOtherEmpty = fields.other.length < 1;
+      const isLastKey = i < keys.length - 2 || !isOtherEmpty;
+      const value = fields[key];
 
       defaultFields += `${fieldsTrigger}${key} ${value}${
         isLastKey ? "\n" : ""
@@ -77,13 +76,18 @@ export function getMultiSectionDefaultFieldsString(fields) {
   let result = "";
   // Convert each object in fields to a string, separated by two line breaks
   for (let i = 0; i < fields.length; i += 1) {
-    const field = fields[i]
-    result += `${getDefaultFieldsString(field)}${i < fields.length - 1 ? "\n\n" : ""}`;
+    const field = fields[i];
+    result += `${getDefaultFieldsString(field)}${
+      i < fields.length - 1 ? "\n\n" : ""
+    }`;
   }
   return result;
 }
 
 export function getTodaysDate() {
   const date = new Date();
-  return `${date.toLocaleString('en-us', { month: 'short', year: 'numeric' })} - Present`;
+  return `${date.toLocaleString("en-us", {
+    month: "short",
+    year: "numeric",
+  })} - Present`;
 }

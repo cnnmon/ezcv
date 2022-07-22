@@ -1,7 +1,7 @@
 import { getMultiSectionDefaultFieldsString } from "../utils";
-import { sectionsTrigger } from "../autocomplete";
+import { sectionsTrigger } from "../../constants";
 
-const key = "projects"
+const key = "projects";
 
 const fields = [
   {
@@ -14,17 +14,17 @@ const fields = [
     date: "March - July 2002",
     other: ["small startup, you've probably never heard of it"],
   },
-]
+];
 
 const getDefaultFields = () => getMultiSectionDefaultFieldsString(fields);
 
-export const getProjects = () => {
-    return {
-        name: key,
-        char: `${sectionsTrigger}${key}\n${getDefaultFields()}`,
-        display: {
-            title: "Projects",
-            description: "Brag about your past projects.",
-        },
-    }
-}
+const getProjects = () => ({
+  name: key,
+  char: `${sectionsTrigger}${key}\n${getDefaultFields()}`,
+  display: {
+    title: "Projects",
+    description: "Brag about your past projects.",
+  },
+});
+
+export default getProjects;

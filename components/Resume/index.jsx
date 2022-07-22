@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Section from "../Section";
 
 const styles = {
@@ -7,7 +7,7 @@ const styles = {
     height: "11in",
     border: "2px solid black",
     backgroundColor: "white",
-    transform: "scale(0.7)",
+    transform: "scale(0.6)",
     position: "absolute",
   },
   content: {
@@ -20,14 +20,14 @@ export function getHeader(text) {
   return <h1>{text}</h1>;
 }
 
-const Resume = React.forwardRef(({ content }, ref) => {
-  return (
-    <div style={styles.container}>
-      <div style={styles.content} ref={ref}>
-        {content.map(({header, body}, key) => <Section header={header} body={body} key={key} /> )}
-      </div>
+const Resume = React.forwardRef(({ content }, ref) => (
+  <div style={styles.container}>
+    <div style={styles.content} ref={ref}>
+      {content.map((c) => (
+        <Section header={c.header} body={c.body} key={c.id} />
+      ))}
     </div>
-  );
-});
+  </div>
+));
 
 export default Resume;
