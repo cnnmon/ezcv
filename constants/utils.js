@@ -1,44 +1,5 @@
-import { fieldsTrigger } from "../constants";
 
-function getFirst(text, symbol, defaultValue) {
-  const index = text.indexOf(symbol);
-  return index === -1 ? defaultValue : index;
-}
-
-function getFirstSpace(text) {
-  return getFirst(text, " ", 1);
-}
-
-export function getKeyValuePair(text) {
-  const spaceIndex = getFirstSpace(text);
-  const key = text.substring(0, spaceIndex);
-  const value = text.substring(spaceIndex + 1);
-  return { key, value };
-}
-
-// Converts single list of plaintext lines to lists in lists, representing different sections
-export function useMultiSectionBody(body) {
-  const state = [];
-  const section = [];
-  for (let i = 0; i < body.length; i += 1) {
-    const text = body[i];
-    const { key } = getKeyValuePair(body[i]);
-    if (key === "title") {
-      // Push all previous lines of text, reset section
-      state.push(section.slice());
-      section.splice(0, section.length);
-      section.push(text);
-    } else {
-      // If "title" is not the first line in the body, return everything as a single section
-      if (i === 0) {
-        return [body];
-      }
-      section.push(text);
-    }
-  }
-  state.push(section);
-  return state;
-}
+import { sectionsTrigger, fieldsTrigger } from "../constants";
 
 function getDefaultFieldsString(fields) {
   const keys = Object.keys(fields);
@@ -84,10 +45,18 @@ export function getMultiSectionDefaultFieldsString(fields) {
   return result;
 }
 
-export function getTodaysDate() {
-  const date = new Date();
-  return `${date.toLocaleString("en-us", {
-    month: "short",
-    year: "numeric",
-  })} - Present`;
+export function getSectionsFormat(key, fields, rest) {
+  return ({
+    name: key,
+    char: `${sectionsTrigger}${key}\n${getMultiSectionDefaultFieldsString(fields)}`,
+    ...rest,
+  });
+}
+
+export function getFieldsFormat(key, rest, trigger = fieldsTrigger) {
+  return ({
+    name: key,
+    char: `${trigger}${key} ${key}`,
+    ...rest,
+  });
 }

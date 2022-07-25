@@ -1,13 +1,11 @@
 import React, { useRef } from "react";
 import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
-import { parseIntoContent } from "./utils";
-import { getSections, getFields } from "../Section";
-import { sectionsTrigger, fieldsTrigger } from "../constants";
+import { getFields, fieldsTrigger } from "../../constants";
 
 const styles = {
   textbox: {
-    width: "100%",
-    height: "100%",
+    width: "99%",
+    height: "calc(100% - (90px + 10px))",
     resize: "none",
   },
   container: {
@@ -21,6 +19,7 @@ const styles = {
     borderRadius: 5,
     backgroundColor: "white",
     zIndex: 1,
+    marginTop: 150,
   },
   list: {
     padding: 0,
@@ -47,9 +46,7 @@ function Loading() {
 
 function Item({
   selected,
-  entity: {
-    display: { title, description },
-  },
+  entity: {title, description}
 }) {
   return (
     <div style={{ ...styles.item, ...(selected ? styles.selected : {}) }}>
@@ -65,7 +62,7 @@ function Item({
 function isTriggerValid(trigger, textbox) {
   return true;
 
-  /*
+  /* TODO: fix this
   const caretPosition = textbox.current.getCaretPosition() - 1;
   const { value } = textbox.current.state;
 
@@ -83,45 +80,25 @@ function isTriggerValid(trigger, textbox) {
   */
 }
 
-export default function Textbox({ content, setContent }) {
+export default function Textbox({ text, content, setText }) {
   const textbox = useRef();
 
-  // searches for headers that have not already been placed earlier
-  const onSectionsTrigger = (token) => {
-    if (isTriggerValid(sectionsTrigger, textbox)) {
-      const headers = content.flatMap(({ header }, index) => [
-        { header, key: index },
-      ]);
-      return getSections().filter(
-        ({ name }) =>
-          name.includes(token.toLowerCase()) &&
-          !headers.some(({ header }) => header === name)
-      );
-    }
-    return [];
-  };
-
-  const onFieldsTrigger = (token) => {
-    if (isTriggerValid(fieldsTrigger, textbox)) {
-      return getFields().filter(({ name }) =>
-        name.includes(token.toLowerCase())
-      );
-    }
-    return [];
-  };
-
-  const onTextboxChange = (e) => {
-    setContent(parseIntoContent(e.target.value));
-  };
+  const onTrigger = (values, token) => {
+    return values.filter(({ name }) =>
+      name.includes(token.toLowerCase())
+    );
+  }
 
   const triggers = {
+    /* TODO: do i need this?
     [sectionsTrigger]: {
-      dataProvider: onSectionsTrigger,
+      dataProvider: (token) => onTrigger(getSectionsAutocomplete(), token),
       component: Item,
       output: (item) => item.char,
     },
+    */
     [fieldsTrigger]: {
-      dataProvider: onFieldsTrigger,
+      dataProvider: (token) => onTrigger(getFields(), token),
       component: Item,
       output: (item) => item.char,
     },
@@ -129,6 +106,7 @@ export default function Textbox({ content, setContent }) {
 
   return (
     <ReactTextareaAutocomplete
+      value={text}
       loadingComponent={Loading}
       trigger={triggers}
       minChar={0}
@@ -137,7 +115,7 @@ export default function Textbox({ content, setContent }) {
       listStyle={styles.list}
       ref={textbox}
       containerStyle={styles.container}
-      onChange={onTextboxChange}
+      onChange={(e) => setText(e.target.value)}
       placeholder="Start building your resume here!"
     />
   );

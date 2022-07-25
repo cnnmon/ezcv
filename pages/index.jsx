@@ -1,13 +1,14 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useMemo } from "react";
 import Head from "next/head";
 import ReactToPrint from "react-to-print";
-import Textbox from "../components/Textbox";
-import Resume from "../components/Resume";
+import  { Textbox, Resume, Menu } from "../components";
+import { parseIntoContent } from "../utils";
 import {
+  getSections,
   sectionsTrigger,
   fieldsTrigger,
   styleTrigger,
-} from "../components/constants";
+} from "../constants";
 
 const styles = {
   body: {
@@ -19,9 +20,6 @@ const styles = {
     height: "100%",
     margin: 10,
     width: "50%",
-  },
-  text: {
-    height: "99%",
   },
   doc: {
     backgroundColor: "grey",
@@ -37,8 +35,13 @@ function PrintButton() {
 }
 
 export default function Home() {
-  const [content, setContent] = useState([]);
+  const [text, setText] = useState(`${getSections()[0].char}\n`); // default to name
+  const content = useMemo(() => parseIntoContent(text), [text]);
   const resume = useRef();
+
+  const appendToText = (toAppend) => {
+    setText(text + toAppend)
+  }
 
   return (
     <>
@@ -49,26 +52,18 @@ export default function Home() {
 
       <main>
         <div style={styles.body}>
-          <div style={{ ...styles.column, ...styles.text }}>
-            <Textbox content={content} setContent={setContent} />
+          <div style={{ ...styles.column, height: "99%" }}>
+            <Menu content={content} appendToText={appendToText} />
+            <Textbox text={text} content={content} setText={setText} />
           </div>
           <div style={{ ...styles.column, ...styles.doc }}>
             <Resume content={content} ref={resume} />
           </div>
         </div>
+        <ReactToPrint trigger={PrintButton} content={() => resume.current} />
       </main>
 
       <footer>
-        <ReactToPrint trigger={PrintButton} content={() => resume.current} />
-        <p>
-          Type {sectionsTrigger} to start a section, or browse through example
-          sections.
-          <br />
-          Type {fieldsTrigger} to fill up your section. Type {fieldsTrigger}
-          title to start a new subsection.
-          <br />
-          Type {styleTrigger} to style your section.
-        </p>
       </footer>
     </>
   );

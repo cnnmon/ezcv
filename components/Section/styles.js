@@ -51,19 +51,23 @@ export function getSectionHeader(text, isLarge) {
 export function getInlineItems(list) {
   return (
     <div style={styles.inline}>
-      {list.map((e, key) => (
-        <p style={styles.inlineItem}>{e}</p>
+      {list.map((e, index) => (
+        <p style={styles.inlineItem} key={index}>{e}</p>
       ))}
     </div>
   );
 }
 
-export function getItems(list, isBulleted = true) {
+export function getItems(list) {
+  const getItem = (e, index) => {
+    const isBulleted = e[0] === '-';
+    const element = isBulleted ? e.substring(1).trim() : e;
+    return <li key={index} style={isBulleted ? undefined : styles.unbulleted}>{element}</li>
+  }
+
   return (
-    <div style={{ ...styles.list, ...(isBulleted ? {} : styles.unbulleted) }}>
-      {list.map((e) => (
-        <li key={e.id}>{e}</li>
-      ))}
+    <div style={{ ...styles.list }}>
+      {list.map(getItem)}
     </div>
   );
 }

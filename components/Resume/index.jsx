@@ -23,8 +23,8 @@ export function getHeader(text) {
 const Resume = React.forwardRef(({ content }, ref) => (
   <div style={styles.container}>
     <div style={styles.content} ref={ref}>
-      {content.map((c) => (
-        <Section header={c.header} body={c.body} key={c.id} />
+      {content.map((c, index) => (
+        <Section header={c.header} body={c.body} key={index} />
       ))}
     </div>
   </div>
