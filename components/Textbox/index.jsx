@@ -1,25 +1,34 @@
-import React, { useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import ReactTextareaAutocomplete from "@webscopeio/react-textarea-autocomplete";
-import { getFields, fieldsTrigger } from "../../constants";
+import { useIsMobile } from "../../utils";
+import { getFields, trigger, COLORS } from "../../constants";
+import { DropdownItem } from "../../components";
 
-const styles = {
+const getStyles = (isMobile) => ({
   textbox: {
-    width: "99%",
-    height: "calc(100% - (90px + 10px))",
+    border: "1.5px solid black",
+    backgroundColor: COLORS.yellow,
+    padding: 15,
+    boxSizing: "border-box",
+    width: "100%",
+    height: isMobile ? 400 : "100%",
+    marginBottom: isMobile ? 10 : undefined,
     resize: "none",
+    outline: "none",
+    fontFamily: "Inter",
   },
   container: {
-    height: "100%",
+    height: "calc(100% - 150px)",
   },
   dropdown: {
     position: "absolute",
-    fontSize: 15,
+    fontSize: 13,
     marginTop: "3em",
-    border: "1px solid black",
-    borderRadius: 5,
-    backgroundColor: "white",
+    border: "1.5px solid black",
+    backgroundColor: COLORS.redOrange,
     zIndex: 1,
-    marginTop: 150,
+    marginTop: 170,
+    marginLeft: 20,
   },
   list: {
     padding: 0,
@@ -31,31 +40,10 @@ const styles = {
     color: "gray",
     fontSize: 12,
   },
-  item: {
-    margin: 5,
-    padding: "10px 5px",
-  },
-  selected: {
-    backgroundColor: "gray",
-  },
-};
+});
 
 function Loading() {
   return <span>Loading...</span>;
-}
-
-function Item({
-  selected,
-  entity: {title, description}
-}) {
-  return (
-    <div style={{ ...styles.item, ...(selected ? styles.selected : {}) }}>
-      <p>
-        <b>{title}</b>
-      </p>
-      <p>{description}</p>
-    </div>
-  );
 }
 
 // ensures triggers can't be autocompleted on the same line as another trigger
@@ -83,23 +71,19 @@ function isTriggerValid(trigger, textbox) {
 export default function Textbox({ text, content, setText }) {
   const textbox = useRef();
 
+  const isMobile = useIsMobile();
+  const styles = useMemo(() => getStyles(isMobile), [isMobile]);
+
   const onTrigger = (values, token) => {
     return values.filter(({ name }) =>
-      name.includes(token.toLowerCase())
+      name.startsWith(token.toLowerCase())
     );
   }
 
   const triggers = {
-    /* TODO: do i need this?
-    [sectionsTrigger]: {
-      dataProvider: (token) => onTrigger(getSectionsAutocomplete(), token),
-      component: Item,
-      output: (item) => item.char,
-    },
-    */
-    [fieldsTrigger]: {
+    [trigger]: {
       dataProvider: (token) => onTrigger(getFields(), token),
-      component: Item,
+      component: DropdownItem,
       output: (item) => item.char,
     },
   };
@@ -116,7 +100,7 @@ export default function Textbox({ text, content, setText }) {
       ref={textbox}
       containerStyle={styles.container}
       onChange={(e) => setText(e.target.value)}
-      placeholder="Start building your resume here!"
+      placeholder="Type * to start building your resume!"
     />
   );
 }

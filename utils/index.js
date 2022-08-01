@@ -1,4 +1,5 @@
-import { getEmptyFields, sectionsTrigger, fieldsTrigger } from "../constants";
+import { isValidStyling, getDefaultStyling, getEmptySubsection, mobileBreakpoint, stylingTrigger, trigger } from "../constants";
+import { useMediaQuery } from 'react-responsive';
 
 function getFirst(text, symbol, defaultValue) {
   const index = text.indexOf(symbol);
@@ -16,14 +17,6 @@ export function getKeyValuePair(text) {
   return { key, value };
 }
 
-export function getTodaysDate() {
-  const date = new Date();
-  return `${date.toLocaleString("en-us", {
-    month: "short",
-    year: "numeric",
-  })} - Present`;
-}
-
 export function getLastImportantSymbol(text, startingPoint) {
   return Math.max(
     text.lastIndexOf("/", text.lastIndexOf("/", startingPoint + 1) - 1),
@@ -31,27 +24,42 @@ export function getLastImportantSymbol(text, startingPoint) {
   );
 }
 
+export function useIsMobile() { // TODO: Fix to accurately check on start
+  const isMobile = useMediaQuery({ query: `(max-width: ${mobileBreakpoint})` });
+  return isMobile;
+}
+
 // Parses plaintext from Textbox into usable format for Resume
 // Type: [{ header: "experience", body: [{key: "title", value: "professional clown"}, ...] }, ...]
-export function parseIntoContent(text) {
+// Sets styling if it finds it
+export function parseIntoContent(text, styling, setStyling) {
   const lines = text.split(/\r?\n/);
-  const state = [{ header: "", body: [getEmptyFields()] }];
+  const state = [{ header: "", body: [getEmptySubsection()], type: "section" }];
+
+  function isCurrentSectionEmpty(s) {
+    const { header, body } = s;
+    const isEmpty = !header && body.length === 1 && isCurrentFieldsEmpty(body[0]);
+    return isEmpty;
+  }
 
   function isCurrentFieldsEmpty(f) {
     const { title, subtitle, date, description, other } = f;
-    return !title && !subtitle && !date && !description && other.length < 1;
+    const isEmpty = !title && !subtitle && !date && !description && other.length < 1;
+    return isEmpty;
   }
 
   function pushSectionToState(t, key = null, value = null) {
     const currentSection = state[state.length - 1];
     const currentBody = currentSection.body;
     const currentFields = currentBody[currentBody.length - 1];
-    if (key && value && key in getEmptyFields(currentSection.header)) {
+    if (key && value && key.toLowerCase() in getEmptySubsection(currentSection.header)) {
       if (key === "title" && !isCurrentFieldsEmpty(currentFields)) {
         // If title & last fields is not empty
-        const emptyFields = getEmptyFields(currentSection.header);
+        const emptyFields = getEmptySubsection(currentSection.header);
         emptyFields.title = value;
         currentBody.push(emptyFields);
+      } else if (key === "style") {
+        currentFields.style.push(value.trim());
       } else {
         currentFields[key] = value;
       }
@@ -62,24 +70,32 @@ export function parseIntoContent(text) {
 
   for (let i = 0; i < lines.length; i += 1) {
     const line = lines[i].trim();
-    const trimmedLine = line.substring(1);
+    const trimmedLine = line.substring(1).trim();
     const { key, value } = getKeyValuePair(trimmedLine);
     const currentSection = state[state.length - 1];
-    const isCurrentSectionEmpty =
-      currentSection.header !== "" && currentSection.body.length > 0;
     // check to see symbol, if any
     switch (line[0]) {
-      case fieldsTrigger:
-        pushSectionToState(trimmedLine, key, value);
-        break;
-      case sectionsTrigger:
-        if (isCurrentSectionEmpty) {
-          state.push({
-            header: trimmedLine,
-            body: [getEmptyFields()],
-          });
+      case trigger:
+        if (key === "section" || key === "header") {
+          // sets key -> k to ensure "header" gets picked up
+          if (!isCurrentSectionEmpty(currentSection)) {
+            state.push({
+              header: value,
+              body: [getEmptySubsection()],
+              type: key,
+            });
+          } else {
+            currentSection.header = value;
+            currentSection.type = key;
+          }
         } else {
-          currentSection.header = trimmedLine;
+          pushSectionToState(trimmedLine, key, value);
+        }
+        break;
+      case stylingTrigger:
+        if (isValidStyling(key, value)) {
+          styling[key] = value;
+          setStyling(styling);
         }
         break;
       default:
@@ -89,5 +105,6 @@ export function parseIntoContent(text) {
         break;
     }
   }
-  return state;
+
+  return { lines, content: state };
 }

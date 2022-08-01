@@ -1,5 +1,5 @@
 import { getKeyValuePair } from "../../utils";
-import { getEmptyFields, sectionsTrigger, fieldsTrigger } from "../../constants";
+import { trigger } from "../../constants";
 
 export function getLastImportantSymbol(text, startingPoint) {
   return Math.max(

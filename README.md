@@ -1,1 +1,4 @@
-This is a starter template for [Learn Next.js](https://nextjs.org/learn).
+TODO:
+- populate default styling in text
+- indicate active menu items
+- add tabs to menu

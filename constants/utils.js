@@ -1,5 +1,5 @@
 
-import { sectionsTrigger, fieldsTrigger } from "../constants";
+import { trigger, themeTrigger } from "../constants";
 
 function getDefaultFieldsString(fields) {
   const keys = Object.keys(fields);
@@ -8,7 +8,13 @@ function getDefaultFieldsString(fields) {
   for (let i = 0; i < keys.length; i += 1) {
     const key = keys[i];
 
-    if (key === "other") {
+    if (key === "style") {
+      const style = fields[key];
+      for (let j = 0; j < style.length; j += 1) {
+        defaultFields += `${trigger}${key} ${style[j]}\n`;
+      }
+    }
+    else if (key === "other") {
       const other = fields[key];
       // Iterate through all "other" lines
       for (let j = 0; j < other.length; j += 1) {
@@ -24,7 +30,7 @@ function getDefaultFieldsString(fields) {
       const isLastKey = i < keys.length - 2 || !isOtherEmpty;
       const value = fields[key];
 
-      defaultFields += `${fieldsTrigger}${key} ${value}${
+      defaultFields += `${trigger}${key} ${value}${
         isLastKey ? "\n" : ""
       }`;
     }
@@ -45,18 +51,10 @@ export function getMultiSectionDefaultFieldsString(fields) {
   return result;
 }
 
-export function getSectionsFormat(key, fields, rest) {
+export function getBasicFormat(name, char, index) {
   return ({
-    name: key,
-    char: `${sectionsTrigger}${key}\n${getMultiSectionDefaultFieldsString(fields)}`,
-    ...rest,
-  });
-}
-
-export function getFieldsFormat(key, rest, trigger = fieldsTrigger) {
-  return ({
-    name: key,
-    char: `${trigger}${key} ${key}`,
-    ...rest,
+    key: index,
+    name: name,
+    char: char,
   });
 }
