@@ -1,13 +1,5 @@
-import React from "react";
-import styles, {
-  both,
-  autolink,
-  getLargeSectionHeader,
-  getSectionHeader,
-  getInlineItems,
-  getItems,
-  getSectionTitle,
-} from "../styles";
+import React from 'react';
+import styles, { getSectionHeader, getItems, getSectionTitle } from '../styles';
 
 const STYLES = {
   left: {
@@ -16,29 +8,25 @@ const STYLES = {
   },
   right: {
     flex: 0.5,
-    textAlign: "right",
+    textAlign: 'right',
   },
   line: {
     marginTop: 0,
-    backgroundColor: "black",
+    backgroundColor: 'black',
   },
-}
+};
 
-export default function Classic({ header, subSection, subSectionIndex }) {
-  const { title, subtitle, description, date, other } = subSection;
-  const isFirstSubsection = subSectionIndex === 0;
+export default function Classic({ header, subsection, subsectionIndex }) {
+  const { title, subtitle, description, date, other } = subsection;
+  const isFirstSubsection = subsectionIndex === 0;
 
   const getLeft = () => (
     <div style={STYLES.left}>
-        {getSectionTitle(title, subtitle, description)}
+      {getSectionTitle(title, subtitle, description)}
     </div>
-  )
+  );
 
-  const getRight = () => (
-    <div style={STYLES.right}>
-      {date}
-    </div>
-  )
+  const getRight = () => <div style={STYLES.right}>{date}</div>;
 
   return (
     <>

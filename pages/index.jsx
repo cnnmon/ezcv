@@ -1,57 +1,56 @@
-import React, { useState, useRef, useMemo } from "react";
-import Head from "next/head";
-import ReactToPrint from "react-to-print";
-import { Button, Textbox, Resume, Menu } from "../components";
-import { parseIntoContent, useIsMobile, both } from "../utils";
-import { getDefaultStyling, getSections, stylingTrigger, COLORS, getDefaultText } from "../constants";
-import { RiCheckFill } from "react-icons/ri";
-import { BiWorld } from "react-icons/bi";
+import React, { useState, useRef, useMemo } from 'react';
+import Head from 'next/head';
+import ReactToPrint from 'react-to-print';
+import { RiCheckFill } from 'react-icons/ri';
+import { Button, Textbox, Resume, Menu } from '../components';
+import { parseIntoContent, useIsMobile } from '../utils';
+import { STYLING, COLORS, SECTIONS } from '../constants';
 
 const getStyles = (isMobile) => ({
   page: {
-    height: "100%",
+    height: '100%',
   },
   body: {
-    display: isMobile ? "block" : "flex",
+    display: isMobile ? 'block' : 'flex',
     minHeight: 600,
     margin: 10,
-    height: isMobile ? undefined : "100%",
+    height: isMobile ? undefined : '100%',
   },
   column: {
-    width: isMobile ? "100%" : "50%",
+    width: isMobile ? '100%' : '50%',
   },
   right: {
     marginLeft: isMobile ? undefined : 20,
-    border: "1.5px solid black",
+    border: '1.5px solid black',
     backgroundColor: COLORS.redOrange,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: isMobile ? undefined : "center",
-    height: isMobile ? 1000 : "97%",
-    overflowX: "scroll",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: isMobile ? undefined : 'center',
+    height: isMobile ? 1000 : '97%',
+    overflowX: 'scroll',
   },
   button: {
-    padding: "20px",
+    padding: '20px',
     width: 450,
     minWidth: 450,
     height: 70,
-    position: "fixed",
+    position: 'fixed',
     bottom: 40,
     right: -360,
     outline: `2px solid ${COLORS.background}`,
-    fontWeight: "normal",
+    fontWeight: 'normal',
     backgroundColor: COLORS.red,
-    transition: "transform 0.2s ease-in-out",
+    transition: 'transform 0.2s ease-in-out',
   },
   buttonContent: {
-    display: "flex",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    height: "100%",
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    height: '100%',
   },
   buttonHover: {
-    transform: "translateX(-50px)"
+    transform: 'translateX(-50px)',
   },
   buttonIcon: {
     paddingLeft: 2,
@@ -61,27 +60,28 @@ const getStyles = (isMobile) => ({
 });
 
 export default function Home() {
-  const [text, setText] = useState(getDefaultText());
-  const [styling, setStyling] = useState(getDefaultStyling());
-  const { lines, content } = useMemo(() => parseIntoContent(text, styling, setStyling), [text]);
+  const [text, setText] = useState(SECTIONS.getDefaultText());
+  const [styling, setStyling] = useState(STYLING.getDefaultStyling());
+  const { lines, content } = useMemo(
+    () => parseIntoContent(text, styling, setStyling),
+    [text]
+  );
   const resume = useRef();
 
   const isMobile = useIsMobile();
   const styles = useMemo(() => getStyles(isMobile), [isMobile]);
 
-  const getPrintButton = () => {
-    return (
-      <Button
-        content={(
-          <div style={styles.buttonContent}>
-            <RiCheckFill style={styles.buttonIcon} />
-          </div>
-        )}
-        style={styles.button}
-        hoverStyle={styles.buttonHover}
-      />
-    );
-  }
+  const getPrintButton = () => (
+    <Button
+      content={
+        <div style={styles.buttonContent}>
+          <RiCheckFill style={styles.buttonIcon} />
+        </div>
+      }
+      style={styles.button}
+      hoverStyle={styles.buttonHover}
+    />
+  );
 
   return (
     <>
@@ -93,10 +93,16 @@ export default function Home() {
       <main style={styles.page}>
         <div style={styles.body}>
           <div style={styles.column}>
-            <Menu content={content} lines={lines} styling={styling} text={text} setText={setText} />
+            <Menu
+              content={content}
+              lines={lines}
+              styling={styling}
+              text={text}
+              setText={setText}
+            />
             <Textbox text={text} content={content} setText={setText} />
           </div>
-          <div style={{...styles.column, ...styles.right}}>
+          <div style={{ ...styles.column, ...styles.right }}>
             <Resume content={content} styling={styling} ref={resume} />
           </div>
           <ReactToPrint
@@ -106,8 +112,7 @@ export default function Home() {
         </div>
       </main>
 
-      <footer>
-      </footer>
+      <footer />
 
       <style jsx global>{`
         body {

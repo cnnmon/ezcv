@@ -1,29 +1,29 @@
-import React from "react";
+import React from 'react';
 import AutoLinkText from 'react-autolink-text2';
 
 const styles = {
   /* Global */
   header: {
-    margin: "4px 0 4px",
+    margin: '4px 0 4px',
   },
   flex: {
-    display: "flex",
+    display: 'flex',
   },
   inline: {
-    display: "flex",
+    display: 'flex',
   },
   inlineItem: {
-    margin: "0 10px 10px 0",
+    margin: '0 10px 10px 0',
   },
   text: {
     margin: 0,
   },
   centered: {
-    textAlign: "center",
+    textAlign: 'center',
   },
   /* Lists */
   unbulleted: {
-    listStyleType: "none",
+    listStyleType: 'none',
   },
 };
 
@@ -33,11 +33,15 @@ function both(style1, style2) {
 }
 
 export function autolink(text) {
-  return <AutoLinkText text={text} linkProps={{ target: "_blank" }} />
+  return <AutoLinkText text={text} linkProps={{ target: '_blank' }} />;
 }
 
 export function getLargeSectionHeader(text, isCenter) {
-  return <h1 style={both(styles.header, isCenter ? { textAlign: "center" } : {})}>{text}</h1>;
+  return (
+    <h1 style={both(styles.header, isCenter ? { textAlign: 'center' } : {})}>
+      {text}
+    </h1>
+  );
 }
 
 export function getSectionHeader(text) {
@@ -50,13 +54,13 @@ export function getSectionTitle(title, subtitle = null, description = null) {
       {title && (
         <b>
           {autolink(title)}
-          {subtitle && ", "}
+          {subtitle && ', '}
         </b>
       )}
       {autolink(subtitle)}
       {description && (
         <>
-          {" — "}
+          {' — '}
           {autolink(description)}
         </>
       )}
@@ -66,9 +70,11 @@ export function getSectionTitle(title, subtitle = null, description = null) {
 
 export function getInlineItems(list, isCenter) {
   return (
-    <div style={both(styles.inline, isCenter ? { justifyContent: "center" } : {})}>
+    <div
+      style={both(styles.inline, isCenter ? { justifyContent: 'center' } : {})}
+    >
       {list.map((e, index) => (
-        <p style={styles.inlineItem} key={index}>
+        <p style={styles.inlineItem} key={`${index + 1}`}>
           {autolink(e)}
         </p>
       ))}
@@ -85,13 +91,9 @@ export function getItems(list) {
         {autolink(element)}
       </li>
     );
-  }
+  };
 
-  return (
-    <>
-      {list.map((e, index) => getItem(e, index))}
-    </>
-  );
+  return <>{list.map((e, index) => getItem(e, index))}</>;
 }
 
 export default styles;

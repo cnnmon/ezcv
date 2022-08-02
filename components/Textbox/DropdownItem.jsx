@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import { COLORS } from "../../constants";
+import React from 'react';
+import { COLORS } from '../../constants';
 
 const styles = {
   item: {
-    padding: "10px 5px",
+    padding: '10px 5px',
     margin: 5,
   },
   selected: {
-    backgroundColor: "black",
+    backgroundColor: 'black',
     color: COLORS.redOrange,
   },
-}
+};
 
 export default function DropdownItem({
   selected,
-  entity: {title, description}
+  entity: { title, description },
 }) {
   return (
     <div style={{ ...styles.item, ...(selected ? styles.selected : {}) }}>

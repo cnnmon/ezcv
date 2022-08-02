@@ -1,27 +1,26 @@
-import React, { useState } from "react";
-import { COLORS } from "../../constants";
+import React, { useState } from 'react';
+import { COLORS } from '../../constants';
 
 const styles = {
   button: {
-    backgroundColor: "white",
-    cursor: "pointer",
-    border: "1.5px solid black",
+    cursor: 'pointer',
+    border: '1.5px solid black',
     backgroundColor: COLORS.yellow,
-    transition: "border-radius 0.2s ease-in-out",
-    fontWeight: "bold",
-    wordWrap: "break-word",
-    whiteSpace: "pre-wrap",
+    transition: 'border-radius 0.2s ease-in-out',
+    fontWeight: 'bold',
+    wordWrap: 'break-word',
+    whiteSpace: 'pre-wrap',
     width: 120,
     minWidth: 120,
   },
   primary: {
-    backgroundColor: "black",
+    backgroundColor: 'black',
     color: COLORS.background,
   },
   hover: {
     borderRadius: 20,
   },
-}
+};
 
 export default function Button({
   content,
@@ -34,12 +33,20 @@ export default function Button({
 
   return (
     <button
+      type="button"
       onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => {setHover(false)}}
+      onMouseLeave={() => {
+        setHover(false);
+      }}
       onClick={onClick}
-      style={{...styles.button, ...style, ...(isPrimary ? styles.primary : {}), ...(hover ? hoverStyle : {})}}
+      style={{
+        ...styles.button,
+        ...style,
+        ...(isPrimary ? styles.primary : {}),
+        ...(hover ? hoverStyle : {}),
+      }}
     >
       {content}
     </button>
-  )
+  );
 }

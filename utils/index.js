@@ -1,5 +1,5 @@
-import { isValidStyling, getDefaultStyling, getEmptySubsection, mobileBreakpoint, stylingTrigger, trigger } from "../constants";
 import { useMediaQuery } from 'react-responsive';
+import { STYLING, SECTIONS, TRIGGERS } from '../constants';
 
 function getFirst(text, symbol, defaultValue) {
   const index = text.indexOf(symbol);
@@ -7,7 +7,7 @@ function getFirst(text, symbol, defaultValue) {
 }
 
 function getFirstSpace(text) {
-  return getFirst(text, " ", 1);
+  return getFirst(text, ' ', 1);
 }
 
 export function getKeyValuePair(text) {
@@ -17,15 +17,11 @@ export function getKeyValuePair(text) {
   return { key, value };
 }
 
-export function getLastImportantSymbol(text, startingPoint) {
-  return Math.max(
-    text.lastIndexOf("/", text.lastIndexOf("/", startingPoint + 1) - 1),
-    text.lastIndexOf(">", startingPoint)
-  );
-}
-
-export function useIsMobile() { // TODO: Fix to accurately check on start
-  const isMobile = useMediaQuery({ query: `(max-width: ${mobileBreakpoint})` });
+export function useIsMobile() {
+  // TODO: Fix to accurately check on start
+  const isMobile = useMediaQuery({
+    query: `(max-width: ${TRIGGERS.mobileBreakpoint})`,
+  });
   return isMobile;
 }
 
@@ -34,17 +30,22 @@ export function useIsMobile() { // TODO: Fix to accurately check on start
 // Sets styling if it finds it
 export function parseIntoContent(text, styling, setStyling) {
   const lines = text.split(/\r?\n/);
-  const state = [{ header: "", body: [getEmptySubsection()], type: "section" }];
-
-  function isCurrentSectionEmpty(s) {
-    const { header, body } = s;
-    const isEmpty = !header && body.length === 1 && isCurrentFieldsEmpty(body[0]);
-    return isEmpty;
-  }
+  const state = [
+    { header: '', body: [SECTIONS.getEmptySubsection()], type: 'section' },
+  ];
+  const style = { ...styling };
 
   function isCurrentFieldsEmpty(f) {
     const { title, subtitle, date, description, other } = f;
-    const isEmpty = !title && !subtitle && !date && !description && other.length < 1;
+    const isEmpty =
+      !title && !subtitle && !date && !description && other.length < 1;
+    return isEmpty;
+  }
+
+  function isCurrentSectionEmpty(s) {
+    const { header, body } = s;
+    const isEmpty =
+      !header && body.length === 1 && isCurrentFieldsEmpty(body[0]);
     return isEmpty;
   }
 
@@ -52,13 +53,17 @@ export function parseIntoContent(text, styling, setStyling) {
     const currentSection = state[state.length - 1];
     const currentBody = currentSection.body;
     const currentFields = currentBody[currentBody.length - 1];
-    if (key && value && key.toLowerCase() in getEmptySubsection(currentSection.header)) {
-      if (key === "title" && !isCurrentFieldsEmpty(currentFields)) {
+    if (
+      key &&
+      value &&
+      key.toLowerCase() in SECTIONS.getEmptySubsection(currentSection.header)
+    ) {
+      if (key === 'title' && !isCurrentFieldsEmpty(currentFields)) {
         // If title & last fields is not empty
-        const emptyFields = getEmptySubsection(currentSection.header);
+        const emptyFields = SECTIONS.getEmptySubsection(currentSection.header);
         emptyFields.title = value;
         currentBody.push(emptyFields);
-      } else if (key === "style") {
+      } else if (key === 'style') {
         currentFields.style.push(value.trim());
       } else {
         currentFields[key] = value;
@@ -75,13 +80,13 @@ export function parseIntoContent(text, styling, setStyling) {
     const currentSection = state[state.length - 1];
     // check to see symbol, if any
     switch (line[0]) {
-      case trigger:
-        if (key === "section" || key === "header") {
+      case TRIGGERS.trigger:
+        if (key === 'section' || key === 'header') {
           // sets key -> k to ensure "header" gets picked up
           if (!isCurrentSectionEmpty(currentSection)) {
             state.push({
               header: value,
-              body: [getEmptySubsection()],
+              body: [SECTIONS.getEmptySubsection()],
               type: key,
             });
           } else {
@@ -92,10 +97,11 @@ export function parseIntoContent(text, styling, setStyling) {
           pushSectionToState(trimmedLine, key, value);
         }
         break;
-      case stylingTrigger:
-        if (isValidStyling(key, value)) {
-          styling[key] = value;
-          setStyling(styling);
+      case TRIGGERS.stylingTrigger:
+        // eslint-disable-next-line no-case-declarations
+        const validStyle = STYLING.isValidStyling(key, value);
+        if (validStyle !== false) {
+          style[key] = validStyle;
         }
         break;
       default:
@@ -106,5 +112,6 @@ export function parseIntoContent(text, styling, setStyling) {
     }
   }
 
+  setStyling(style);
   return { lines, content: state };
 }
