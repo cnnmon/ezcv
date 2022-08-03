@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import Subsection from '../Subsection';
+import { COLORS } from '../../constants';
 import { useIsMobile } from '../../utils';
 
 const WIDTH = '8.4in';
@@ -12,7 +13,7 @@ const getStyles = (isMobile) => ({
     height: HEIGHT,
     transform: `scale(${SCALE})`,
     position: isMobile ? 'flex' : 'absolute',
-    border: '3px solid black',
+    border: `3px solid ${COLORS.darkBrown}`,
     backgroundColor: 'white',
     overflowY: 'hidden',
   },

@@ -1,12 +1,12 @@
 import React, { useMemo, useRef } from 'react';
 import ReactTextareaAutocomplete from '@webscopeio/react-textarea-autocomplete';
 import { useIsMobile } from '../../utils';
-import { FIELDS, TRIGGERS, COLORS } from '../../constants';
+import { getFields, TRIGGERS, COLORS } from '../../constants';
 import DropdownItem from './DropdownItem';
 
 const getStyles = (isMobile) => ({
   textbox: {
-    border: '1.5px solid black',
+    border: `1.5px solid ${COLORS.darkBrown}`,
     backgroundColor: COLORS.yellow,
     padding: 15,
     boxSizing: 'border-box',
@@ -23,7 +23,7 @@ const getStyles = (isMobile) => ({
   dropdown: {
     position: 'absolute',
     fontSize: 13,
-    border: '1.5px solid black',
+    border: `1.5px solid ${COLORS.darkBrown}`,
     backgroundColor: COLORS.redOrange,
     zIndex: 1,
     marginTop: 170,
@@ -56,7 +56,7 @@ export default function Textbox({ text, setText }) {
 
   const triggers = {
     [TRIGGERS.trigger]: {
-      dataProvider: (token) => onTrigger(FIELDS.getFields(), token),
+      dataProvider: (token) => onTrigger(getFields(), token),
       component: DropdownItem,
       output: (item) => item.char,
     },

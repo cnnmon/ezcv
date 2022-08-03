@@ -5,7 +5,7 @@ import Button from '../Button';
 const styles = {
   container: {
     display: 'flex',
-    border: '1.5px solid black',
+    border: `1.5px solid ${COLORS.darkBrown}`,
     height: 90,
     overflowX: 'scroll',
     padding: 10,
@@ -17,7 +17,7 @@ const styles = {
   },
 };
 
-export default function List({ items, onClick = () => null }) {
+export default function List({ items, onClick = () => null, isSelected = () => false }) {
   const getContent = ({ name, getIcon }) => (
     <>
       <div style={styles.icon}>{getIcon()}</div>
@@ -25,12 +25,18 @@ export default function List({ items, onClick = () => null }) {
     </>
   );
 
-  const getButtonStyle = (item) => ({
-    margin: '7px 0px 7px 10px',
-    width: 120,
-    minWidth: 120,
-    backgroundColor: 'color' in item ? item.color : COLORS.yellow,
-  });
+  const getButtonStyle = (item) => {
+    const selected = isSelected(item);
+    return {
+      margin: '7px 0px 7px 10px',
+      width: 120,
+      minWidth: 120,
+      backgroundColor: 'color' in item ? item.color : COLORS.yellow,
+      borderRadius: selected ? 20 : undefined,
+      cursor: selected ? 'not-allowed' : 'pointer',
+      opacity: selected ? 0.6 : 'inherit',
+    }
+  }
 
   return (
     <div style={styles.container}>

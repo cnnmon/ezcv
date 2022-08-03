@@ -1,5 +1,5 @@
 import React from 'react';
-import AutoLinkText from 'react-autolink-text2';
+// import AutoLinkText from 'react-autolink-text2';
 
 const styles = {
   /* Global */
@@ -33,7 +33,8 @@ function both(style1, style2) {
 }
 
 export function autolink(text) {
-  return <AutoLinkText text={text} linkProps={{ target: '_blank' }} />;
+  return text;
+  // <AutoLinkText text={text} linkProps={{ target: '_blank' }} />;
 }
 
 export function getLargeSectionHeader(text, isCenter) {

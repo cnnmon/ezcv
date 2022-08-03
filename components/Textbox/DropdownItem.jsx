@@ -7,7 +7,7 @@ const styles = {
     margin: 5,
   },
   selected: {
-    backgroundColor: 'black',
+    backgroundColor: COLORS.darkBrown,
     color: COLORS.redOrange,
   },
 };

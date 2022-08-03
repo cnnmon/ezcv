@@ -82,5 +82,5 @@ export const isValidStyling = (key, value) => {
   if (key in STYLING) {
     return styling.find((style) => style.key === value.toLowerCase());
   }
-  return false;
+  return undefined;
 };

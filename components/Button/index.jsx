@@ -4,7 +4,7 @@ import { COLORS } from '../../constants';
 const styles = {
   button: {
     cursor: 'pointer',
-    border: '1.5px solid black',
+    border: `1.5px solid ${COLORS.darkBrown}`,
     backgroundColor: COLORS.yellow,
     transition: 'border-radius 0.2s ease-in-out',
     fontWeight: 'bold',
@@ -14,7 +14,7 @@ const styles = {
     minWidth: 120,
   },
   primary: {
-    backgroundColor: 'black',
+    backgroundColor: COLORS.darkBrown,
     color: COLORS.background,
   },
   hover: {

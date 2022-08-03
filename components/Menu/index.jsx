@@ -1,9 +1,10 @@
-import React, { useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { getKeyValuePair } from '../../utils';
 import { STYLING, SECTIONS, TRIGGERS } from '../../constants';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import List from './List';
 
-export default function Menu({ content, lines, text, setText }) {
+export default function Menu({ content, styling, lines, text, setText }) {
   const filteredSections = useMemo(() => {
     const headers = content.flatMap(({ header }, index) => [
       { header, key: index },
@@ -61,17 +62,28 @@ export default function Menu({ content, lines, text, setText }) {
     setText(`${text}${newLines}${toAppend}\n`);
   };
 
+  const [tabIndex, setTabIndex] = useState(0);
+
   return (
-    <>
-      <List
-        items={[SECTIONS.getEmptySection(), ...filteredSections]}
-        onClick={appendToText}
-      />
-      <List
-        items={STYLING.getStyling()}
-        onClick={appendStyling}
-        // isHighlighted={(object) => styling.} TODO: ADD HIGHLIGHTING...
-      />
-    </>
+    <Tabs>
+      <TabList>
+        <Tab>Sections</Tab>
+        <Tab>Styling</Tab>
+      </TabList>
+
+      <TabPanel>
+        <List
+          items={[SECTIONS.getEmptySection(), ...filteredSections]}
+          onClick={appendToText}
+        />
+      </TabPanel>
+      <TabPanel>
+        <List
+          items={STYLING.getStyling()}
+          onClick={appendStyling}
+          isSelected={(object) => styling[object.type].key === object.key}
+        />
+      </TabPanel>
+    </Tabs>
   );
 }

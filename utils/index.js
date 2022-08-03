@@ -100,7 +100,7 @@ export function parseIntoContent(text, styling, setStyling) {
       case TRIGGERS.stylingTrigger:
         // eslint-disable-next-line no-case-declarations
         const validStyle = STYLING.isValidStyling(key, value);
-        if (validStyle !== false) {
+        if (validStyle !== undefined) {
           style[key] = validStyle;
         }
         break;

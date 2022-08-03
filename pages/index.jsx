@@ -21,7 +21,7 @@ const getStyles = (isMobile) => ({
   },
   right: {
     marginLeft: isMobile ? undefined : 20,
-    border: '1.5px solid black',
+    border: `1.5px solid ${COLORS.darkBrown}`,
     backgroundColor: COLORS.redOrange,
     display: 'flex',
     flexDirection: 'column',
