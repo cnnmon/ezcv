@@ -1,87 +1,73 @@
 import React, { useState, useRef, useMemo } from 'react';
 import Head from 'next/head';
 import ReactToPrint from 'react-to-print';
-import { RiCheckFill } from 'react-icons/ri';
-import { Button, Textbox, Resume, Menu } from '../components';
-import { parseIntoContent, useIsMobile } from '../utils';
-import { STYLING, COLORS, SECTIONS } from '../constants';
+import Image from 'next/image';
+import styled from 'styled-components';
+import ScrollContainer from 'react-indiana-drag-scroll';
+import {
+  Textbox,
+  Resume,
+  Menu,
+  PrintButton,
+  LinkedinButton,
+} from '../components';
+import { parseIntoContent } from '../utils';
+import { STYLING, COLORS, SECTIONS, TRIGGERS } from '../constants';
+import logo from '../public/logo.png';
 
-const getStyles = (isMobile) => ({
+const styles = {
   page: {
-    height: '100%',
-  },
-  body: {
-    display: isMobile ? 'block' : 'flex',
-    minHeight: 600,
+    height: '90%',
     margin: 10,
-    height: isMobile ? undefined : '100%',
   },
-  column: {
-    width: isMobile ? '100%' : '50%',
+  logo: {
+    margin: '20px 5px',
   },
-  right: {
-    marginLeft: isMobile ? undefined : 20,
-    border: `1.5px solid ${COLORS.darkBrown}`,
-    backgroundColor: COLORS.redOrange,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: isMobile ? undefined : 'center',
-    height: isMobile ? 1000 : '97%',
-    overflowX: 'scroll',
-  },
-  button: {
-    padding: '20px',
-    width: 450,
-    minWidth: 450,
-    height: 70,
-    position: 'fixed',
-    bottom: 40,
-    right: -360,
-    outline: `2px solid ${COLORS.background}`,
-    fontWeight: 'normal',
-    backgroundColor: COLORS.red,
-    transition: 'transform 0.2s ease-in-out',
-  },
-  buttonContent: {
-    display: 'flex',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    height: '100%',
-  },
-  buttonHover: {
-    transform: 'translateX(-50px)',
-  },
-  buttonIcon: {
-    paddingLeft: 2,
-    paddingRight: 30,
-    fontSize: 35,
-  },
-});
+};
 
-export default function Home() {
+const Body = styled.div`
+  display: flex;
+  height: 100%;
+
+  @media only screen and (max-width: ${TRIGGERS.mobileBreakpoint}) {
+    display: block;
+  }
+`;
+
+const ColumnLeft = styled.div`
+  min-width: 49.5%;
+  max-width: 49.5%;
+
+  @media only screen and (max-width: ${TRIGGERS.mobileBreakpoint}) {
+    min-width: 100%;
+    max-width: 100%;
+  }
+`;
+
+const ColumnRight = styled(ScrollContainer)`
+  margin-left: 20px;
+  border: 1.5px solid ${COLORS.darkBrown};
+  background-color: ${COLORS.redOrange};
+  overflow: scroll;
+
+  @media only screen and (max-width: ${TRIGGERS.mobileBreakpoint}) {
+    height: 1000px;
+    margin-left: 0;
+  }
+`;
+
+export default function App() {
   const [text, setText] = useState(SECTIONS.getDefaultText());
   const [styling, setStyling] = useState(STYLING.getDefaultStyling());
+
+  /* Info parsed from plaintext */
   const { lines, content } = useMemo(
     () => parseIntoContent(text, styling, setStyling),
     [text]
   );
+
+  /* Resume reference for print */
   const resume = useRef();
-
-  const isMobile = useIsMobile();
-  const styles = useMemo(() => getStyles(isMobile), [isMobile]);
-
-  const getPrintButton = () => (
-    <Button
-      content={
-        <div style={styles.buttonContent}>
-          <RiCheckFill style={styles.buttonIcon} />
-        </div>
-      }
-      style={styles.button}
-      hoverStyle={styles.buttonHover}
-    />
-  );
 
   return (
     <>
@@ -91,8 +77,12 @@ export default function Home() {
       </Head>
 
       <main style={styles.page}>
-        <div style={styles.body}>
-          <div style={styles.column}>
+        <Body>
+          <ColumnLeft>
+            <div style={styles.logo}>
+              <Image src={logo} width={100} height={100} />
+              <LinkedinButton />
+            </div>
             <Menu
               content={content}
               lines={lines}
@@ -101,15 +91,12 @@ export default function Home() {
               setText={setText}
             />
             <Textbox text={text} content={content} setText={setText} />
-          </div>
-          <div style={{ ...styles.column, ...styles.right }}>
+          </ColumnLeft>
+          <ColumnRight>
             <Resume content={content} styling={styling} ref={resume} />
-          </div>
-          <ReactToPrint
-            trigger={() => getPrintButton()}
-            content={() => resume.current}
-          />
-        </div>
+          </ColumnRight>
+        </Body>
+        <ReactToPrint trigger={PrintButton} content={() => resume.current} />
       </main>
 
       <footer />
@@ -118,6 +105,7 @@ export default function Home() {
         body {
           background: ${COLORS.background};
         }
+
         html,
         body,
         div#__next,
@@ -125,6 +113,20 @@ export default function Home() {
           height: 100%;
           padding: 20;
           font-family: Inter;
+        }
+
+        ::-webkit-scrollbar {
+          width: 3px;
+          height: 3px;
+        }
+
+        ::-webkit-scrollbar-track {
+          border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+          border-radius: 10px;
+          background-color: ${COLORS.darkBrown};
         }
       `}</style>
     </>

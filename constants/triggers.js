@@ -4,4 +4,4 @@ export const stylingTrigger = '@';
 
 // mobile breakpoint
 // TODO: modify
-export const mobileBreakpoint = '0px';
+export const mobileBreakpoint = '800px';

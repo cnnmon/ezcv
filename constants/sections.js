@@ -13,8 +13,8 @@ import { trigger } from './triggers';
 import { getMultiSectionDefaultFieldsString, getBasicFormat } from './utils';
 
 /* SECTIONS */
-const EMPTY_SECTION = {
-  name: 'Empty Section',
+const EXAMPLE_SECTION = {
+  name: 'Example Section',
   body: [
     {
       title: 'This is your subsection!',
@@ -26,14 +26,17 @@ const EMPTY_SECTION = {
     {
       title: 'Another Subsection',
       date: 'Date #3',
-      other: ["Remove or add as much information as you'd like."],
+      other: [
+        "- Remove as much information as you'd like.",
+        "- Add as much information as you'd like.",
+      ],
     },
   ],
 };
 
 const SECTIONS = [
   {
-    name: 'Name',
+    name: 'Name & Contact',
     body: [
       {
         other: [
@@ -190,7 +193,7 @@ function getSectionsFormat(
 }
 
 // empty section contents
-export const getEmptySection = () => getSectionsFormat(EMPTY_SECTION);
+export const getExampleSection = () => getSectionsFormat(EXAMPLE_SECTION);
 
 // list of default section names, contents, and properties
 export const getSections = () =>

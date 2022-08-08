@@ -10,7 +10,7 @@ const COLORS = {
   green: '#b6e3be',
   blue: '#b6e3e3',
   purple: '#b6b7e3',
-  darkBrown: '#2e2624',
+  darkBrown: '#292524',
 };
 
 export default COLORS;

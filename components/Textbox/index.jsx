@@ -1,24 +1,23 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useRef } from 'react';
 import ReactTextareaAutocomplete from '@webscopeio/react-textarea-autocomplete';
-import { useIsMobile } from '../../utils';
 import { getFields, TRIGGERS, COLORS } from '../../constants';
 import DropdownItem from './DropdownItem';
 
-const getStyles = (isMobile) => ({
-  textbox: {
+const styles = {
+  textarea: {
     border: `1.5px solid ${COLORS.darkBrown}`,
     backgroundColor: COLORS.yellow,
     padding: 15,
     boxSizing: 'border-box',
     width: '100%',
-    height: isMobile ? 400 : '100%',
-    marginBottom: isMobile ? 10 : undefined,
+    height: '100%',
+    minHeight: 300,
     resize: 'none',
     outline: 'none',
     fontFamily: 'Inter',
   },
   container: {
-    height: 'calc(100% - 150px)',
+    height: 'calc(100% - 300px)',
   },
   dropdown: {
     position: 'absolute',
@@ -39,7 +38,7 @@ const getStyles = (isMobile) => ({
     color: 'gray',
     fontSize: 12,
   },
-});
+};
 
 function Loading() {
   return <span>Loading...</span>;
@@ -47,9 +46,6 @@ function Loading() {
 
 export default function Textbox({ text, setText }) {
   const textbox = useRef();
-
-  const isMobile = useIsMobile();
-  const styles = useMemo(() => getStyles(isMobile), [isMobile]);
 
   const onTrigger = (values, token) =>
     values.filter(({ name }) => name.startsWith(token.toLowerCase()));
@@ -68,10 +64,10 @@ export default function Textbox({ text, setText }) {
       loadingComponent={Loading}
       trigger={triggers}
       minChar={0}
-      style={styles.textbox}
       dropdownStyle={styles.dropdown}
       listStyle={styles.list}
       ref={textbox}
+      style={styles.textarea}
       containerStyle={styles.container}
       onChange={(e) => setText(e.target.value)}
       placeholder="Type * to start building your resume!"

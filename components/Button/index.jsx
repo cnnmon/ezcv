@@ -12,10 +12,10 @@ const styles = {
     whiteSpace: 'pre-wrap',
     width: 120,
     minWidth: 120,
+    textAlign: 'center',
   },
   primary: {
-    backgroundColor: COLORS.darkBrown,
-    color: COLORS.background,
+    backgroundColor: COLORS.background,
   },
   hover: {
     borderRadius: 20,

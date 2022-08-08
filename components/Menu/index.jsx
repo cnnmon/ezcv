@@ -1,8 +1,7 @@
-import React, { useState, useMemo } from 'react';
-import { getKeyValuePair } from '../../utils';
+import React, { useMemo } from 'react';
 import { STYLING, SECTIONS, TRIGGERS } from '../../constants';
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import List from './List';
+import Tabs from '../Tabs';
+import { getKeyValuePair } from '../../utils';
 
 export default function Menu({ content, styling, lines, text, setText }) {
   const filteredSections = useMemo(() => {
@@ -14,6 +13,7 @@ export default function Menu({ content, styling, lines, text, setText }) {
     );
   }, [content]);
 
+  /* Actions from selecting from the menu */
   const appendStyling = (object) => {
     const toAppend = object.char;
     const isEmpty = (t) => t === '';
@@ -62,28 +62,28 @@ export default function Menu({ content, styling, lines, text, setText }) {
     setText(`${text}${newLines}${toAppend}\n`);
   };
 
-  const [tabIndex, setTabIndex] = useState(0);
+  const stylings = STYLING.getStyling();
 
-  return (
-    <Tabs>
-      <TabList>
-        <Tab>Sections</Tab>
-        <Tab>Styling</Tab>
-      </TabList>
+  const tabs = [
+    {
+      title: 'Sections',
+      items: [SECTIONS.getExampleSection(), ...filteredSections],
+      onClick: appendToText,
+      isSelected: () => false,
+    },
+    {
+      title: 'Main Style',
+      items: stylings.theme,
+      onClick: appendStyling,
+      isSelected: (object) => styling[object.type].key === object.key,
+    },
+    {
+      title: 'Header Style',
+      items: stylings.headers,
+      onClick: appendStyling,
+      isSelected: (object) => styling[object.type].key === object.key,
+    },
+  ];
 
-      <TabPanel>
-        <List
-          items={[SECTIONS.getEmptySection(), ...filteredSections]}
-          onClick={appendToText}
-        />
-      </TabPanel>
-      <TabPanel>
-        <List
-          items={STYLING.getStyling()}
-          onClick={appendStyling}
-          isSelected={(object) => styling[object.type].key === object.key}
-        />
-      </TabPanel>
-    </Tabs>
-  );
+  return <Tabs tabs={tabs} />;
 }

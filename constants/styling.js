@@ -5,11 +5,11 @@ import { getBasicFormat } from './utils';
 /* THEMES */
 const THEMES = [
   {
-    name: 'Classic Theme',
+    name: 'Classic',
     body: 'classic',
   },
   {
-    name: 'Modern Theme',
+    name: 'Modern',
     body: 'modern',
   },
 ];
@@ -17,20 +17,14 @@ const THEMES = [
 /* HEADERS */
 const HEADERS = [
   {
-    name: 'Center Header',
+    name: 'Center',
     body: 'center',
   },
   {
-    name: 'Side By Side Header',
+    name: 'Side By Side',
     body: 'sidebyside',
   },
 ];
-
-/* STYLING */
-const STYLING = {
-  theme: THEMES,
-  headers: HEADERS,
-};
 
 function getStylingFormat({
   tag,
@@ -57,17 +51,17 @@ function getStylingsFormat(tag, objects, color) {
 }
 
 // list of all resume theme names, contents, and properties
-export const getStyling = () => [
-  ...getStylingsFormat('theme', THEMES, COLORS.redOrange),
-  ...getStylingsFormat('headers', HEADERS, COLORS.orange),
-];
+export const getStyling = () => ({
+  theme: getStylingsFormat('theme', THEMES, COLORS.redOrange),
+  headers: getStylingsFormat('headers', HEADERS, COLORS.orange),
+});
 
 // initial theme state
 export const getDefaultStyling = () => {
   const styling = getStyling();
   return {
-    theme: styling[0],
-    headers: styling[THEMES.length],
+    theme: styling.theme[0],
+    headers: styling.headers[0],
   };
 };
 
@@ -79,8 +73,8 @@ export const getDefaultStylingText = () => {
 
 export const isValidStyling = (key, value) => {
   const styling = getStyling();
-  if (key in STYLING) {
-    return styling.find((style) => style.key === value.toLowerCase());
+  if (key in styling) {
+    return styling[key].find((style) => style.key === value.toLowerCase());
   }
   return undefined;
 };

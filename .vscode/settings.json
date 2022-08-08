@@ -1,0 +1,38 @@
+{
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    ".prettierrc": true,
+    "jsconfig.json": true,
+    ".next": true,
+    ".vercel": true,
+    ".vscode": true,
+    "node_modules": true,
+    ".babelrc": true,
+    ".eslintrc.js": true,
+    ".gitignore": true,
+    "README.md": true,
+    "prettier.config.js": true,
+    "package-lock.json": true,
+    "package.json": true
+  },
+  "hide-files.files": [
+    ".prettierrc",
+    "jsconfig.json",
+    ".next",
+    ".vercel",
+    ".vscode",
+    "node_modules",
+    ".babelrc",
+    ".eslintrc.js",
+    ".gitignore",
+    "README.md",
+    "prettier.config.js",
+    "package-lock.json",
+    "package.json"
+  ]
+}

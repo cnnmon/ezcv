@@ -17,7 +17,11 @@ const styles = {
   },
 };
 
-export default function List({ items, onClick = () => null, isSelected = () => false }) {
+export default function Content({
+  items,
+  onClick = () => null,
+  isSelected = () => false,
+}) {
   const getContent = ({ name, getIcon }) => (
     <>
       <div style={styles.icon}>{getIcon()}</div>
@@ -35,8 +39,8 @@ export default function List({ items, onClick = () => null, isSelected = () => f
       borderRadius: selected ? 20 : undefined,
       cursor: selected ? 'not-allowed' : 'pointer',
       opacity: selected ? 0.6 : 'inherit',
-    }
-  }
+    };
+  };
 
   return (
     <div style={styles.container}>
@@ -44,7 +48,7 @@ export default function List({ items, onClick = () => null, isSelected = () => f
         <Button
           content={getContent(e)}
           onClick={() => onClick(e)}
-          isPrimary={e.name === SECTIONS.getEmptySection().name}
+          isPrimary={e.name === SECTIONS.getExampleSection().name}
           style={getButtonStyle(e)}
           key={`${index + 1}`}
         />

@@ -1,4 +1,3 @@
-import { useMediaQuery } from 'react-responsive';
 import { STYLING, SECTIONS, TRIGGERS } from '../constants';
 
 function getFirst(text, symbol, defaultValue) {
@@ -15,14 +14,6 @@ export function getKeyValuePair(text) {
   const key = text.substring(0, spaceIndex);
   const value = text.substring(spaceIndex + 1);
   return { key, value };
-}
-
-export function useIsMobile() {
-  // TODO: Fix to accurately check on start
-  const isMobile = useMediaQuery({
-    query: `(max-width: ${TRIGGERS.mobileBreakpoint})`,
-  });
-  return isMobile;
 }
 
 // Parses plaintext from Textbox into usable format for Resume
