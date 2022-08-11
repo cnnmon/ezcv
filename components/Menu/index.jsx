@@ -35,7 +35,7 @@ export default function Menu({ content, styling, lines, text, setText }) {
       i += 1;
     }
 
-    // else, move it down
+    // else, move the rest of the text down & append at top
     const firstSecondEmpty = isEmpty(lines[0]) && isEmpty(lines[1]);
     const newLines = `${
       !isEmpty(lines[0]) && !isStyling(lines[0]) ? '\n' : ''
@@ -69,6 +69,7 @@ export default function Menu({ content, styling, lines, text, setText }) {
       title: 'Sections',
       items: [SECTIONS.getExampleSection(), ...filteredSections],
       onClick: appendToText,
+      isSection: true,
       isSelected: () => false,
     },
     {

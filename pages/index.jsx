@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import Head from 'next/head';
 import ReactToPrint from 'react-to-print';
 import Image from 'next/image';
@@ -9,7 +9,6 @@ import {
   Resume,
   Menu,
   PrintButton,
-  LinkedinButton,
 } from '../components';
 import { parseIntoContent } from '../utils';
 import { STYLING, COLORS, SECTIONS, TRIGGERS } from '../constants';
@@ -45,7 +44,7 @@ const ColumnLeft = styled.div`
 `;
 
 const ColumnRight = styled(ScrollContainer)`
-  margin-left: 20px;
+  margin-left: 10px;
   border: 1.5px solid ${COLORS.darkBrown};
   background-color: ${COLORS.redOrange};
   overflow: scroll;
@@ -59,6 +58,21 @@ const ColumnRight = styled(ScrollContainer)`
 export default function App() {
   const [text, setText] = useState(SECTIONS.getDefaultText());
   const [styling, setStyling] = useState(STYLING.getDefaultStyling());
+
+  useEffect(function() {
+    if (typeof window !== 'undefined') {
+      const storedText = localStorage.getItem("text");
+
+      if (storedText !== null) {
+        setText(storedText);
+      }
+    }
+  },[]);
+
+  const handleTextChange = (newText) => {
+    localStorage.setItem("text", newText)
+    setText(newText);
+  }
 
   /* Info parsed from plaintext */
   const { lines, content } = useMemo(
@@ -81,16 +95,15 @@ export default function App() {
           <ColumnLeft>
             <div style={styles.logo}>
               <Image src={logo} width={100} height={100} />
-              <LinkedinButton />
             </div>
             <Menu
               content={content}
               lines={lines}
               styling={styling}
               text={text}
-              setText={setText}
+              setText={handleTextChange}
             />
-            <Textbox text={text} content={content} setText={setText} />
+            <Textbox text={text} content={content} setText={handleTextChange} />
           </ColumnLeft>
           <ColumnRight>
             <Resume content={content} styling={styling} ref={resume} />
@@ -112,7 +125,7 @@ export default function App() {
         div#__next > div {
           height: 100%;
           padding: 20;
-          font-family: Inter;
+          font-family: Open Sans;
         }
 
         ::-webkit-scrollbar {

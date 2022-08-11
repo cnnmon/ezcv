@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { COLORS } from '../../constants';
+import { COLORS } from '../../../constants';
 
 const styles = {
   button: {
@@ -13,6 +13,7 @@ const styles = {
     width: 120,
     minWidth: 120,
     textAlign: 'center',
+    height: '80%',
   },
   primary: {
     backgroundColor: COLORS.background,

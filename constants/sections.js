@@ -200,5 +200,7 @@ export const getSections = () =>
   SECTIONS.map((s, index) => getSectionsFormat(s, index));
 
 // default states
-export const getDefaultText = () =>
-  `${getDefaultStylingText()}\n\n${getSections()[0].char}\n`;
+export const getDefaultText = () => {
+  const text = `${getDefaultStylingText()}\n\n${getSections()[0].char}\n`;
+  return text;
+}

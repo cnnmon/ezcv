@@ -1,7 +1,7 @@
 import React from 'react';
 import { RiCheckFill } from 'react-icons/ri';
 import Button from '../Button';
-import { COLORS } from '../../constants';
+import { COLORS } from '../../../constants';
 
 const styles = {
   button: {
