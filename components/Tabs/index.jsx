@@ -8,7 +8,7 @@ const styles = {
   },
 };
 
-export default function Tabs({ tabs }) {
+export default function Tabs({ tabs, openModal }) {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
@@ -22,7 +22,12 @@ export default function Tabs({ tabs }) {
         />
       ))}
       {tabs.map((tab, index) => (
-        <Container tab={tab} isActive={index === activeTab} key={tab.title} />
+        <Container
+          tab={tab}
+          isActive={index === activeTab}
+          openModal={openModal}
+          key={tab.title}
+        />
       ))}
     </div>
   );

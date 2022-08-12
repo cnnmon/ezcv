@@ -6,10 +6,6 @@
     "**/CVS": true,
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
-    "**/.buckd": true,
-    "**/buck-out": true,
-    "**/.lsp.buckd": true,
-    "**/.lsp-buck-out": true,
     ".prettierrc": true,
     "jsconfig.json": true,
     ".next": true,
@@ -22,7 +18,8 @@
     "README.md": true,
     "prettier.config.js": true,
     "package-lock.json": true,
-    "package.json": true
+    "package.json": true,
+    "next.config.js": true
   },
   "hide-files.files": [
     ".prettierrc",
@@ -37,6 +34,7 @@
     "README.md",
     "prettier.config.js",
     "package-lock.json",
-    "package.json"
+    "package.json",
+    "next.config.js"
   ]
 }

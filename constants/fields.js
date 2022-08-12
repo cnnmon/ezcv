@@ -1,14 +1,17 @@
 import { trigger } from './triggers';
 import { getBasicFormat } from './utils';
 
-/* FIELDS */
-const FIELDS = [
+const SECTION = [
   {
     name: 'section',
     body: 'New Section',
     title: 'Section', // displays in autocomplete
     description: 'Start a new section', // displays in autcoomplete
   },
+];
+
+/* FIELDS */
+const FIELDS = [
   {
     name: 'title',
     body: 'New Title',
@@ -41,11 +44,15 @@ function getFieldsFormat({ name, body, title, description }, index) {
   return {
     ...getBasicFormat(name, char, index),
     title,
+    body,
     description,
   };
 }
 
-// used by autocomplete; default field names, descriptions, contents
-const getFields = () => FIELDS.map((f, index) => getFieldsFormat(f, index));
+export const getFields = () =>
+  FIELDS.map((f, index) => getFieldsFormat(f, index));
 
-export default getFields;
+const getSection = () => SECTION.map((f, index) => getFieldsFormat(f, index));
+
+// used by autocomplete; default field names, descriptions, contents
+export const getAllFields = () => [...getFields(), getSection()];

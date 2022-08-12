@@ -166,6 +166,9 @@ const SECTIONS = [
   },
 ];
 
+export const getDefaultSection = (key) =>
+  SECTIONS.find(({ name }) => name === key);
+
 // empty subsection contents
 // for text parsing
 export const getEmptySubsection = () => ({
@@ -203,4 +206,4 @@ export const getSections = () =>
 export const getDefaultText = () => {
   const text = `${getDefaultStylingText()}\n\n${getSections()[0].char}\n`;
   return text;
-}
+};

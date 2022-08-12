@@ -4,12 +4,7 @@ import ReactToPrint from 'react-to-print';
 import Image from 'next/image';
 import styled from 'styled-components';
 import ScrollContainer from 'react-indiana-drag-scroll';
-import {
-  Textbox,
-  Resume,
-  Menu,
-  PrintButton,
-} from '../components';
+import { Textbox, Resume, Menu, PrintButton } from '../components';
 import { parseIntoContent } from '../utils';
 import { STYLING, COLORS, SECTIONS, TRIGGERS } from '../constants';
 import logo from '../public/logo.png';
@@ -59,20 +54,20 @@ export default function App() {
   const [text, setText] = useState(SECTIONS.getDefaultText());
   const [styling, setStyling] = useState(STYLING.getDefaultStyling());
 
-  useEffect(function() {
+  useEffect(() => {
     if (typeof window !== 'undefined') {
-      const storedText = localStorage.getItem("text");
+      const storedText = localStorage.getItem('text');
 
       if (storedText !== null) {
         setText(storedText);
       }
     }
-  },[]);
+  }, []);
 
   const handleTextChange = (newText) => {
-    localStorage.setItem("text", newText)
+    localStorage.setItem('text', newText);
     setText(newText);
-  }
+  };
 
   /* Info parsed from plaintext */
   const { lines, content } = useMemo(
@@ -123,8 +118,14 @@ export default function App() {
         body,
         div#__next,
         div#__next > div {
-          height: 100%;
+          height: 99%;
           padding: 20;
+          font-family: Open Sans;
+        }
+
+        button,
+        input,
+        textarea {
           font-family: Open Sans;
         }
 
@@ -140,6 +141,10 @@ export default function App() {
         ::-webkit-scrollbar-thumb {
           border-radius: 10px;
           background-color: ${COLORS.darkBrown};
+        }
+
+        ::-webkit-input-placeholder {
+          color: rgba(0, 0, 0, 0.2);
         }
       `}</style>
     </>

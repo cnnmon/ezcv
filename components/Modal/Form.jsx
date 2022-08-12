@@ -1,63 +1,101 @@
-import React, { useRef, useEffect } from 'react';
-import { COLORS } from '../../constants';
+import React from 'react';
 import styled from 'styled-components';
+import TextInput from './TextInput';
+import { TRIGGERS, FIELDS, COLORS } from '../../constants';
 
 const styles = {
   form: {
-    padding: '5px 20px',
+    margin: '0px 20px',
   },
-  labelContainer: {
-    margin: 0,
-    display: 'flex',
+  body: {
+    borderTop: `1.4px solid ${COLORS.darkBrown}`,
+    borderLeft: `1.4px solid ${COLORS.darkBrown}`,
+    borderRight: `1.4px solid ${COLORS.darkBrown}`,
+    marginBottom: 30,
   },
-  label: {
-    margin: '-1px 7px 0 0',
-  },
-}
+};
 
-/*
-  border-top: none;
+const Submit = styled.input`
+  position: sticky;
+  width: 100%;
+  bottom: 0;
+  background: ${COLORS.yellow};
+  border-top: 1.8px solid ${COLORS.darkBrown};
   border-right: none;
+  border-bottom: none;
   border-left: none;
-  border-bottom: 1px solid ${COLORS.darkBrown};
+  padding: 10px;
+  cursor: pointer;
 
-  &:placeholder-shown {
-    opacity: 0.4;
+  &:hover {
+    background: ${COLORS.lightGreen};
   }
-*/
 
-const Input = styled.input`
-  flex-grow: 1;
-  background: none;
-  border: none;
-  outline: none;
-  padding: 0;
-  font-size: 18px;
-  font-weight: 600;
-  color: ${COLORS.red};
-
-  &:placeholder-shown {
-    opacity: 0.6;
+  @media only screen and (max-width: ${TRIGGERS.mobileBreakpoint}) {
+    width: 100%;
   }
 `;
 
-export default function Form({title}) {
-  const inputRef = useRef(null);
+export default function Form({ header, setHeader, body, setBody, onSubmit }) {
+  const handleHeaderChange = (e) => {
+    setHeader(e.target.value);
+  };
 
-  useEffect(() => {
-    inputRef.current.focus();
-  }, []);
+  const handleBodyChange = (e, index, key) => {
+    const b = [...body];
+    b[index] = { ...b[index], [key]: e.target.value };
+    setBody(b);
+  };
+
+  const handleOtherChange = (e, index) => {
+    const b = [...body];
+    b[index] = { ...b[index], other: e.target.value.split('\n') };
+    setBody(b);
+  };
 
   return (
-    <form style={styles.form}>
-      <h2>{title}</h2>
+    <form onSubmit={onSubmit}>
+      <div style={styles.form}>
+        <TextInput
+          label="Section"
+          defaultValue={header}
+          onChange={handleHeaderChange}
+          placeholder="New Section"
+          isDefaultFocus
+        />
 
-      <label style={styles.labelContainer}>
-        <p style={styles.label}>Section is called </p><Input type="text" placeholder="Experience" name="name" ref={inputRef} />
-      </label>
+        <br />
 
-      <br />
-      <input type="submit" value="Submit" />
+        <div>
+          {body.map((b, index) => (
+            <div style={styles.body} key={`${index + 1}`}>
+              {FIELDS.getFields().map((field, i) => {
+                const { title } = field;
+                const key = title.toLowerCase();
+                return (
+                  <div key={`${i + 2}`}>
+                    <TextInput
+                      label={title}
+                      defaultValue={b[key]}
+                      onChange={(e) => handleBodyChange(e, index, key)}
+                      placeholder={field.body}
+                    />
+                  </div>
+                );
+              })}
+              <TextInput
+                label="Content"
+                defaultValue={b.other.join('\r\n')}
+                onChange={(e) => handleOtherChange(e, index)}
+                placeholder="Tell me more! Prepend new lines with - to bullet it."
+                multiline
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <Submit style={styles.submit} type="submit" value="Add this!" />
     </form>
-  )
+  );
 }

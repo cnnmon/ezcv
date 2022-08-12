@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import ReactTextareaAutocomplete from '@webscopeio/react-textarea-autocomplete';
-import { getFields, TRIGGERS, COLORS } from '../../constants';
-import DropdownItem from './DropdownItem';
+import { COLORS } from '../../constants';
 
 const styles = {
   textarea: {
@@ -47,15 +46,19 @@ function Loading() {
 export default function Textbox({ text, setText }) {
   const textbox = useRef();
 
+  /* TODO: remove triggers
   const onTrigger = (values, token) =>
     values.filter(({ name }) => name.startsWith(token.toLowerCase()));
+  */
 
   const triggers = {
-    [TRIGGERS.trigger]: {
-      dataProvider: (token) => onTrigger(getFields(), token),
-      component: DropdownItem,
-      output: (item) => item.char,
-    },
+    /* TODO: remove triggers
+      [TRIGGERS.trigger]: {
+        dataProvider: (token) => onTrigger(FIELDS.getFields(), token),
+        component: DropdownItem,
+        output: (item) => item.char,
+      },
+    */
   };
 
   return (

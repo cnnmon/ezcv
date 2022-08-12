@@ -1,9 +1,20 @@
-import React, { useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import { STYLING, SECTIONS, TRIGGERS } from '../../constants';
 import Tabs from '../Tabs';
 import { getKeyValuePair } from '../../utils';
+import Modal from '../Modal';
 
 export default function Menu({ content, styling, lines, text, setText }) {
+  const [activeItem, setActiveItem] = useState(-1);
+
+  const openModal = (index) => {
+    setActiveItem(index);
+  };
+
+  const closeModal = () => {
+    setActiveItem(-1);
+  };
+
   const filteredSections = useMemo(() => {
     const headers = content.flatMap(({ header }, index) => [
       { header, key: index },
@@ -86,5 +97,21 @@ export default function Menu({ content, styling, lines, text, setText }) {
     },
   ];
 
-  return <Tabs tabs={tabs} />;
+  const onSubmit = (e) => {
+    e.preventDefault();
+    closeModal();
+    appendToText(e.target.value);
+  };
+
+  return (
+    <>
+      <Modal
+        item={activeItem}
+        isOpen={activeItem !== -1}
+        closeModal={closeModal}
+        onSubmit={onSubmit}
+      />
+      <Tabs tabs={tabs} openModal={openModal} />
+    </>
+  );
 }

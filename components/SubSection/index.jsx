@@ -12,11 +12,11 @@ const THEMES = {
 };
 
 export default function Subsection({ styling, type, ...props }) {
-  const { headers, theme } = styling;
-
   if (!styling) {
     return null;
   }
+
+  const { headers, theme } = styling;
 
   // enlarges/formats header section differently
   return type === 'header'

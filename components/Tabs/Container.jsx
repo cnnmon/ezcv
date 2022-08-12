@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import Button from '../Buttons/Button';
 import SectionButton from '../Buttons/SectionButton';
@@ -21,7 +22,7 @@ const styles = {
   },
 };
 
-export default function Container({ tab, isActive }) {
+export default function Container({ tab, openModal, isActive }) {
   const { items, onClick, isSection, isSelected } = tab;
 
   const getButtonContent = ({ name, getIcon }) => (
@@ -45,26 +46,27 @@ export default function Container({ tab, isActive }) {
     };
   };
 
+  const buttonProps = (e) => ({
+    item: e,
+    content: getButtonContent(e),
+    onClick: () => onClick(e),
+    isPrimary: e.name === SECTIONS.getExampleSection().name,
+    style: getButtonStyle(e),
+  });
+
   return (
     <div style={isActive ? undefined : styles.hide}>
       <div style={styles.container}>
         {items.map((e, index) => (
           <div key={`${index + 1}`}>
-            {isSection ?
+            {isSection ? (
               <SectionButton
-                item={e}
-                content={getButtonContent(e)}
-                isPrimary={e.name === SECTIONS.getExampleSection().name}
-                style={getButtonStyle(e)}
+                openModal={() => openModal(index)}
+                {...buttonProps(e)}
               />
-            :
-              <Button
-                item={e}
-                content={getButtonContent(e)}
-                onClick={() => onClick(e)}
-                style={getButtonStyle(e)}
-              />
-            }
+            ) : (
+              <Button {...buttonProps(e)} />
+            )}
           </div>
         ))}
       </div>

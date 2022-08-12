@@ -14,7 +14,7 @@ const styles = {
     right: -360,
     outline: `2px solid ${COLORS.background}`,
     fontWeight: 'normal',
-    backgroundColor: COLORS.red,
+    background: COLORS.lightGreen,
     transition: 'transform 0.2s ease-in-out',
   },
   content: {
