@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from 'react';
 import { STYLING, SECTIONS, TRIGGERS } from '../../constants';
-import Tabs from '../Tabs';
+import Tabs from './Tabs';
 import { getKeyValuePair } from '../../utils';
-import Modal from '../Modal';
+import Modal from './Modal';
 
 export default function Menu({ content, styling, lines, text, setText }) {
   const [activeItem, setActiveItem] = useState(-1);
@@ -14,15 +14,6 @@ export default function Menu({ content, styling, lines, text, setText }) {
   const closeModal = () => {
     setActiveItem(-1);
   };
-
-  const filteredSections = useMemo(() => {
-    const headers = content.flatMap(({ header }, index) => [
-      { header, key: index },
-    ]);
-    return SECTIONS.getSections().filter(
-      ({ name }) => !headers.some(({ header }) => header === name)
-    );
-  }, [content]);
 
   /* Actions from selecting from the menu */
   const appendStyling = (object) => {
@@ -56,8 +47,9 @@ export default function Menu({ content, styling, lines, text, setText }) {
     );
   };
 
-  const appendToText = (object) => {
-    const toAppend = object.char;
+  const appendToText = (toAppend) => {
+    // const toAppend = object.char;
+    console.log(toAppend)
     const isTextboxEmpty = lines.length === 1 && lines[0] === '';
     if (isTextboxEmpty) {
       setText(toAppend);
@@ -78,10 +70,15 @@ export default function Menu({ content, styling, lines, text, setText }) {
   const tabs = [
     {
       title: 'Sections',
-      items: [SECTIONS.getExampleSection(), ...filteredSections],
+      items: [SECTIONS.getExampleSection(), ...SECTIONS.getSections()],
       onClick: appendToText,
-      isSection: true,
-      isSelected: () => false,
+      opensModal: true,
+      isSelected: (object) => {
+        const headers = content.flatMap(({ header }, index) => [
+          { header, key: index },
+        ]);
+        return headers.find(({ header }) => header === object.name)
+      },
     },
     {
       title: 'Main Style',
@@ -97,19 +94,13 @@ export default function Menu({ content, styling, lines, text, setText }) {
     },
   ];
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    closeModal();
-    appendToText(e.target.value);
-  };
-
   return (
     <>
       <Modal
         item={activeItem}
-        isOpen={activeItem !== -1}
         closeModal={closeModal}
-        onSubmit={onSubmit}
+        appendToText={appendToText}
+        styling={styling}
       />
       <Tabs tabs={tabs} openModal={openModal} />
     </>

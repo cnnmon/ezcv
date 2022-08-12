@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import Button from '../Buttons/Button';
-import SectionButton from '../Buttons/SectionButton';
-import { SECTIONS, COLORS } from '../../constants';
+import Button from '../../Buttons/Button';
+import ModalButton from '../../Buttons/ModalButton';
+import { SECTIONS, COLORS } from '../../../constants';
 
 const styles = {
   hide: {
@@ -23,7 +23,7 @@ const styles = {
 };
 
 export default function Container({ tab, openModal, isActive }) {
-  const { items, onClick, isSection, isSelected } = tab;
+  const { items, onClick, opensModal, isSelected } = tab;
 
   const getButtonContent = ({ name, getIcon }) => (
     <>
@@ -41,7 +41,7 @@ export default function Container({ tab, openModal, isActive }) {
       minWidth: 120,
       backgroundColor: 'color' in item ? item.color : COLORS.yellow,
       borderRadius: selected ? 20 : undefined,
-      cursor: selected ? 'not-allowed' : 'pointer',
+      cursor: selected ? 'grabbing' : 'pointer',
       opacity: selected ? 0.6 : 'inherit',
     };
   };
@@ -59,8 +59,8 @@ export default function Container({ tab, openModal, isActive }) {
       <div style={styles.container}>
         {items.map((e, index) => (
           <div key={`${index + 1}`}>
-            {isSection ? (
-              <SectionButton
+            {opensModal ? (
+              <ModalButton
                 openModal={() => openModal(index)}
                 {...buttonProps(e)}
               />

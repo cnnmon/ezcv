@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import TextInput from './TextInput';
-import { TRIGGERS, FIELDS, COLORS } from '../../constants';
+import { TRIGGERS, FIELDS, COLORS } from '../../../constants';
+import { BsX } from 'react-icons/bs';
 
 const styles = {
   form: {
@@ -36,6 +37,24 @@ const Submit = styled.input`
   }
 `;
 
+const CloseButton = styled.div`
+  cursor: pointer;
+  padding: 0 4px;
+  border-top: 1.4px solid ${COLORS.darkBrown};
+  border-right: 1.4px solid ${COLORS.darkBrown};
+  border-bottom: none;
+  border-left: 1.4px solid ${COLORS.darkBrown};
+  font-size: 25px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background: ${COLORS.yellow};
+
+  &:hover {
+    background: ${COLORS.red};
+  }
+`;
+
 export default function Form({ header, setHeader, body, setBody, onSubmit }) {
   const handleHeaderChange = (e) => {
     setHeader(e.target.value);
@@ -63,10 +82,12 @@ export default function Form({ header, setHeader, body, setBody, onSubmit }) {
           placeholder="New Section"
           isDefaultFocus
         />
-
         <br />
-
         <div>
+          {/* TODO: remove if first */}
+          <CloseButton>
+            <BsX />
+          </CloseButton>
           {body.map((b, index) => (
             <div style={styles.body} key={`${index + 1}`}>
               {FIELDS.getFields().map((field, i) => {
@@ -94,7 +115,6 @@ export default function Form({ header, setHeader, body, setBody, onSubmit }) {
           ))}
         </div>
       </div>
-
       <Submit style={styles.submit} type="submit" value="Add this!" />
     </form>
   );

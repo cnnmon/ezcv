@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import TextareaAutosize from 'react-textarea-autosize';
-import { COLORS } from '../../constants';
+import { COLORS } from '../../../constants';
 
 const styles = {
   labelContainer: {
@@ -14,7 +14,7 @@ const styles = {
     margin: '0 7px 0 0',
     fontSize: 11,
     paddingTop: 4,
-    width: 60,
+    width: 70,
   },
   input: {
     flexGrow: 1,
@@ -22,9 +22,9 @@ const styles = {
     border: 'none',
     outline: 'none',
     fontSize: 14,
-    fontWeight: 400,
-    resize: 'none',
+    fontWeight: 700,
     color: COLORS.red,
+    resize: 'none',
   },
 };
 
@@ -33,11 +33,12 @@ export default function TextInput({
   label,
   placeholder,
   onChange = () => null,
-  defaultValue = undefined,
+  defaultValue = '',
   multiline = false,
 }) {
   const [value, setValue] = useState(defaultValue);
   const inputRef = useRef(null);
+
   const handleChange = (e) => {
     setValue(e.target.value);
     onChange(e);
@@ -45,8 +46,8 @@ export default function TextInput({
 
   const inputProps = {
     type: 'text',
+    value: defaultValue,
     placeholder,
-    value,
     onChange: handleChange,
     name: 'name',
     ref: inputRef,

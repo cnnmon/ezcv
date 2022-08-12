@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { BsX } from 'react-icons/bs';
 import styled from 'styled-components';
-import Subsection from '../Subsection';
-import { COLORS, TRIGGERS } from '../../constants';
+import Subsection from '../../Subsection';
+import { SECTIONS, COLORS, TRIGGERS } from '../../../constants';
 import Form from './Form';
 
 const styles = {
   bar: {
     position: 'sticky',
     top: 0,
-    width: '100%',
     height: 50,
     borderBottom: `1.8px solid ${COLORS.darkBrown}`,
     backgroundColor: COLORS.redOrange,
@@ -29,10 +28,10 @@ const styles = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    backgroundColor: COLORS.background,
+    background: COLORS.background,
     width: '70%',
     maxWidth: 900,
-    height: '80%',
+    maxHeight: '80%',
     border: `1.8px solid ${COLORS.darkBrown}`,
     borderRadius: 0,
     padding: 0,
@@ -86,33 +85,60 @@ const PreviewContainer = styled.div`
   }
 `;
 
-export default function Modal({ item, isOpen, closeModal, onSubmit }) {
-  // TODO: ITEM IS NOW A NUMBER
-  const [header, setHeader] = useState(item.name);
-  const [body, setBody] = useState([]);
+export default function Modal({ item, styling, closeModal, appendToText }) {
+  const { isOpen, h, b } = useMemo(() => {
+    if (item > -1) {
+      const section = SECTIONS.getSection(item);
+      const { name, body } = section;
+      return { isOpen: true, h: name, b: body }
+    }
+    return { isOpen: false, h: '', b: [] }
+  }, [item])
+
+  const [header, setHeader] = useState(h);
+  const [body, setBody] = useState(b);
+  const [type, setType] = useState(null);
+
+  useEffect(() => {
+    if (item !== -1) {
+      const section = SECTIONS.getSection(item);
+      setHeader(section.name);
+      setBody(section.body);
+      setType(section.type);
+    }
+  }, [item])
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    closeModal();
+
+    const section = SECTIONS.getSectionsFormat({
+      name: header,
+      type,
+      body,
+    });
+
+    appendToText(section.char);
+  }
 
   return (
     <div>
-      <div style={{ ...styles.overlay, display: isOpen ? 'block' : 'none' }} />
+      <div onClick={closeModal} style={{ ...styles.overlay, display: isOpen ? 'block' : 'none' }} />
       <div style={{ ...styles.modal, display: isOpen ? 'block' : 'none' }}>
         <div style={styles.bar}>
           <ExitButton type="button" onClick={closeModal}>
             <BsX />
           </ExitButton>
         </div>
-
         <PreviewContainer>
-          <h2>{header}</h2>
           {body.map((b, index) => (
             <div key={`${index + 1}`}>
               <Subsection
-                styling={{
-                  headers: { key: 'center' },
-                  theme: { key: 'classic' },
-                }}
-                type={item.type}
+                styling={styling}
+                type={type}
                 header={header}
                 subsection={b}
+                subsectionIndex={index}
               />
             </div>
           ))}
@@ -123,7 +149,7 @@ export default function Modal({ item, isOpen, closeModal, onSubmit }) {
             setHeader={setHeader}
             body={body}
             setBody={setBody}
-            onSubmit={onSubmit}
+            onSubmit={handleSubmit}
           />
         </FormContainer>
       </div>

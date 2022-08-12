@@ -166,8 +166,8 @@ const SECTIONS = [
   },
 ];
 
-export const getDefaultSection = (key) =>
-  SECTIONS.find(({ name }) => name === key);
+export const getSection = (index) =>
+  [EXAMPLE_SECTION, ...SECTIONS][index]
 
 // empty subsection contents
 // for text parsing
@@ -180,7 +180,7 @@ export const getEmptySubsection = () => ({
   other: [],
 });
 
-function getSectionsFormat(
+export function getSectionsFormat(
   { name, body, type = 'section', icon = () => null, color = undefined },
   index
 ) {

@@ -7,7 +7,7 @@ const styles = {
   },
 };
 
-export default function SectionButton({
+export default function ModalButton({
   content,
   isPrimary,
   style,
