@@ -1,39 +1,38 @@
 import React from 'react';
-import styles, { getSectionHeader, getItems, getSectionTitle } from '../styles';
+import styled from 'styled-components';
+import styles, { getItems, getSectionTitle } from '../styles';
 
-const STYLES = {
-  left: {
-    flex: 1,
-    marginRight: 20,
-  },
-  right: {
-    flex: 0.5,
-    textAlign: 'right',
-  },
-  line: {
-    marginTop: 0,
-    backgroundColor: 'black',
-  },
-};
+const Left = styled.div`
+  flex: 1;
+  margin-right: 20px;
+`;
+
+const Right = styled.div`
+  flex: 0.5;
+  text-align: right;
+`;
+
+const Line = styled.hr`
+  margin-top: 0;
+  background: black;
+`;
 
 export default function Classic({ header, subsection, subsectionIndex }) {
   const { title, subtitle, description, date, other } = subsection;
   const isFirstSubsection = subsectionIndex === 0;
 
   const getLeft = () => (
-    <div style={STYLES.left}>
-      {getSectionTitle(title, subtitle, description)}
-    </div>
+    <Left>{getSectionTitle(title, subtitle, description)}</Left>
   );
 
-  const getRight = () => <div style={STYLES.right}>{date}</div>;
+  const getRight = () => <Right>{date}</Right>;
 
   return (
     <>
       {isFirstSubsection && (
         <>
-          {getSectionHeader(header)}
-          {header && <hr style={STYLES.line} />}
+          <h2 style={styles.header}>{header}</h2>
+          {header && <Line />}
         </>
       )}
       <div style={styles.flex}>

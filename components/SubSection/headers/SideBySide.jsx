@@ -10,32 +10,24 @@ const STYLES = {
     display: 'flex',
   },
   left: {
-    flex: 1,
+    width: '40%',
     marginRight: 20,
-  },
-  right: {
-    flex: 0.8,
-    textAlign: 'right',
   },
 };
 
-export default function Center({ header, subsection, subsectionIndex }) {
+export default function SideBySide({ header, subsection, subsectionIndex }) {
   const { title, subtitle, description, date, other } = subsection;
   const isFirstSubsection = subsectionIndex === 0;
 
   const getLeft = () => (
     <div style={STYLES.left}>
       {isFirstSubsection && getLargeSectionHeader(header)}
+      {getSectionTitle(title, subtitle, description)}
       {date && <p style={styles.text}>{date}</p>}
     </div>
   );
 
-  const getRight = () => (
-    <div style={STYLES.right}>
-      {getSectionTitle(title, subtitle, description)}
-      {getItems(other, true)}
-    </div>
-  );
+  const getRight = () => <div>{getItems(other, true)}</div>;
 
   return (
     <div style={STYLES.inline}>

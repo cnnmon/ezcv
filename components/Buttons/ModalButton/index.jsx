@@ -7,12 +7,7 @@ const styles = {
   },
 };
 
-export default function ModalButton({
-  content,
-  isPrimary,
-  style,
-  openModal,
-}) {
+export default function ModalButton({ content, isPrimary, style, openModal }) {
   return (
     <div style={styles.container}>
       <Button

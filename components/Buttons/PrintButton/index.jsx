@@ -1,5 +1,5 @@
 import React from 'react';
-import { RiCheckFill } from 'react-icons/ri';
+import { AiOutlineDownload } from 'react-icons/ai';
 import Button from '../Button';
 import { COLORS } from '../../../constants';
 
@@ -38,7 +38,7 @@ export default function PrintButton() {
     <Button
       content={
         <div style={styles.content}>
-          <RiCheckFill style={styles.icon} />
+          <AiOutlineDownload style={styles.icon} />
         </div>
       }
       style={styles.button}

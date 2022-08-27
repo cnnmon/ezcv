@@ -1,82 +1,78 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React from 'react';
 import Head from 'next/head';
-import ReactToPrint from 'react-to-print';
 import Image from 'next/image';
+import Link from 'next/link';
 import styled from 'styled-components';
-import ScrollContainer from 'react-indiana-drag-scroll';
-import { Textbox, Resume, Menu, PrintButton } from '../components';
-import { parseIntoContent } from '../utils';
-import { STYLING, COLORS, SECTIONS, TRIGGERS } from '../constants';
+import { useRouter } from 'next/router';
+import { Button, Upload } from '../components';
+import { COLORS } from '../constants';
 import logo from '../public/logo.png';
+import { useAppContext } from '../context/state';
 
 const styles = {
   page: {
-    height: '90%',
-    margin: 10,
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  logo: {
-    margin: '20px 5px',
+  contentContainer: {
+    width: '100%',
+    maxWidth: 1000,
+    display: 'flex',
+  },
+  left: {
+    marginRight: 20,
+    fontSize: 35,
+  },
+  right: {
+    textAlign: 'center',
+  },
+  headerContainer: {
+    position: 'fixed',
+    top: 0,
+    borderBottom: `1.5px solid ${COLORS.darkBrown}`,
+    padding: 20,
+    boxSizing: 'border-box',
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  header: {
+    width: '100%',
+    maxWidth: 1000,
+  },
+  button: {
+    padding: '15px 80px',
+    fontSize: 20,
+    background: 'black',
+    color: COLORS.background,
+    fontWeight: 300,
   },
 };
 
-const Body = styled.div`
-  display: flex;
-  height: 100%;
-
-  @media only screen and (max-width: ${TRIGGERS.mobileBreakpoint}) {
-    display: block;
-  }
+const Left = styled.div`
+  margin-right: 20px;
+  font-size: 35px;
 `;
 
-const ColumnLeft = styled.div`
-  min-width: 49.5%;
-  max-width: 49.5%;
+const Divider = styled.p`
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid #000;
+  line-height: 0.1em;
+  margin: 10px 0 20px;
 
-  @media only screen and (max-width: ${TRIGGERS.mobileBreakpoint}) {
-    min-width: 100%;
-    max-width: 100%;
-  }
-`;
-
-const ColumnRight = styled(ScrollContainer)`
-  margin-left: 10px;
-  border: 1.5px solid ${COLORS.darkBrown};
-  background-color: ${COLORS.redOrange};
-  overflow: scroll;
-
-  @media only screen and (max-width: ${TRIGGERS.mobileBreakpoint}) {
-    height: 1000px;
-    margin-left: 0;
+  span {
+    background: ${COLORS.background};
+    padding: 0 10px;
   }
 `;
 
 export default function App() {
-  const [text, setText] = useState(SECTIONS.getDefaultText());
-  const [styling, setStyling] = useState(STYLING.getDefaultStyling());
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedText = localStorage.getItem('text');
-
-      if (storedText !== null) {
-        setText(storedText);
-      }
-    }
-  }, []);
-
-  const handleTextChange = (newText) => {
-    localStorage.setItem('text', newText);
-    setText(newText);
-  };
-
-  /* Info parsed from plaintext */
-  const { lines, content } = useMemo(
-    () => parseIntoContent(text, styling, setStyling),
-    [text]
-  );
-
-  /* Resume reference for print */
-  const resume = useRef();
+  const { setSections } = useAppContext();
+  const router = useRouter();
 
   return (
     <>
@@ -86,25 +82,28 @@ export default function App() {
       </Head>
 
       <main style={styles.page}>
-        <Body>
-          <ColumnLeft>
-            <div style={styles.logo}>
-              <Image src={logo} width={100} height={100} />
-            </div>
-            <Menu
-              content={content}
-              lines={lines}
-              styling={styling}
-              text={text}
-              setText={handleTextChange}
+        <div style={styles.headerContainer}>
+          <div style={styles.header}>
+            <Image alt="logo" src={logo} width={80} height={80} />
+          </div>
+        </div>
+        <div style={styles.contentContainer}>
+          <Left>
+            <h1>Turn text into a customizable resume in seconds.</h1>
+            <Button
+              content="Get Started"
+              onClick={() => router.push('/builder')}
+              style={styles.button}
             />
-            <Textbox text={text} content={content} setText={handleTextChange} />
-          </ColumnLeft>
-          <ColumnRight>
-            <Resume content={content} styling={styling} ref={resume} />
-          </ColumnRight>
-        </Body>
-        <ReactToPrint trigger={PrintButton} content={() => resume.current} />
+          </Left>
+          <div style={styles.right}>
+            <Upload setSections={setSections} />
+            <Divider>
+              <span>or</span>
+            </Divider>
+            <Link href="/builder">Create something from scratch!</Link>
+          </div>
+        </div>
       </main>
 
       <footer />
@@ -120,18 +119,20 @@ export default function App() {
         div#__next > div {
           height: 99%;
           padding: 20;
-          font-family: Open Sans;
+          font-family: Mabry;
         }
 
-        button,
-        input,
-        textarea {
-          font-family: Open Sans;
+        a {
+          color: ${COLORS.red};
+        }
+
+        p {
+          font-size: 13px;
         }
 
         ::-webkit-scrollbar {
-          width: 3px;
-          height: 3px;
+          width: 5px;
+          height: 5px;
         }
 
         ::-webkit-scrollbar-track {

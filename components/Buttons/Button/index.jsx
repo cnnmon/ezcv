@@ -10,10 +10,7 @@ const styles = {
     fontWeight: 'bold',
     wordWrap: 'break-word',
     whiteSpace: 'pre-wrap',
-    width: 120,
-    minWidth: 120,
     textAlign: 'center',
-    height: '80%',
   },
   primary: {
     backgroundColor: COLORS.background,

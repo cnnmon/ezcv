@@ -8,8 +8,8 @@ const styles = {
     borderBottom: 0,
     backgroundColor: COLORS.yellow,
     fontWeight: 'bold',
-    width: 120,
-    minWidth: 120,
+    width: 160,
+    minWidth: 160,
     padding: '8px 0',
   },
   active: {

@@ -1,7 +1,6 @@
 import Menu from './Menu';
 import Resume from './Resume';
-import Subsection from './Subsection';
-import Textbox from './Textbox';
-import PrintButton from './Buttons/PrintButton';
+import { Button, PrintButton } from './Buttons';
+import Upload from './Upload';
 
-export { Menu, Resume, Subsection, Textbox, PrintButton };
+export { Upload, Menu, Resume, Button, PrintButton };

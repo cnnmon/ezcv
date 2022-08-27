@@ -2,14 +2,15 @@
 const COLORS = {
   background: '#f3ece5',
   red: '#da6940',
-  yellow: '#f4debd',
   redOrange: '#ebc8c6',
-  orange: '#edc2a4',
-  yellowGreen: '#dfe3b6',
-  lightGreen: '#cde3b6',
-  green: '#b6e3be',
+  orange: '#EDB97C',
+  yellow: '#f4debd',
+  yellowGreen: '#EAE18C',
+  green: '#a7c983',
+  teal: '#72c49a',
   blue: '#b6e3e3',
-  purple: '#b6b7e3',
+  lavender: '#b6b7e3',
+  purple: '#cfb6e3',
   darkBrown: '#292524',
 };
 

@@ -6,13 +6,18 @@ function getFirst(text, symbol, defaultValue) {
 }
 
 function getFirstSpace(text) {
-  return getFirst(text, ' ', 1);
+  return getFirst(text, ' ', -1);
 }
 
 export function getKeyValuePair(text) {
   const spaceIndex = getFirstSpace(text);
   const key = text.substring(0, spaceIndex);
   const value = text.substring(spaceIndex + 1);
+
+  if (spaceIndex === -1) {
+    return { key: value, value: key };
+  }
+
   return { key, value };
 }
 
@@ -22,14 +27,21 @@ export function getKeyValuePair(text) {
 export function parseIntoContent(text, styling, setStyling) {
   const lines = text.split(/\r?\n/);
   const state = [
-    { header: '', body: [SECTIONS.getEmptySubsection()], type: 'section' },
+    {
+      header: '',
+      body: [SECTIONS.getEmptySubsection()],
+      type: SECTIONS.TYPES.SECTION,
+    },
   ];
+
   const style = { ...styling };
 
   function isCurrentFieldsEmpty(f) {
     const { title, subtitle, date, description, other } = f;
+
     const isEmpty =
       !title && !subtitle && !date && !description && other.length < 1;
+
     return isEmpty;
   }
 
@@ -44,20 +56,20 @@ export function parseIntoContent(text, styling, setStyling) {
     const currentSection = state[state.length - 1];
     const currentBody = currentSection.body;
     const currentFields = currentBody[currentBody.length - 1];
-    if (
-      key &&
-      value &&
-      key.toLowerCase() in SECTIONS.getEmptySubsection(currentSection.header)
-    ) {
-      if (key === 'title' && !isCurrentFieldsEmpty(currentFields)) {
+    const emptySubsection = SECTIONS.getEmptySubsection(currentSection.header);
+
+    const k = key && key.toLowerCase();
+
+    if (k && k in emptySubsection) {
+      if (k === 'title' && !isCurrentFieldsEmpty(currentFields)) {
         // If title & last fields is not empty
-        const emptyFields = SECTIONS.getEmptySubsection(currentSection.header);
+        const emptyFields = emptySubsection;
         emptyFields.title = value;
         currentBody.push(emptyFields);
-      } else if (key === 'style') {
+      } else if (k === 'style') {
         currentFields.style.push(value.trim());
       } else {
-        currentFields[key] = value;
+        currentFields[k] = value;
       }
     } else {
       currentFields.other.push(t.trim());
@@ -69,10 +81,12 @@ export function parseIntoContent(text, styling, setStyling) {
     const trimmedLine = line.substring(1).trim();
     const { key, value } = getKeyValuePair(trimmedLine);
     const currentSection = state[state.length - 1];
+
     // check to see symbol, if any
     switch (line[0]) {
       case TRIGGERS.trigger:
-        if (key === 'section' || key === 'header') {
+        // if HEADER or SECTION
+        if (Object.values(SECTIONS.TYPES).includes(key)) {
           // sets key -> k to ensure "header" gets picked up
           if (!isCurrentSectionEmpty(currentSection)) {
             state.push({

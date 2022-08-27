@@ -1,15 +1,19 @@
 import React from 'react';
-import styles, { getSectionHeader, getItems, getSectionTitle } from '../styles';
+import styled from 'styled-components';
+import styles, { getItems, getSectionTitle } from '../styles';
 
-const STYLES = {
-  left: {
-    flex: 0.3,
-    marginRight: 20,
-  },
-  right: {
-    flex: 1,
-  },
-};
+const Left = styled.div`
+  flex: 0.3;
+  margin-right: 20px;
+`;
+
+const Right = styled.div`
+  flex: 1;
+`;
+
+const Header = styled.h2`
+  font-weight: 500;
+`;
 
 export default function Modern({ header, subsection, subsectionIndex }) {
   const { title, subtitle, description, date, other } = subsection;
@@ -17,21 +21,21 @@ export default function Modern({ header, subsection, subsectionIndex }) {
 
   const getLeft = () =>
     date && (
-      <div style={STYLES.left}>
+      <Left>
         <p style={styles.text}>{date}</p>
-      </div>
+      </Left>
     );
 
   const getRight = () => (
-    <div style={STYLES.right}>
+    <Right>
       {getSectionTitle(title, subtitle, description)}
       {getItems(other)}
-    </div>
+    </Right>
   );
 
   return (
     <>
-      {isFirstSubsection && getSectionHeader(header)}
+      {isFirstSubsection && <Header style={styles.header}>{header}</Header>}
       <div style={styles.flex}>
         {getLeft()}
         {getRight()}

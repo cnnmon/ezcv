@@ -1,13 +1,24 @@
-import React, { useState, useMemo, useEffect } from 'react';
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+import React, { useState, useEffect } from 'react';
 import { BsX } from 'react-icons/bs';
 import styled from 'styled-components';
 import Subsection from '../../Subsection';
 import { SECTIONS, COLORS, TRIGGERS } from '../../../constants';
 import Form from './Form';
+import { useAppContext } from '../../../context/state';
 
 const styles = {
+  fixedContainer: {
+    position: 'fixed',
+    zIndex: 1,
+    left: '50%',
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
+    height: '90%',
+    width: '80%',
+    maxWidth: 1200,
+  },
   bar: {
-    position: 'sticky',
     top: 0,
     height: 50,
     borderBottom: `1.8px solid ${COLORS.darkBrown}`,
@@ -23,47 +34,63 @@ const styles = {
     zIndex: 1,
   },
   modal: {
-    position: 'absolute',
-    zIndex: 2,
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
     background: COLORS.background,
-    width: '70%',
-    maxWidth: 900,
-    maxHeight: '80%',
     border: `1.8px solid ${COLORS.darkBrown}`,
     borderRadius: 0,
     padding: 0,
-    overflowY: 'scroll',
+    height: '100%',
+    width: '100%',
+  },
+  body: {
+    display: 'flex',
+    height: 'calc(100% - 52px)',
+  },
+  tooltip: {
+    position: 'absolute',
+    background: COLORS.orange,
+    fontSize: 13,
+    left: 60,
+    top: 8,
+    border: `1.8px solid ${COLORS.darkBrown}`,
+    padding: '8px',
+    borderRadius: 20,
   },
 };
 
 const ExitButton = styled.button`
-  position: absolute;
   top: -2.5px;
   right: 0;
   padding: 0;
   display: flex;
-  justify-content: center;
-  align-items: center;
   background: ${COLORS.yellow};
-  border-left: 1.8px solid ${COLORS.darkBrown};
-  border-right: none;
+  border-right: 1.8px solid ${COLORS.darkBrown};
+  border-left: none;
   border-bottom: none;
   border-top: none;
   width: 50px;
   height: 50px;
   font-size: 50px;
   cursor: pointer;
-  margin-top: 2px;
+  margin-top: -0.3px;
+  margin-left: -0.5px;
+
+  .tooltip {
+    display: none;
+  }
 
   &:hover {
     background: ${COLORS.red};
+
+    .tooltip {
+      display: block;
+    }
   }
 `;
 
 const FormContainer = styled.div`
+  width: 50%;
+  overflow-y: scroll;
+
   @media only screen and (max-width: ${TRIGGERS.mobileBreakpoint}) {
     width: 100%;
   }
@@ -71,88 +98,107 @@ const FormContainer = styled.div`
 
 const PreviewContainer = styled.div`
   position: sticky;
-  top: 70px;
+  top: 52px;
   background: white;
-  font-size: 10px;
+  font-size: 12px;
   padding: 20px;
-  margin: 20px;
-  max-height: 130px;
+  box-sizing: border-box;
   overflow-y: scroll;
-  border: 1.8px solid ${COLORS.darkBrown};
+  border-top: none;
+  border-bottom: none;
+  border-left: none;
+  border-right: 1.8px solid ${COLORS.darkBrown};
+  width: 50%;
+  height: 100%;
 
   @media only screen and (max-width: ${TRIGGERS.mobileBreakpoint}) {
     display: none;
   }
 `;
 
-export default function Modal({ item, styling, closeModal, appendToText }) {
-  const { isOpen, h, b } = useMemo(() => {
-    if (item > -1) {
-      const section = SECTIONS.getSection(item);
-      const { name, body } = section;
-      return { isOpen: true, h: name, b: body }
-    }
-    return { isOpen: false, h: '', b: [] }
-  }, [item])
+const PreviewInfo = styled.div`
+  color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  z-index: 1;
+  bottom: 10px;
+  left: 10px;
+  background: white;
+  font-size: 12px;
 
-  const [header, setHeader] = useState(h);
-  const [body, setBody] = useState(b);
-  const [type, setType] = useState(null);
+  @media only screen and (max-width: ${TRIGGERS.mobileBreakpoint}) {
+    display: none;
+  }
+`;
+
+export default function Modal({ item, styling, closeModal, appendSection }) {
+  const isOpen = item !== null;
+
+  const [state, setState] = useState({
+    name: '',
+    body: [],
+    type: SECTIONS.TYPES.SECTION1,
+  });
 
   useEffect(() => {
-    if (item !== -1) {
-      const section = SECTIONS.getSection(item);
-      setHeader(section.name);
-      setBody(section.body);
-      setType(section.type);
+    if (item) {
+      setState(item);
     }
-  }, [item])
+  }, [item]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     closeModal();
 
-    const section = SECTIONS.getSectionsFormat({
-      name: header,
-      type,
-      body,
-    });
-
-    appendToText(section.char);
-  }
+    const section = SECTIONS.formatIntoSection(state);
+    appendSection(section.char);
+  };
 
   return (
-    <div>
-      <div onClick={closeModal} style={{ ...styles.overlay, display: isOpen ? 'block' : 'none' }} />
-      <div style={{ ...styles.modal, display: isOpen ? 'block' : 'none' }}>
-        <div style={styles.bar}>
-          <ExitButton type="button" onClick={closeModal}>
-            <BsX />
-          </ExitButton>
+    <>
+      <div
+        onClick={closeModal}
+        onKeyPress={closeModal}
+        style={{ ...styles.overlay, display: isOpen ? 'block' : 'none' }}
+      />
+      <div
+        style={{ ...styles.fixedContainer, display: isOpen ? 'block' : 'none' }}
+      >
+        <div style={styles.modal}>
+          <div style={styles.bar}>
+            <ExitButton type="button" onClick={closeModal}>
+              <BsX />
+              <p>
+                <span style={styles.tooltip} className="tooltip">
+                  Are you sure? Changes will not be saved!
+                </span>
+              </p>
+            </ExitButton>
+          </div>
+          <PreviewInfo>
+            * this box is a smaller width than a real resume!
+          </PreviewInfo>
+          <div style={styles.body}>
+            <PreviewContainer>
+              {state.body.map((subsection, index) => (
+                <div key={`${index + 1}`}>
+                  <Subsection
+                    styling={styling}
+                    type={state.type}
+                    header={state.name}
+                    subsection={subsection}
+                    subsectionIndex={index}
+                  />
+                </div>
+              ))}
+              <br />
+              <br />
+            </PreviewContainer>
+            <FormContainer>
+              <Form state={state} setState={setState} onSubmit={handleSubmit} />
+            </FormContainer>
+          </div>
         </div>
-        <PreviewContainer>
-          {body.map((b, index) => (
-            <div key={`${index + 1}`}>
-              <Subsection
-                styling={styling}
-                type={type}
-                header={header}
-                subsection={b}
-                subsectionIndex={index}
-              />
-            </div>
-          ))}
-        </PreviewContainer>
-        <FormContainer>
-          <Form
-            header={header}
-            setHeader={setHeader}
-            body={body}
-            setBody={setBody}
-            onSubmit={handleSubmit}
-          />
-        </FormContainer>
       </div>
-    </div>
+    </>
   );
 }

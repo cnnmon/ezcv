@@ -45,26 +45,16 @@ export function getLargeSectionHeader(text, isCenter) {
   );
 }
 
-export function getSectionHeader(text) {
-  return <h2 style={styles.header}>{text}</h2>;
-}
-
 export function getSectionTitle(title, subtitle = null, description = null) {
   return (
     <p style={styles.text}>
-      {title && (
-        <b>
-          {autolink(title)}
-          {subtitle && ', '}
-        </b>
-      )}
+      <b>
+        {autolink(title)}
+        {subtitle && ', '}
+      </b>
       {autolink(subtitle)}
-      {description && (
-        <>
-          {' — '}
-          {autolink(description)}
-        </>
-      )}
+      {description && ' — '}
+      {autolink(description)}
     </p>
   );
 }

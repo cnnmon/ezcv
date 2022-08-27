@@ -1,14 +1,11 @@
 import { trigger } from './triggers';
-import { getBasicFormat } from './utils';
 
-const SECTION = [
-  {
-    name: 'section',
-    body: 'New Section',
-    title: 'Section', // displays in autocomplete
-    description: 'Start a new section', // displays in autcoomplete
-  },
-];
+export const EMPTY_SUBSECTION = {
+  title: '',
+  date: '',
+  description: '',
+  other: [],
+};
 
 /* FIELDS */
 const FIELDS = [
@@ -40,9 +37,11 @@ const FIELDS = [
 ];
 
 function getFieldsFormat({ name, body, title, description }, index) {
-  const char = `${trigger}${name} ${body}`;
+  const char = `${trigger}${name.toUpperCase()} ${body}`;
   return {
-    ...getBasicFormat(name, char, index),
+    key: index,
+    name,
+    char,
     title,
     body,
     description,
@@ -51,8 +50,3 @@ function getFieldsFormat({ name, body, title, description }, index) {
 
 export const getFields = () =>
   FIELDS.map((f, index) => getFieldsFormat(f, index));
-
-const getSection = () => SECTION.map((f, index) => getFieldsFormat(f, index));
-
-// used by autocomplete; default field names, descriptions, contents
-export const getAllFields = () => [...getFields(), getSection()];

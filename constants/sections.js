@@ -10,11 +10,68 @@ import {
 import COLORS from './colors';
 import { getDefaultStylingText } from './styling';
 import { trigger } from './triggers';
-import { getMultiSectionDefaultFieldsString, getBasicFormat } from './utils';
+
+function getDefaultFieldsString(fields) {
+  const keys = Object.keys(fields);
+  let defaultFields = '';
+
+  for (let i = 0; i < keys.length; i += 1) {
+    const key = keys[i];
+
+    if (key === 'style') {
+      const style = fields[key];
+      for (let j = 0; j < style.length; j += 1) {
+        defaultFields += `${trigger}${key} ${style[j]}\n`;
+      }
+    } else if (key === 'other') {
+      const other = fields[key];
+      // Iterate through all "other" lines
+      for (let j = 0; j < other.length; j += 1) {
+        defaultFields += `${other[j]}${j < other.length - 1 ? '\n' : ''}`;
+      }
+    } else {
+      /*
+        Ensures autocomplete leaves you on the last generated line
+        The library I'm using for the autocomplete textbox places an empty space after autocompleting
+        This promotes good formatting given the empty space (encourages people to go to a blank line before a new section)
+      */
+      const isOtherEmpty = fields.other.length < 1;
+      const isLastKey = i < keys.length - 2 || !isOtherEmpty;
+      const value = fields[key];
+
+      defaultFields += `${trigger}${key.toUpperCase()} ${value}${
+        isLastKey ? '\n' : ''
+      }`;
+    }
+  }
+
+  return defaultFields;
+}
+
+function getMultiSectionDefaultFieldsString(fields) {
+  let result = '';
+  // Convert each object in fields to a string, separated by two line breaks
+  for (let i = 0; i < fields.length; i += 1) {
+    const field = fields[i];
+    result += `${getDefaultFieldsString(field)}${
+      i < fields.length - 1 ? '\n\n' : ''
+    }`;
+  }
+  return result;
+}
+
+export const TYPES = {
+  HEADER: 'header',
+  SECTION: 'section',
+  // two column format
+  SECTION1: 'section1',
+  SECTION2: 'section2',
+};
 
 /* SECTIONS */
 const EXAMPLE_SECTION = {
   name: 'Example Section',
+  placeholder: 'Make Your Own!',
   body: [
     {
       title: 'This is your subsection!',
@@ -32,142 +89,189 @@ const EXAMPLE_SECTION = {
       ],
     },
   ],
+  type: TYPES.SECTION1,
 };
 
 const SECTIONS = [
   {
-    name: 'Name & Contact',
+    name: 'John Doe',
+    placeholder: 'Header',
     body: [
       {
+        title: '',
+        subtitle: '',
+        description: '',
+        date: '',
         other: [
           'mailto:firstlast@gmail.com',
           'yourwebsite.com',
-          '(111)-222-3333',
+          '(111) 222-3333',
         ],
       },
     ],
     icon: RiStarSmileFill,
     color: COLORS.redOrange,
-    type: 'header',
+    type: TYPES.HEADER,
+  },
+  {
+    name: 'Summary',
+    body: [
+      {
+        title: '',
+        subtitle: '',
+        description: '',
+        date: '',
+        other: [
+          `I am a [descriptor] and [descriptor] [position title] looking for an opportunity to [whatever you're looking for].`,
+        ],
+      },
+    ],
+    icon: RiToolsFill,
+    color: COLORS.orange,
+    type: TYPES.SECTION1,
   },
   {
     name: 'Education',
     body: [
       {
-        title: 'B.A. Celtic Studies',
-        subtitle: 'University of California, Berkeley',
-        date: 'Aug 2016 - Expected May 2020',
+        title: 'Degree & Major(s)',
+        subtitle: 'Your University',
+        description: '',
+        date: 'Date #1 - Date #2',
         other: [
-          'GPA: 0.0/4.0',
-          'Relevant Coursework: Irish Literature, Celtic Mythology, Comparative and Historical Linguistics, Scandinavian Folklore',
+          'GPA: [your gpa]/4.0',
+          `Relevant Coursework: [briefly list relevant courses to the positions you're applying to; don't have to write full/accurate course names].`,
         ],
       },
     ],
     icon: RiMoonClearFill,
-    color: COLORS.orange,
+    color: COLORS.yellowGreen,
+    type: TYPES.SECTION2,
   },
   {
     name: 'Experience',
     body: [
       {
-        title: 'Clown Tools Residency',
-        subtitle: 'The Circus of America',
-        date: 'May 2022 - Present',
-        description: 'Washington D.C.',
+        title: 'Position Title',
+        subtitle: 'Company',
+        description: 'Location',
+        date: 'Date #1 - Date #2',
         other: [
-          '- Clown Infra Team',
-          '- Optimized happiness efficiency by 99%',
+          '- [what did you do at the company? include as many numbers and metrics as you can]',
+          '- [what did you learn? what tools did you use and gain proficiency at?]',
+          '- [what initiatives did you take?]',
         ],
       },
       {
-        title: 'Clown Apprentice',
-        subtitle: 'The Circus of Canada',
-        date: 'May 2020 - Aug 2020',
-        description: 'Toronto',
+        title: 'Position Title',
+        subtitle: 'Company',
+        description: 'Location',
+        date: 'Date #1 - Date #2',
         other: [
-          '- Designed delightful experiences for children',
-          '- Lead a team organizing balloons into animals',
+          '- [what did you do at the company? include as many numbers and metrics as you can]',
+          '- [what did you learn? what tools did you use and gain proficiency at?]',
+          '- [what initiatives did you take?]',
         ],
       },
     ],
     icon: RiBriefcase2Fill,
-    color: COLORS.yellowGreen,
+    color: COLORS.green,
+    type: TYPES.SECTION1,
   },
   {
     name: 'Projects',
     body: [
       {
-        title: 'Facebook',
-        description: 'www.facebook.com',
-        date: 'Feb 2004 - Present',
-        other: ['Small social media app for college students.'],
+        title: 'Project Name',
+        subtitle: '',
+        description: '[link the project]',
+        date: 'Date #1 - Date #2',
+        other: [
+          '[what was the project, what did you do for it, and why was it significant?]',
+        ],
       },
       {
-        title: 'Google',
-        description: 'www.google.com',
-        date: 'Sep 1998 - Present',
-        other: ['Small web-searching website.'],
+        title: 'Project Name',
+        subtitle: '',
+        description: '[link the project]',
+        date: 'Date #1 - Date #2',
+        other: [
+          '[what was the project, what did you do for it, and why was it significant?]',
+        ],
       },
     ],
     icon: RiRainbowFill,
-    color: COLORS.lightGreen,
+    color: COLORS.teal,
+    type: TYPES.SECTION1,
   },
   {
     name: 'Honors',
     body: [
       {
-        title: 'National Honor Society',
-        subtitle: 'National Society of High Schools',
-        date: 'May 2020',
+        title: 'Award Name',
+        subtitle: '[who gave you this award?]',
+        description: '',
+        date: 'Date Awarded',
         other: [],
       },
       {
-        title: 'Birth Date',
-        subtitle: 'Parents',
-        date: 'July 2002',
+        title: 'Award Name',
+        subtitle: '[who gave you this award?]',
+        description: '',
+        date: 'Date Awarded',
         other: [],
       },
     ],
     icon: RiAwardFill,
-    color: COLORS.green,
+    color: COLORS.blue,
+    type: TYPES.SECTION2,
   },
   {
-    name: 'Organizations',
+    name: 'Activities',
     body: [
       {
-        title: 'Cal Hacks',
-        subtitle: 'University of California, Berkeley',
-        date: 'Aug 2020 - Present',
-        other: ['Creating hackathons. Look out for 9.0!'],
+        title: 'Organization Name',
+        subtitle: '[any extra affiliation, ex. university]',
+        description: '',
+        date: 'Date #1 - Date #2',
+        other: [
+          '[what was the organization, what did you do for it, and why was it significant?]',
+        ],
       },
       {
-        title: 'Blueprint',
-        subtitle: 'University of California, Berkeley',
-        date: 'July 2021 - Present',
-        other: ['Building for nonprofits.'],
+        title: 'Organization Name',
+        subtitle: '[any extra affiliation, ex. university]',
+        description: '',
+        date: 'Date #1 - Date #2',
+        other: [
+          '[what was the organization, what did you do for it, and why was it significant?]',
+        ],
       },
     ],
     icon: RiGroupFill,
-    color: COLORS.blue,
+    color: COLORS.lavender,
+    type: TYPES.SECTION1,
   },
   {
     name: 'Skills',
     body: [
       {
+        title: '',
+        subtitle: '',
+        description: '',
+        date: '',
         other: [
-          'Code: JavaScript, Python, Java, C#, C',
-          'Frameworks/Tools: React, NodeJS, Unity, Git',
-          'Design: Figma, Photoshop, InDesign',
+          'Code: [what programming languages/frameworks do you know? ex. JavaScript, Python, Java]',
+          'Design: [what design tools do you know?]',
+          '[what miscellaneous tools relevant to your position do you know? list them as well.]',
         ],
       },
     ],
     icon: RiToolsFill,
     color: COLORS.purple,
+    type: TYPES.SECTION2,
   },
 ];
-
-export const getSection = (index) =>
-  [EXAMPLE_SECTION, ...SECTIONS][index]
 
 // empty subsection contents
 // for text parsing
@@ -180,15 +284,24 @@ export const getEmptySubsection = () => ({
   other: [],
 });
 
-export function getSectionsFormat(
-  { name, body, type = 'section', icon = () => null, color = undefined },
-  index
-) {
+export function formatIntoSection({
+  name,
+  body,
+  placeholder,
+  index,
+  type = TYPES.SECTION1,
+  icon = () => null,
+  color = undefined,
+}) {
   const char = `${trigger}${type} ${name}\n\n${getMultiSectionDefaultFieldsString(
     body
   )}`;
   return {
-    ...getBasicFormat(name, char, index),
+    key: index,
+    name,
+    body,
+    char,
+    placeholder,
     getIcon: icon,
     color,
     type,
@@ -196,14 +309,71 @@ export function getSectionsFormat(
 }
 
 // empty section contents
-export const getExampleSection = () => getSectionsFormat(EXAMPLE_SECTION);
+export const getExampleSection = () => formatIntoSection(EXAMPLE_SECTION);
 
-// list of default section names, contents, and properties
-export const getSections = () =>
-  SECTIONS.map((s, index) => getSectionsFormat(s, index));
+export const getDefaultSections = () =>
+  SECTIONS.map((section, index) => formatIntoSection({ ...section, index }));
 
 // default states
-export const getDefaultText = () => {
-  const text = `${getDefaultStylingText()}\n\n${getSections()[0].char}\n`;
+export const getDefaultText = (sections) => {
+  const text = `${getDefaultStylingText()}\n\n${sections[0].char}\n\n${
+    sections[2].char
+  }\n\n${sections[3].char}\n\n`;
   return text;
 };
+
+export const formatSubmittedResume = (data) =>
+  SECTIONS.map((section, index) => {
+    if (data && data !== {}) {
+      const { name, placeholder, body, ...rest } = section;
+      const key = (placeholder || name).toLowerCase();
+
+      if (section.type === TYPES.HEADER) {
+        const contact = [];
+
+        if (data.header) {
+          contact.concat(data.header.split('\n'));
+        }
+
+        if (data.email) {
+          contact.push(data.email);
+        }
+
+        if (data.phone) {
+          contact.push(data.phone);
+        }
+
+        return formatIntoSection({
+          name: data.name,
+          body: [
+            {
+              ...section.body[0],
+              ...(contact ? { other: contact } : null),
+            },
+          ],
+          placeholder,
+          index,
+          ...rest,
+        });
+      }
+
+      if (data[key]) {
+        return formatIntoSection({
+          name,
+          body: [
+            {
+              ...section.body[0],
+              other: data[key].split('\n'),
+            },
+          ],
+          placeholder,
+          index,
+          ...rest,
+        });
+      }
+    }
+
+    return formatIntoSection({ ...section, index });
+  });
+
+export const getSection = (i, sections) => sections[i];
