@@ -19,7 +19,7 @@ const styles = {
   },
 };
 
-export default function SectionsWindow({ onClick, content }) {
+export default function SectionsWindow({ onClick, content, openModal }) {
   const { sections } = useAppContext();
   const exampleSection = SECTIONS.getExampleSection();
   const items = [exampleSection, ...sections];

@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import Subsection from '../../Subsection';
 import { SECTIONS, COLORS, TRIGGERS } from '../../../constants';
 import Form from './Form';
-import { useAppContext } from '../../../context/state';
 
 const styles = {
   fixedContainer: {
