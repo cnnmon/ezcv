@@ -1,0 +1,36 @@
+{
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    ".prettierrc": true,
+    ".vercel": true,
+    ".vscode": true,
+    ".babelrc": true,
+    ".gitignore": true,
+    "README.md": true,
+    "prettier.config.js": true,
+    "pages/.vscode": true,
+    "jsconfig.json": true,
+    ".eslintrc.js": true,
+    "next.config.js": true,
+    "package-lock.json": true
+  },
+  "hide-files.files": [
+    ".prettierrc",
+    ".vercel",
+    ".vscode",
+    ".babelrc",
+    ".gitignore",
+    "README.md",
+    "prettier.config.js",
+    "pages/.vscode",
+    "jsconfig.json",
+    ".eslintrc.js",
+    "next.config.js",
+    "package-lock.json"
+  ]
+}
