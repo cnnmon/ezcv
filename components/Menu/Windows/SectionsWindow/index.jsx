@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
+import ScrollContainer from 'react-indiana-drag-scroll';
 import Button from '../../../Button';
 import { SECTIONS, COLORS } from '../../../../constants';
 import { useAppContext } from '../../../../context/state';
@@ -9,11 +10,10 @@ const styles = {
   container: {
     display: 'flex',
     border: `2px solid ${COLORS.darkBrown}`,
+    marginBottom: 10,
     height: 90,
-    overflowX: 'scroll',
     padding: 10,
     backgroundColor: COLORS.red,
-    marginBottom: 10,
   },
   icon: {
     fontSize: 20,
@@ -69,7 +69,7 @@ export default function SectionsWindow({ onClick, openModal, content }) {
   };
 
   return (
-    <div style={styles.container}>
+    <ScrollContainer style={styles.container}>
       <Button {...buttonProps(exampleSection, true)} />
 
       {notSelected.map((item, index) => (
@@ -83,6 +83,6 @@ export default function SectionsWindow({ onClick, openModal, content }) {
           <Button {...buttonProps(item, false, true)} />
         </div>
       ))}
-    </div>
+    </ScrollContainer>
   );
 }

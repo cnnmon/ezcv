@@ -13,14 +13,16 @@ const Header = styled.h2`
 `;
 
 const Left = styled.div`
-  flex: 0.2;
+  min-width: 15%;
+  max-width: 15%;
   margin-right: 20px;
   text-align: right;
   margin-top: 3px;
 `;
 
 const Right = styled.div`
-  flex: 1;
+  flex-direction: column;
+  flex-grow: 1;
 `;
 
 const Flex = styled.div`
@@ -39,20 +41,25 @@ const Date = styled.p`
   flex: 0.4;
 `;
 
-export default function Minimalist({ header, subsection, subsectionIndex }) {
+function Body({ subsection }) {
   const { title, subtitle, description, date, other } = subsection;
-  const isFirstSubsection = subsectionIndex === 0;
 
   return (
+    <>
+      <Flex>
+        <Title>{getSectionTitle(title, subtitle, description)}</Title>
+        <Date>{date}</Date>
+      </Flex>
+      {getItems(other)}
+    </>
+  );
+}
+
+export default function Minimalist({ header, subsections }) {
+  return (
     <Container>
-      <Left>{isFirstSubsection && <Header>{header}</Header>}</Left>
-      <Right>
-        <Flex>
-          <Title>{getSectionTitle(title, subtitle, description)}</Title>
-          <Date>{date}</Date>
-        </Flex>
-        {getItems(other)}
-      </Right>
+      <Left><Header>{header}</Header></Left>
+      <Right>{subsections.map((s) => <Body subsection={s} />)}</Right>
     </Container>
   );
 }

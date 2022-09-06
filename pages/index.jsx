@@ -137,40 +137,44 @@ const Module = styled.div`
   }
 `;
 
-const Demo = styled.div`
-  display: flex;
+const TextContainer = styled.div`
+  width: 50%;
+  margin-right: 20px;
 
-  .textbox {
-    width: 50%;
-    margin-right: 20px;
+  @media only screen and (max-width: ${TRIGGERS.mobileBreakpoint}) {
+    width: 100%;
+  }
+`
+
+const PreviewContainer = styled.div`
+  width: 50%;
+  background: white;
+  padding: 20px;
+  box-sizing: border-box;
+  border: 2px solid ${COLORS.darkBrown};
+  font-family: Arial;
+  max-height: 300px;
+  overflow: hidden;
+
+  h2 {
+    font-size: 18px;
   }
 
-  .preview {
-    width: 50%;
-    background: white;
-    padding: 20px;
-    box-sizing: border-box;
-    border: 2px solid ${COLORS.darkBrown};
-    font-family: Arial;
-    max-height: 300px;
-    overflow: hidden;
-
-    h2 {
-      font-size: 18px;
-    }
-
-    p,
-    li {
-      font-size: 11px;
-    }
+  p,
+  li {
+    font-size: 11px;
   }
 
   @media only screen and (max-width: ${TRIGGERS.mobileBreakpoint}) {
+    width: 100%;
+  }
+`
+
+const Demo = styled.div`
+  display: flex;
+
+  @media only screen and (max-width: ${TRIGGERS.mobileBreakpoint}) {
     display: block;
-    .textbox,
-    .preview {
-      width: 100%;
-    }
   }
 `;
 
@@ -286,12 +290,12 @@ export default function App() {
               a few simple keywords.
             </p>
             <Demo>
-              <div className="textbox">
+              <TextContainer>
                 <Textbox text={text} setText={setText} readOnly />
-              </div>
-              <div className="preview">
+              </TextContainer>
+              <PreviewContainer>
                 <Content content={content} />
-              </div>
+              </PreviewContainer>
             </Demo>
           </Body>
         </Box>

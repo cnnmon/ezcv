@@ -22,6 +22,8 @@ const styles = {
   dropdown: {
     position: 'absolute',
     marginTop: '30%',
+    marginLeft: '40%',
+    zIndex: 1,
     backgroundColor: COLORS.background,
     border: `2px solid ${COLORS.darkBrown}`,
     height: 300,
@@ -67,8 +69,7 @@ function Loading() {
 export default function Textbox({ text, setText, textbox, readOnly = false }) {
   const fields = FIELDS.getFields();
 
-  const onTrigger = (token) =>
-    fields.filter(({ name }) => name.includes(token.toLowerCase()));
+  const onTrigger = (token) => fields.filter(({ name }) => name.includes(token.toLowerCase()));
 
   const trigger = {
     [TRIGGERS.trigger]: {

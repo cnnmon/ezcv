@@ -39,29 +39,25 @@ const styles = {
   },
   logo: {
     padding: 15,
+    cursor: 'pointer',
   },
+  right: {
+    display: 'flex',
+    flexGrow: 1,
+    justifyContent: 'flex-end',
+  }
 };
 
 const Header = styled.div`
   margin-bottom: 10px;
   border-bottom: 2px solid ${COLORS.darkBrown};
   display: flex;
-
-  .left {
-    margin: 20px;
-    cursor: pointer;
-  }
-
-  .right {
-    display: flex;
-    flex-grow: 1;
-    justify-content: flex-end;
-  }
 `;
 
 const Body = styled.div`
   display: flex;
   justify-content: center;
+  margin-bottom: 30px;
 
   @media only screen and (max-width: ${TRIGGERS.mobileBreakpoint}) {
     display: block;
@@ -158,7 +154,6 @@ export default function Builder() {
           <div style={styles.logo}>
             <Link href="/">
               <Image
-                className="left"
                 src={logo}
                 alt="logo"
                 width={60}
@@ -167,7 +162,7 @@ export default function Builder() {
             </Link>
           </div>
 
-          <div className="right">
+          <div style={styles.right}>
             <HeaderButton
               content={isCopying ? 'Copied!' : 'Copy Text'}
               onClick={handleCopyText}

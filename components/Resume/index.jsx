@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 import React from 'react';
 import styled from 'styled-components';
-import { TRIGGERS, COLORS } from '../../constants';
+import { TRIGGERS, COLORS, STYLING } from '../../constants';
 import OneColumn from './OneColumn';
 import TwoColumn from './TwoColumn';
 import Content from './Content';
@@ -41,12 +41,12 @@ export function getHeader(text) {
 }
 
 const Resume = React.forwardRef(({ styling, content }, ref) => {
-  const { alignment } = styling.theme;
+  const { alignment } = styling.columns;
 
   return (
     <Container>
       <div style={styles.content} ref={ref}>
-        {alignment ? (
+        {alignment != STYLING.ALIGNMENT.CENTER ? (
           <TwoColumn
             alignment={alignment}
             content={content}

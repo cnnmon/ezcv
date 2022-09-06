@@ -64,8 +64,13 @@ export function getSectionTitle(title, subtitle = null, description = null) {
 
 export function getInlineItems(list, isCenter) {
   const getItem = (e, index) => {
+    if (e === '') {
+      return;
+    }
+
     const isBulleted = e[0] === '-';
     const element = isBulleted ? e.substring(1).trim() : e;
+
     return (
       <>
         <li key={index} style={styles.unbulleted}>

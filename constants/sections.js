@@ -126,7 +126,6 @@ const SECTIONS = [
       {
         title: 'Degree & Major(s)',
         subtitle: 'Your University',
-        description: '',
         date: 'Date #1 - Date #2',
         other: [
           'GPA: [your gpa]/4.0',
@@ -173,7 +172,6 @@ const SECTIONS = [
     body: [
       {
         title: 'Project Name',
-        subtitle: '',
         description: '[link the project]',
         date: 'Date #1 - Date #2',
         other: [
@@ -182,7 +180,6 @@ const SECTIONS = [
       },
       {
         title: 'Project Name',
-        subtitle: '',
         description: '[link the project]',
         date: 'Date #1 - Date #2',
         other: [
@@ -226,14 +223,12 @@ const SECTIONS = [
       {
         title: 'Award Name',
         subtitle: '[who gave you this award?]',
-        description: '',
         date: 'Date Awarded',
         other: [],
       },
       {
         title: 'Award Name',
         subtitle: '[who gave you this award?]',
-        description: '',
         date: 'Date Awarded',
         other: [],
       },

@@ -35,7 +35,6 @@ export default function Upload() {
         return data;
       })
       .catch((err) => {
-        console.log(err);
         setIsLoading(false);
       });
   };

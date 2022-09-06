@@ -1,23 +1,24 @@
 import React from 'react';
-import Subsection from '../Subsection';
+import Section from '../Section';
 import { STYLING } from '../../constants';
+import styled from 'styled-components';
+
+const Header = styled.h2`
+  padding-bottom: 5px;
+  font-weight: bold;
+`;
 
 function Content({ content, styling = STYLING.getDefaultStyling() }) {
   return (
     <>
       {content.map(({ body, header, type }, i) => (
         <div key={`${i + 1}`}>
-          {body.map((subsection, index) => (
-            <div key={`${i + 1}${index + 1}`}>
-              <Subsection
-                styling={styling}
-                header={header}
-                type={type}
-                subsection={subsection}
-                subsectionIndex={index}
-              />
-            </div>
-          ))}
+          <Section
+            styling={styling}
+            type={type}
+            header={header}
+            subsections={body}
+          />
         </div>
       ))}
     </>

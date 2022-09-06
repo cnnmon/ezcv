@@ -1,24 +1,28 @@
 import React from 'react';
 import styled from 'styled-components';
 import { COLORS } from '../../../../constants';
+import ScrollContainer from 'react-indiana-drag-scroll';
 
 const styles = {
   title: {
-    padding: 20,
+    padding: '30px 20px 0',
   },
   list: {
     display: 'flex',
-    padding: 20,
+    padding: '10px 20px 20px',
     boxSizing: 'border-box',
   },
   item: {
     paddingRight: 20,
-    width: 200,
-    minWidth: 200,
+    width: 250,
+    minWidth: 250,
   },
   text: {
     margin: 0,
   },
+  description: {
+    textAlign: 'center',
+  }
 };
 
 const Option = styled.img`
@@ -39,6 +43,7 @@ export default function ImageSelect({
   items,
   currentValue,
   onChange,
+  color = COLORS.red,
 }) {
   const PUBLIC_FILEPATH = '../../../../';
 
@@ -55,26 +60,26 @@ export default function ImageSelect({
         <h4 style={styles.text}>{title}</h4>
         <p style={styles.text}>{description}</p>
       </div>
-      <div style={styles.list}>
+      <ScrollContainer style={styles.list}>
         {items.map((item) => (
           <div style={styles.item} key={item.name}>
             <Option
               src={`${PUBLIC_FILEPATH}${item.image}`}
               style={getOptionStyle(
-                item.color,
+                color,
                 item.name === currentValue.name
               )}
               onClick={() => onChange(item)}
               alt=""
               key={item.name}
             />
-            <div>
+            <div style={styles.description}>
               <h4 style={styles.text}>{item.name}</h4>
               <p style={styles.text}>{item.description}</p>
             </div>
           </div>
         ))}
-      </div>
+      </ScrollContainer>
     </>
   );
 }

@@ -7,7 +7,7 @@ const Container = styled.div`
 `;
 
 const Left = styled.div`
-  flex: 0.25;
+  flex: 0.22;
   margin-right: 5px;
 `;
 
@@ -20,9 +20,8 @@ const Header = styled.h2`
   padding-top: 5px;
 `;
 
-export default function Modern({ header, subsection, subsectionIndex }) {
+function Body({ subsection }) {
   const { title, subtitle, description, date, other } = subsection;
-  const isFirstSubsection = subsectionIndex === 0;
 
   const getLeft = () =>
     date && (
@@ -39,12 +38,18 @@ export default function Modern({ header, subsection, subsectionIndex }) {
   );
 
   return (
+    <div style={styles.flex}>
+      {getLeft()}
+      {getRight()}
+    </div>
+  );
+}
+
+export default function Modern({ header, subsections }) {
+  return (
     <Container>
-      {isFirstSubsection && <Header style={styles.header}>{header}</Header>}
-      <div style={styles.flex}>
-        {getLeft()}
-        {getRight()}
-      </div>
+      <Header style={styles.header}>{header}</Header>
+      {subsections.map((s) => <Body subsection={s} />)}
     </Container>
   );
 }

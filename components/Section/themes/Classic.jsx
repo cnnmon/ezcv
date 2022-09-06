@@ -12,7 +12,7 @@ const Left = styled.div`
 `;
 
 const Right = styled.p`
-  flex: 0.22;
+  flex: 0.3;
   margin: 0;
   text-align: right;
 `;
@@ -23,9 +23,8 @@ const Header = styled.h2`
   border-bottom: 1px solid black;
 `;
 
-export default function Classic({ header, subsection, subsectionIndex }) {
+function Body({ subsection }) {
   const { title, subtitle, description, date, other } = subsection;
-  const isFirstSubsection = subsectionIndex === 0;
 
   const getLeft = () => (
     <Left>{getSectionTitle(title, subtitle, description)}</Left>
@@ -34,15 +33,21 @@ export default function Classic({ header, subsection, subsectionIndex }) {
   const getRight = () => <Right>{date}</Right>;
 
   return (
-    <Container>
-      {isFirstSubsection && header && (
-        <Header style={styles.header}>{header}</Header>
-      )}
+    <>
       <div style={styles.flex}>
         {getLeft()}
         {getRight()}
       </div>
       {getItems(other)}
+    </>
+  );
+}
+
+export default function Classic({ header, subsections }) {
+  return (
+    <Container>
+      <Header style={styles.header}>{header}</Header>
+      {subsections.map((s) => <Body subsection={s} />)}
     </Container>
   );
 }

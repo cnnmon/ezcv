@@ -1,4 +1,3 @@
-import COLORS from './colors';
 import { stylingTrigger } from './triggers';
 
 export const ALIGNMENT = {
@@ -7,63 +6,82 @@ export const ALIGNMENT = {
   CENTER: 'center',
 };
 
-const ONE_COLUMN_THEMES = [
+const THEMES = [
   {
     name: 'Classic',
     body: 'classic',
-    color: COLORS.green,
     image: 'style_theme_classic.png',
     description: 'Maximize information cleanly.',
   },
   {
     name: 'Modern',
     body: 'modern',
-    color: COLORS.teal,
     image: 'style_theme_modern.png',
     description: 'Open and readable.',
   },
-  /*
   {
     name: 'Minimalist',
     body: 'minimalist',
-    color: COLORS.blue,
     image: 'style_theme_minimalist.png',
     description: 'Roomy and calm.',
   },
   {
-    name: 'Elegant',
-    body: 'elegant',
-    color: COLORS.purple,
+    name: 'Simple',
+    body: 'simple',
     image: 'style_theme_elegant.png',
-    description: 'Pleasing to the eye.',
+    description: 'Packed together and perfect for two-column.',
   },
-  */
 ];
 
-const TWO_COLUMN_THEMES = [
+const COLUMNS = [
+  {
+    name: 'One Column',
+    body: 'one',
+    image: 'style_theme_right_handed.png',
+    description: `Reliable one column format.`,
+    alignment: ALIGNMENT.CENTER,
+  },
   {
     name: 'Right-Handed',
     body: 'righthanded',
-    color: COLORS.redOrange,
     image: 'style_theme_right_handed.png',
-    description: `Right-centric.`,
+    description: `Two column, where right side is bigger.`,
     alignment: ALIGNMENT.RIGHT,
   },
   {
     name: 'Left-Handed',
     body: 'lefthanded',
-    color: COLORS.red,
-    image: 'style_theme_left_handed.png',
-    description: `Left-centric.`,
+    image: 'style_theme_right_handed.png',
+    description: `Two column, where left side is bigger.`,
     alignment: ALIGNMENT.LEFT,
   },
 ];
 
-export const ALL_STYLING = {
-  theme: {
-    title: 'Main Style',
-    objects: [...ONE_COLUMN_THEMES, ...TWO_COLUMN_THEMES],
+const HEADERS = [
+  {
+    name: 'Center',
+    body: 'center',
+    image: 'style_theme_right_handed.png',
+    description: `Centered in the middle with dots.`,
   },
+  {
+    name: 'Right-Handed',
+    body: 'righthanded',
+    image: 'style_theme_right_handed.png',
+    description: `Two column, where right side is bigger.`,
+  },
+  {
+    name: 'Left-Handed',
+    body: 'lefthanded',
+    image: 'style_theme_right_handed.png',
+    description: `Two column, where left side is bigger.`,
+  },
+];
+
+export const STYLING = {
+  columns: COLUMNS,
+  themes: THEMES,
+  headers: HEADERS,
 };
 
 function getStylingFormat({
@@ -93,13 +111,12 @@ function getStylingsFormat(tag, objects) {
 
 // list of all resume theme names, contents, and properties
 export const getStyling = () => {
-  const styling = { ...ALL_STYLING };
+  const styling = { ...STYLING };
   const keys = Object.keys(styling);
 
   for (let i = 0; i < keys.length; i += 1) {
     const k = keys[i];
-    const { objects } = styling[k];
-    const v = getStylingsFormat(k, objects);
+    const v = getStylingsFormat(k, styling[k]);
     styling[k] = v;
   }
 

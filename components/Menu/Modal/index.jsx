@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { BsX } from 'react-icons/bs';
 import styled from 'styled-components';
-import Subsection from '../../Subsection';
+import Section from '../../Section';
 import { SECTIONS, COLORS, TRIGGERS } from '../../../constants';
 import Form from './Form';
 
@@ -176,17 +176,12 @@ export default function Modal({ item, styling, closeModal, appendSection }) {
           <PreviewInfo>* this box is smaller than reality!</PreviewInfo>
           <div style={styles.body}>
             <PreviewContainer>
-              {state.body.map((subsection, index) => (
-                <div key={`${index + 1}`}>
-                  <Subsection
-                    styling={styling}
-                    type={state.type}
-                    header={state.name}
-                    subsection={subsection}
-                    subsectionIndex={index}
-                  />
-                </div>
-              ))}
+              <Section
+                styling={styling}
+                type={state.type}
+                header={state.name}
+                subsections={state.body}
+              />
               <br />
               <br />
             </PreviewContainer>
