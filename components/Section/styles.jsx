@@ -65,7 +65,7 @@ export function getSectionTitle(title, subtitle = null, description = null) {
 export function getInlineItems(list, isCenter) {
   const getItem = (e, index) => {
     if (e === '') {
-      return;
+      return null;
     }
 
     const isBulleted = e[0] === '-';

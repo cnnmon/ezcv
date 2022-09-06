@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { COLORS } from '../../../../constants';
 import ScrollContainer from 'react-indiana-drag-scroll';
+import { COLORS } from '../../../../constants';
 
 const styles = {
   title: {
@@ -22,7 +22,7 @@ const styles = {
   },
   description: {
     textAlign: 'center',
-  }
+  },
 };
 
 const Option = styled.img`
@@ -47,7 +47,7 @@ export default function ImageSelect({
 }) {
   const PUBLIC_FILEPATH = '../../../../';
 
-  const getOptionStyle = (color, isCurrent) => ({
+  const getOptionStyle = (isCurrent) => ({
     background: color,
     cursor: isCurrent ? 'not-allowed' : undefined,
     opacity: isCurrent ? '0.5' : undefined,
@@ -65,10 +65,7 @@ export default function ImageSelect({
           <div style={styles.item} key={item.name}>
             <Option
               src={`${PUBLIC_FILEPATH}${item.image}`}
-              style={getOptionStyle(
-                color,
-                item.name === currentValue.name
-              )}
+              style={getOptionStyle(item.name === currentValue.name)}
               onClick={() => onChange(item)}
               alt=""
               key={item.name}

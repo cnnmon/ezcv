@@ -6,7 +6,7 @@ export default function OneColumn({ content, styling }) {
     center: [],
     rest: [],
   };
-  
+
   for (let i = 0; i < content.length; i += 1) {
     const c = content[i];
 

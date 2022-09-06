@@ -6,82 +6,76 @@ export const ALIGNMENT = {
   CENTER: 'center',
 };
 
-const THEMES = [
-  {
-    name: 'Classic',
-    body: 'classic',
-    image: 'style_theme_classic.png',
-    description: 'Maximize information cleanly.',
-  },
-  {
-    name: 'Modern',
-    body: 'modern',
-    image: 'style_theme_modern.png',
-    description: 'Open and readable.',
-  },
-  {
-    name: 'Minimalist',
-    body: 'minimalist',
-    image: 'style_theme_minimalist.png',
-    description: 'Roomy and calm.',
-  },
-  {
-    name: 'Simple',
-    body: 'simple',
-    image: 'style_theme_elegant.png',
-    description: 'Packed together and perfect for two-column.',
-  },
-];
-
-const COLUMNS = [
-  {
-    name: 'One Column',
-    body: 'one',
-    image: 'style_theme_right_handed.png',
-    description: `Reliable one column format.`,
-    alignment: ALIGNMENT.CENTER,
-  },
-  {
-    name: 'Right-Handed',
-    body: 'righthanded',
-    image: 'style_theme_right_handed.png',
-    description: `Two column, where right side is bigger.`,
-    alignment: ALIGNMENT.RIGHT,
-  },
-  {
-    name: 'Left-Handed',
-    body: 'lefthanded',
-    image: 'style_theme_right_handed.png',
-    description: `Two column, where left side is bigger.`,
-    alignment: ALIGNMENT.LEFT,
-  },
-];
-
-const HEADERS = [
-  {
-    name: 'Center',
-    body: 'center',
-    image: 'style_theme_right_handed.png',
-    description: `Centered in the middle with dots.`,
-  },
-  {
-    name: 'Right-Handed',
-    body: 'righthanded',
-    image: 'style_theme_right_handed.png',
-    description: `Two column, where right side is bigger.`,
-  },
-  {
-    name: 'Left-Handed',
-    body: 'lefthanded',
-    image: 'style_theme_right_handed.png',
-    description: `Two column, where left side is bigger.`,
-  },
-];
-
 export const STYLING = {
-  columns: COLUMNS,
-  themes: THEMES,
-  headers: HEADERS,
+  columns: [
+    {
+      name: 'One Column',
+      body: 'one',
+      image: 'style_theme_right_handed.png',
+      description: `Reliable one column format.`,
+      alignment: ALIGNMENT.CENTER,
+    },
+    {
+      name: 'Right-Handed',
+      body: 'righthanded',
+      image: 'style_theme_right_handed.png',
+      description: `Two column, where right side is bigger.`,
+      alignment: ALIGNMENT.RIGHT,
+    },
+    {
+      name: 'Left-Handed',
+      body: 'lefthanded',
+      image: 'style_theme_right_handed.png',
+      description: `Two column, where left side is bigger.`,
+      alignment: ALIGNMENT.LEFT,
+    },
+  ],
+  themes: [
+    {
+      name: 'Classic',
+      body: 'classic',
+      image: 'style_theme_classic.png',
+      description: 'Maximize information cleanly.',
+    },
+    {
+      name: 'Modern',
+      body: 'modern',
+      image: 'style_theme_modern.png',
+      description: 'Open and readable.',
+    },
+    {
+      name: 'Minimalist',
+      body: 'minimalist',
+      image: 'style_theme_minimalist.png',
+      description: 'Roomy and calm.',
+    },
+    {
+      name: 'Simple',
+      body: 'simple',
+      image: 'style_theme_elegant.png',
+      description: 'Packed together and perfect for two-column.',
+    },
+  ],
+  headers: [
+    {
+      name: 'Center',
+      body: 'center',
+      image: 'style_theme_right_handed.png',
+      description: `Centered in the middle with dots.`,
+    },
+    {
+      name: 'Right-Handed',
+      body: 'righthanded',
+      image: 'style_theme_right_handed.png',
+      description: `Two column, where right side is bigger.`,
+    },
+    {
+      name: 'Left-Handed',
+      body: 'lefthanded',
+      image: 'style_theme_right_handed.png',
+      description: `Two column, where left side is bigger.`,
+    },
+  ],
 };
 
 function getStylingFormat({

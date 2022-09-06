@@ -58,8 +58,14 @@ function Body({ subsection }) {
 export default function Minimalist({ header, subsections }) {
   return (
     <Container>
-      <Left><Header>{header}</Header></Left>
-      <Right>{subsections.map((s) => <Body subsection={s} />)}</Right>
+      <Left>
+        <Header>{header}</Header>
+      </Left>
+      <Right>
+        {subsections.map((s, key) => (
+          <Body subsection={s} key={`${key + 1}`} />
+        ))}
+      </Right>
     </Container>
   );
 }

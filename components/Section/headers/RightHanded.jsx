@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  getLargeSectionHeader,
-  getItems,
-} from '../styles';
+import { getLargeSectionHeader, getItems } from '../styles';
 
 const STYLES = {
   inline: {
@@ -22,11 +19,11 @@ function Body({ subsection }) {
 export default function RightHanded({ header, subsections }) {
   return (
     <div style={STYLES.inline}>
-      <div style={STYLES.left}>
-        {getLargeSectionHeader(header)}
-      </div>
+      <div style={STYLES.left}>{getLargeSectionHeader(header)}</div>
       <div>
-        {subsections.map((s) => <Body subsection={s} />)}
+        {subsections.map((s, key) => (
+          <Body subsection={s} key={`${key + 1}`} />
+        ))}
       </div>
     </div>
   );

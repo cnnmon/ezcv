@@ -45,7 +45,7 @@ const styles = {
     display: 'flex',
     flexGrow: 1,
     justifyContent: 'flex-end',
-  }
+  },
 };
 
 const Header = styled.div`
@@ -153,12 +153,7 @@ export default function Builder() {
         <Header>
           <div style={styles.logo}>
             <Link href="/">
-              <Image
-                src={logo}
-                alt="logo"
-                width={60}
-                height={60}
-              />
+              <Image src={logo} alt="logo" width={60} height={60} />
             </Link>
           </div>
 

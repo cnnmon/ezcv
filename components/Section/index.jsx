@@ -18,7 +18,7 @@ export default function Section({ styling, type, ...props }) {
   if (!styling) {
     return THEMES.classic(props);
   }
-  
+
   const { themes, headers } = styling;
 
   if (type === 'header') {

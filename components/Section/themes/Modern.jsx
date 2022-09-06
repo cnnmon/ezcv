@@ -49,7 +49,9 @@ export default function Modern({ header, subsections }) {
   return (
     <Container>
       <Header style={styles.header}>{header}</Header>
-      {subsections.map((s) => <Body subsection={s} />)}
+      {subsections.map((s, key) => (
+        <Body subsection={s} key={`${key + 1}`} />
+      ))}
     </Container>
   );
 }

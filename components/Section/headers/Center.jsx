@@ -1,8 +1,5 @@
 import React from 'react';
-import styles, {
-  getLargeSectionHeader,
-  getInlineItems,
-} from '../styles';
+import styles, { getLargeSectionHeader, getInlineItems } from '../styles';
 
 function Body({ subsection }) {
   const { title, subtitle, description, date, other } = subsection;
@@ -13,7 +10,9 @@ export default function Center({ header, subsections }) {
   return (
     <div style={styles.centered}>
       {getLargeSectionHeader(header, true)}
-      {subsections.map((s) => <Body subsection={s} />)}
+      {subsections.map((s, key) => (
+        <Body subsection={s} key={`${key + 1}`} />
+      ))}
     </div>
   );
 }

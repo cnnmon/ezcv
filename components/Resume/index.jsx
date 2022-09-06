@@ -46,7 +46,7 @@ const Resume = React.forwardRef(({ styling, content }, ref) => {
   return (
     <Container>
       <div style={styles.content} ref={ref}>
-        {alignment != STYLING.ALIGNMENT.CENTER ? (
+        {alignment !== STYLING.ALIGNMENT.CENTER ? (
           <TwoColumn
             alignment={alignment}
             content={content}

@@ -34,7 +34,7 @@ export default function Upload() {
         router.push('/builder');
         return data;
       })
-      .catch((err) => {
+      .catch(() => {
         setIsLoading(false);
       });
   };

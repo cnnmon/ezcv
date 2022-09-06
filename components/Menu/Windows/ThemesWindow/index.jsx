@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { STYLING, COLORS, TRIGGERS } from '../../../../constants';
+import { STYLING, COLORS } from '../../../../constants';
 import ImageSelect from './ImageSelect';
 
 const styles = {
@@ -12,7 +12,6 @@ const styles = {
     overflowX: 'hidden',
   },
 };
-
 
 export default function ThemesWindow({ onClick, styling }) {
   const all = STYLING.getStyling();

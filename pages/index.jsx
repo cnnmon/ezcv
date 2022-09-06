@@ -21,7 +21,6 @@ import { parseIntoContent } from '../utils';
 
 const styles = {
   page: {
-    height: '100%',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -144,7 +143,7 @@ const TextContainer = styled.div`
   @media only screen and (max-width: ${TRIGGERS.mobileBreakpoint}) {
     width: 100%;
   }
-`
+`;
 
 const PreviewContainer = styled.div`
   width: 50%;
@@ -168,7 +167,7 @@ const PreviewContainer = styled.div`
   @media only screen and (max-width: ${TRIGGERS.mobileBreakpoint}) {
     width: 100%;
   }
-`
+`;
 
 const Demo = styled.div`
   display: flex;

@@ -16,6 +16,10 @@ const Subtitle = styled.p`
   font-weight: 500;
 `;
 
+const Date = styled.span`
+  color: rgba(0, 0, 0, 0.6);
+`;
+
 function Body({ subsection }) {
   const { title, subtitle, description, date, other } = subsection;
 
@@ -23,7 +27,7 @@ function Body({ subsection }) {
     <>
       <Subtitle>
         {getSectionTitle(title, subtitle, description)}
-        {date}
+        <Date>{date}</Date>
       </Subtitle>
       {getItems(other)}
     </>
@@ -34,7 +38,9 @@ export default function Simple({ header, subsections }) {
   return (
     <Container>
       <Header style={styles.header}>{header}</Header>
-      {subsections.map((s) => <Body subsection={s} />)}
+      {subsections.map((s, key) => (
+        <Body subsection={s} key={`${key + 1}`} />
+      ))}
     </Container>
   );
 }
