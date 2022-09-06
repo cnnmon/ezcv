@@ -8,7 +8,6 @@ const styles = {
   },
   list: {
     display: 'flex',
-    overflow: 'scroll',
     padding: 20,
     boxSizing: 'border-box',
   },
@@ -24,7 +23,7 @@ const styles = {
 
 const Option = styled.img`
   cursor: pointer;
-  border: 1.5px solid ${COLORS.darkBrown};
+  border: 2px solid ${COLORS.darkBrown};
   box-sizing: border-box;
   transition: border-radius 0.2s ease-in-out, opacity 0.2s ease-in-out;
   width: 100%;

@@ -2,9 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import styles, { getItems, getSectionTitle } from '../styles';
 
+const Container = styled.div`
+  line-height: 17px;
+`;
+
 const Left = styled.div`
-  flex: 0.3;
-  margin-right: 20px;
+  flex: 0.25;
+  margin-right: 5px;
 `;
 
 const Right = styled.div`
@@ -12,7 +16,8 @@ const Right = styled.div`
 `;
 
 const Header = styled.h2`
-  font-weight: 500;
+  font-weight: bold;
+  padding-top: 5px;
 `;
 
 export default function Modern({ header, subsection, subsectionIndex }) {
@@ -29,17 +34,17 @@ export default function Modern({ header, subsection, subsectionIndex }) {
   const getRight = () => (
     <Right>
       {getSectionTitle(title, subtitle, description)}
-      {getItems(other)}
+      {other.length ? getItems(other) : null}
     </Right>
   );
 
   return (
-    <>
+    <Container>
       {isFirstSubsection && <Header style={styles.header}>{header}</Header>}
       <div style={styles.flex}>
         {getLeft()}
         {getRight()}
       </div>
-    </>
+    </Container>
   );
 }

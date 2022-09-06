@@ -6,12 +6,6 @@ import Textbox from './Textbox';
 import ThemesTab from './Windows/ThemesWindow';
 import getAppendJobs from './utils';
 
-const styles = {
-  flex: {
-    height: '100%',
-  },
-};
-
 export default function Menu({ content, styling, lines, text, setText }) {
   const [activeItem, setActiveItem] = useState(null);
   const textbox = useRef();
@@ -23,7 +17,6 @@ export default function Menu({ content, styling, lines, text, setText }) {
   const closeModal = () => {
     setActiveItem(null);
   };
-
   const { appendStyling, appendSection } = getAppendJobs(
     lines,
     text,
@@ -33,7 +26,12 @@ export default function Menu({ content, styling, lines, text, setText }) {
 
   const getSectionsWindow = (tab) => (
     <>
-      <SectionsWindow content={content} openModal={openModal} key={tab.title} />
+      <SectionsWindow
+        content={content}
+        onClick={appendSection}
+        openModal={openModal}
+        key={tab.title}
+      />
       <Textbox text={text} setText={setText} textbox={textbox} />
     </>
   );
@@ -54,7 +52,7 @@ export default function Menu({ content, styling, lines, text, setText }) {
   ];
 
   return (
-    <div style={styles.flex}>
+    <>
       <Modal
         item={activeItem}
         closeModal={closeModal}
@@ -62,6 +60,8 @@ export default function Menu({ content, styling, lines, text, setText }) {
         styling={styling}
       />
       <TabMenu tabs={TABS} />
-    </div>
+    </>
   );
 }
+
+export { Textbox };

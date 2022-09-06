@@ -20,7 +20,7 @@ const styles = {
   bar: {
     top: 0,
     height: 50,
-    borderBottom: `1.8px solid ${COLORS.darkBrown}`,
+    borderBottom: `2px solid ${COLORS.darkBrown}`,
     backgroundColor: COLORS.redOrange,
   },
   overlay: {
@@ -34,7 +34,7 @@ const styles = {
   },
   modal: {
     background: COLORS.background,
-    border: `1.8px solid ${COLORS.darkBrown}`,
+    border: `2px solid ${COLORS.darkBrown}`,
     borderRadius: 0,
     padding: 0,
     height: '100%',
@@ -50,7 +50,7 @@ const styles = {
     fontSize: 13,
     left: 60,
     top: 8,
-    border: `1.8px solid ${COLORS.darkBrown}`,
+    border: `2px solid ${COLORS.darkBrown}`,
     padding: '8px',
     borderRadius: 20,
   },
@@ -62,7 +62,7 @@ const ExitButton = styled.button`
   padding: 0;
   display: flex;
   background: ${COLORS.yellow};
-  border-right: 1.8px solid ${COLORS.darkBrown};
+  border-right: 2px solid ${COLORS.darkBrown};
   border-left: none;
   border-bottom: none;
   border-top: none;
@@ -106,7 +106,7 @@ const PreviewContainer = styled.div`
   border-top: none;
   border-bottom: none;
   border-left: none;
-  border-right: 1.8px solid ${COLORS.darkBrown};
+  border-right: 2px solid ${COLORS.darkBrown};
   width: 50%;
   height: 100%;
 
@@ -173,9 +173,7 @@ export default function Modal({ item, styling, closeModal, appendSection }) {
               </p>
             </ExitButton>
           </div>
-          <PreviewInfo>
-            * this box is a smaller width than a real resume!
-          </PreviewInfo>
+          <PreviewInfo>* this box is smaller than reality!</PreviewInfo>
           <div style={styles.body}>
             <PreviewContainer>
               {state.body.map((subsection, index) => (

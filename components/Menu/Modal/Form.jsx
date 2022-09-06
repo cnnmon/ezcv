@@ -13,9 +13,9 @@ const styles = {
     height: '100%',
   },
   body: {
-    borderTop: `1.4px solid ${COLORS.darkBrown}`,
-    borderLeft: `1.4px solid ${COLORS.darkBrown}`,
-    borderRight: `1.4px solid ${COLORS.darkBrown}`,
+    borderTop: `2px solid ${COLORS.darkBrown}`,
+    borderLeft: `2px solid ${COLORS.darkBrown}`,
+    borderRight: `2px solid ${COLORS.darkBrown}`,
     marginBottom: 30,
   },
   center: {
@@ -24,7 +24,7 @@ const styles = {
   select: {
     margin: '0 5px',
     height: 30,
-    border: `1.4px solid ${COLORS.darkBrown}`,
+    border: `2px solid ${COLORS.darkBrown}`,
     background: 'none',
     outline: 'none',
   },
@@ -37,7 +37,7 @@ const SubmitButton = styled.input`
   position: fixed;
   bottom: 0;
   background: ${COLORS.redOrange};
-  border: 1.8px solid ${COLORS.darkBrown};
+  border: 2px solid ${COLORS.darkBrown};
   font-weight: 600;
   outline: 3px solid ${COLORS.background};
   padding: 10px;
@@ -59,7 +59,7 @@ const CloseButton = styled.div`
   border-top: none;
   border-right: none;
   border-left: none;
-  border-bottom: 1.4px solid ${COLORS.darkBrown};
+  border-bottom: 2px solid ${COLORS.darkBrown};
   font-size: 25px;
   display: flex;
   justify-content: flex-end;

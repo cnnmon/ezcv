@@ -1,10 +1,10 @@
 /* eslint-disable react/display-name */
 import React from 'react';
 import styled from 'styled-components';
-import Subsection from '../Subsection';
 import { TRIGGERS, COLORS } from '../../constants';
 import OneColumn from './OneColumn';
 import TwoColumn from './TwoColumn';
+import Content from './Content';
 
 const WIDTH = '8.2in';
 const HEIGHT = '11in';
@@ -15,17 +15,18 @@ const styles = {
   content: {
     padding: 30,
     whiteSpace: 'pre-line',
-    lineHeight: 1.4,
-    fontSize: 13,
+    fontSize: 12.5,
+    overflow: 'hidden',
+    maxHeight: '95%',
   },
 };
 
 const Container = styled.div`
-  margin: 20px;
   max-width: ${WIDTH};
   min-width: ${WIDTH};
   max-height: ${HEIGHT};
   min-height: ${HEIGHT};
+  overflow: hidden;
   transform: scale(${SCALE});
   border: 3px solid ${COLORS.darkBrown};
   background-color: white;
@@ -42,25 +43,6 @@ export function getHeader(text) {
 const Resume = React.forwardRef(({ styling, content }, ref) => {
   const { alignment } = styling.theme;
 
-  const getBody = ({ body, ...section }, i) => (
-    <div key={i}>
-      {body.map((subsection, index) => (
-        <div key={`${i + 1}${index + 1}`}>
-          <Subsection
-            styling={styling}
-            header={section.header}
-            type={section.type}
-            subsection={subsection}
-            subsectionIndex={index}
-          />
-        </div>
-      ))}
-    </div>
-  );
-
-  const getContent = (items) =>
-    items.map((section, index) => getBody(section, index));
-
   return (
     <Container>
       <div style={styles.content} ref={ref}>
@@ -68,10 +50,10 @@ const Resume = React.forwardRef(({ styling, content }, ref) => {
           <TwoColumn
             alignment={alignment}
             content={content}
-            getContent={getContent}
+            styling={styling}
           />
         ) : (
-          <OneColumn content={content} getContent={getContent} />
+          <OneColumn content={content} styling={styling} />
         )}
         <style jsx global>{`
           a {
@@ -85,3 +67,4 @@ const Resume = React.forwardRef(({ styling, content }, ref) => {
 });
 
 export default Resume;
+export { Content };

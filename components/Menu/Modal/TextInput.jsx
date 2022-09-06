@@ -8,7 +8,7 @@ const styles = {
     margin: 0,
     display: 'flex',
     padding: 10,
-    borderBottom: `1.3px solid ${COLORS.darkBrown}`,
+    borderBottom: `2px solid ${COLORS.darkBrown}`,
   },
   label: {
     margin: '0 7px 0 0',

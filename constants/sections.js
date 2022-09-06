@@ -39,9 +39,7 @@ function getDefaultFieldsString(fields) {
       const isLastKey = i < keys.length - 2 || !isOtherEmpty;
       const value = fields[key];
 
-      defaultFields += `${trigger}${key.toUpperCase()} ${value}${
-        isLastKey ? '\n' : ''
-      }`;
+      defaultFields += `${trigger}${key} ${value}${isLastKey ? '\n' : ''}`;
     }
   }
 
@@ -71,7 +69,7 @@ export const TYPES = {
 /* SECTIONS */
 const EXAMPLE_SECTION = {
   name: 'Example Section',
-  placeholder: 'Make Your Own!',
+  placeholder: 'Custom',
   body: [
     {
       title: 'This is your subsection!',
@@ -98,10 +96,6 @@ const SECTIONS = [
     placeholder: 'Header',
     body: [
       {
-        title: '',
-        subtitle: '',
-        description: '',
-        date: '',
         other: [
           'mailto:firstlast@gmail.com',
           'yourwebsite.com',
@@ -117,10 +111,6 @@ const SECTIONS = [
     name: 'Summary',
     body: [
       {
-        title: '',
-        subtitle: '',
-        description: '',
-        date: '',
         other: [
           `I am a [descriptor] and [descriptor] [position title] looking for an opportunity to [whatever you're looking for].`,
         ],
@@ -205,6 +195,32 @@ const SECTIONS = [
     type: TYPES.SECTION1,
   },
   {
+    name: 'Activities',
+    body: [
+      {
+        title: 'Organization Name',
+        subtitle: '[your role in the organization]',
+        description: '[any extra affiliation, ex. university]',
+        date: 'Date #1 - Date #2',
+        other: [
+          '[what was the organization, what did you do for it, and why was it significant?]',
+        ],
+      },
+      {
+        title: 'Organization Name',
+        subtitle: '[your role in the organization]',
+        description: '[any extra affiliation, ex. university]',
+        date: 'Date #1 - Date #2',
+        other: [
+          '[what was the organization, what did you do for it, and why was it significant?]',
+        ],
+      },
+    ],
+    icon: RiGroupFill,
+    color: COLORS.blue,
+    type: TYPES.SECTION1,
+  },
+  {
     name: 'Honors',
     body: [
       {
@@ -223,43 +239,13 @@ const SECTIONS = [
       },
     ],
     icon: RiAwardFill,
-    color: COLORS.blue,
-    type: TYPES.SECTION2,
-  },
-  {
-    name: 'Activities',
-    body: [
-      {
-        title: 'Organization Name',
-        subtitle: '[any extra affiliation, ex. university]',
-        description: '',
-        date: 'Date #1 - Date #2',
-        other: [
-          '[what was the organization, what did you do for it, and why was it significant?]',
-        ],
-      },
-      {
-        title: 'Organization Name',
-        subtitle: '[any extra affiliation, ex. university]',
-        description: '',
-        date: 'Date #1 - Date #2',
-        other: [
-          '[what was the organization, what did you do for it, and why was it significant?]',
-        ],
-      },
-    ],
-    icon: RiGroupFill,
     color: COLORS.lavender,
-    type: TYPES.SECTION1,
+    type: TYPES.SECTION2,
   },
   {
     name: 'Skills',
     body: [
       {
-        title: '',
-        subtitle: '',
-        description: '',
-        date: '',
         other: [
           'Code: [what programming languages/frameworks do you know? ex. JavaScript, Python, Java]',
           'Design: [what design tools do you know?]',

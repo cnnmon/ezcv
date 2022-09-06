@@ -22,6 +22,7 @@ const ONE_COLUMN_THEMES = [
     image: 'style_theme_modern.png',
     description: 'Open and readable.',
   },
+  /*
   {
     name: 'Minimalist',
     body: 'minimalist',
@@ -36,6 +37,7 @@ const ONE_COLUMN_THEMES = [
     image: 'style_theme_elegant.png',
     description: 'Pleasing to the eye.',
   },
+  */
 ];
 
 const TWO_COLUMN_THEMES = [

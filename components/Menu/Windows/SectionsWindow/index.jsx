@@ -1,13 +1,14 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import ModalButton from '../../../Buttons/ModalButton';
+import Button from '../../../Button';
 import { SECTIONS, COLORS } from '../../../../constants';
 import { useAppContext } from '../../../../context/state';
+import { partition } from '../../../../utils';
 
 const styles = {
   container: {
     display: 'flex',
-    border: `1.5px solid ${COLORS.darkBrown}`,
+    border: `2px solid ${COLORS.darkBrown}`,
     height: 90,
     overflowX: 'scroll',
     padding: 10,
@@ -19,10 +20,9 @@ const styles = {
   },
 };
 
-export default function SectionsWindow({ onClick, content, openModal }) {
+export default function SectionsWindow({ onClick, openModal, content }) {
   const { sections } = useAppContext();
   const exampleSection = SECTIONS.getExampleSection();
-  const items = [exampleSection, ...sections];
 
   const canFindInContent = (item) => {
     if (item.type === SECTIONS.TYPES.HEADER) {
@@ -31,6 +31,10 @@ export default function SectionsWindow({ onClick, content, openModal }) {
 
     return content.find((object) => object.header === item.name);
   };
+
+  const [selected, notSelected] = partition(sections, (x) =>
+    canFindInContent(x)
+  );
 
   const getButtonContent = ({ placeholder, name, getIcon }) => (
     <>
@@ -47,25 +51,36 @@ export default function SectionsWindow({ onClick, content, openModal }) {
     backgroundColor: 'color' in item ? item.color : COLORS.yellow,
     borderRadius: isSelected ? 20 : undefined,
     cursor: isSelected ? 'not-allowed' : 'pointer',
-    opacity: isSelected ? 0.5 : 'inherit',
+    opacity: isSelected ? 0.3 : 'inherit',
   });
 
-  const buttonProps = (item, isSelected = false) => ({
-    item,
-    content: getButtonContent(item),
-    onClick: isSelected
-      ? () => null
-      : () => (isSelected ? null : onClick(item)),
-    isPrimary: item.name === SECTIONS.getExampleSection().name,
-    style: getButtonStyle(item, isSelected),
-    openModal: isSelected ? () => null : () => openModal(item),
-  });
+  const buttonProps = (item, isPrimary = false, isSelected = false) => {
+    const handleOnClick = isPrimary
+      ? () => openModal(item)
+      : () => (isSelected ? null : onClick(item.char));
+
+    return {
+      item,
+      content: getButtonContent(item),
+      onClick: handleOnClick,
+      isPrimary,
+      style: getButtonStyle(item, isSelected),
+    };
+  };
 
   return (
     <div style={styles.container}>
-      {items.map((item, index) => (
+      <Button {...buttonProps(exampleSection, true)} />
+
+      {notSelected.map((item, index) => (
         <div key={`${index + 1}`}>
-          <ModalButton {...buttonProps(item, canFindInContent(item))} />
+          <Button {...buttonProps(item)} />
+        </div>
+      ))}
+
+      {selected.map((item, index) => (
+        <div key={`${index + 1}`}>
+          <Button {...buttonProps(item, false, true)} />
         </div>
       ))}
     </div>

@@ -4,8 +4,8 @@ import { COLORS } from '../../../constants';
 const styles = {
   tab: {
     cursor: 'pointer',
-    border: `1.5px solid ${COLORS.darkBrown}`,
-    borderBottom: 0,
+    border: `2px solid ${COLORS.darkBrown}`,
+    borderBottom: 'none',
     backgroundColor: COLORS.yellow,
     fontWeight: 'bold',
     width: 160,

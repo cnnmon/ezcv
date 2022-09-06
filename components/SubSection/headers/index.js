@@ -1,4 +1,5 @@
 import Center from './Center';
-import SideBySide from './SideBySide';
+import RightHanded from './RightHanded';
+import LeftHanded from './LeftHanded';
 
-export { Center, SideBySide };
+export { Center, RightHanded, LeftHanded };

@@ -24,7 +24,7 @@ export function getKeyValuePair(text) {
 // Parses plaintext from Textbox into usable format for Resume
 // Type: [{ header: "experience", body: [{key: "title", value: "professional clown"}, ...] }, ...]
 // Sets styling if it finds it
-export function parseIntoContent(text, styling, setStyling) {
+export function parseIntoContent(text, styling = {}, setStyling = () => null) {
   const lines = text.split(/\r?\n/);
   const state = [
     {
@@ -109,6 +109,8 @@ export function parseIntoContent(text, styling, setStyling) {
           style[key] = validStyle;
         }
         break;
+      case TRIGGERS.commentTrigger:
+        break;
       default:
         if (line.length > 0) {
           pushSectionToState(line);
@@ -119,4 +121,17 @@ export function parseIntoContent(text, styling, setStyling) {
 
   setStyling(style);
   return { lines, content: state };
+}
+
+export function partition(xs, pred) {
+  const trues = [];
+  const falses = [];
+  xs.forEach((x) => {
+    if (pred(x)) {
+      trues.push(x);
+    } else {
+      falses.push(x);
+    }
+  });
+  return [trues, falses];
 }

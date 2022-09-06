@@ -1,9 +1,11 @@
 import React from 'react';
 import { STYLING, SECTIONS } from '../../constants';
+import Content from './Content';
 
 const styles = {
   flex: {
     display: 'flex',
+    width: '100%',
   },
   left: {
     width: '40%',
@@ -18,7 +20,7 @@ const styles = {
   },
 };
 
-export default function TwoColumn({ content, alignment, getContent }) {
+export default function TwoColumn({ content, alignment, styling }) {
   const isRight = alignment === STYLING.ALIGNMENT.RIGHT;
 
   const columns = {
@@ -41,13 +43,19 @@ export default function TwoColumn({ content, alignment, getContent }) {
 
   return (
     <>
-      {getContent(columns.center)}
+      <Content content={columns.center} styling={styling} />
       <div style={styles.flex}>
         <div style={!isRight ? styles.main : styles.left}>
-          {getContent(isRight ? columns.side : columns.main)}
+          <Content
+            content={isRight ? columns.side : columns.main}
+            styling={styling}
+          />
         </div>
         <div style={isRight ? styles.main : styles.right}>
-          {getContent(isRight ? columns.main : columns.side)}
+          <Content
+            content={isRight ? columns.main : columns.side}
+            styling={styling}
+          />
         </div>
       </div>
     </>

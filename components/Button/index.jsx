@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { COLORS } from '../../../constants';
+import { COLORS } from '../../constants';
 
 const styles = {
   button: {
     cursor: 'pointer',
-    border: `1.5px solid ${COLORS.darkBrown}`,
+    border: `2px solid ${COLORS.darkBrown}`,
     backgroundColor: COLORS.yellow,
     transition: 'border-radius 0.2s ease-in-out',
     fontWeight: 'bold',

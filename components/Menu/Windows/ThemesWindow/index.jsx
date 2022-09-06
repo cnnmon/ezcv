@@ -5,9 +5,9 @@ import ImageSelect from './ImageSelect';
 
 const styles = {
   container: {
-    borderTop: `1.8px solid ${COLORS.darkBrown}`,
+    borderTop: `2px solid ${COLORS.darkBrown}`,
     height: 'calc(100vh - 170px)',
-    border: `1.8px solid ${COLORS.darkBrown}`,
+    border: `2px solid ${COLORS.darkBrown}`,
     background: COLORS.yellowGreen,
   },
 };

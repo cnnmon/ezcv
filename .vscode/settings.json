@@ -7,7 +7,6 @@
     "**/.DS_Store": true,
     "**/Thumbs.db": true,
     ".prettierrc": true,
-    ".next": true,
     ".vercel": true,
     ".vscode": true,
     ".babelrc": true,
@@ -22,7 +21,6 @@
   },
   "hide-files.files": [
     ".prettierrc",
-    ".next",
     ".vercel",
     ".vscode",
     ".babelrc",

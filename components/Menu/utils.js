@@ -2,11 +2,11 @@ import { getKeyValuePair } from '../../utils';
 import { TRIGGERS } from '../../constants';
 
 /*
-    APPENDS STYLING
-    Appends to top of text if doesn't find existing styling
-    Else, replaces existing styling
-    Does extra spacing work for readability
-  */
+  APPENDS STYLING
+  Appends to top of text if doesn't find existing styling
+  Else, replaces existing styling
+  Does extra spacing work for readability
+*/
 const appendStylingJob = (object, lines, setText) => {
   const toAppend = object.char;
   const isEmpty = (t) => t === '';
@@ -37,11 +37,11 @@ const appendStylingJob = (object, lines, setText) => {
 };
 
 /*
-      APPENDS TEXT to bottom of textarea
-      provide spacing as needed
-      scroll to bottom
-    */
-const appendSectionJob = (toAppend, lines, text, setText, textbox) => {
+  APPENDS TEXT to bottom of textarea
+  provide spacing as needed
+  scroll to bottom
+*/
+const appendSectionJob = (toAppend, lines, text, setText) => {
   const isTextboxEmpty = lines.length === 1 && lines[0] === '';
   if (isTextboxEmpty) {
     setText(toAppend);
@@ -54,10 +54,8 @@ const appendSectionJob = (toAppend, lines, text, setText, textbox) => {
   const newLines = `${lastLine !== '' ? '\n' : ''}${
     lastLastLine !== '' ? '\n' : ''
   }`;
-  setText(`${text}${newLines}${toAppend}\n`);
 
-  // eslint-disable-next-line no-param-reassign
-  textbox.current.scrollTop = textbox.current.scrollHeight;
+  setText(`${text}${newLines}${toAppend}\n`);
 };
 
 const getAppendJobs = (lines, text, setText, textbox) => ({

@@ -13,7 +13,10 @@ const styles = {
     display: 'flex',
   },
   inlineItem: {
-    margin: '0 10px 10px 0',
+    margin: 0,
+  },
+  inlineSymbol: {
+    margin: '0 5px',
   },
   text: {
     margin: 0,
@@ -60,15 +63,26 @@ export function getSectionTitle(title, subtitle = null, description = null) {
 }
 
 export function getInlineItems(list, isCenter) {
+  const getItem = (e, index) => {
+    const isBulleted = e[0] === '-';
+    const element = isBulleted ? e.substring(1).trim() : e;
+    return (
+      <>
+        <li key={index} style={styles.unbulleted}>
+          {autolink(element)}
+        </li>
+        {index < list.length - 1 ? (
+          <p style={styles.inlineSymbol}>&#x2022;</p>
+        ) : null}
+      </>
+    );
+  };
+
   return (
     <div
       style={both(styles.inline, isCenter ? { justifyContent: 'center' } : {})}
     >
-      {list.map((e, index) => (
-        <p style={styles.inlineItem} key={`${index + 1}`}>
-          {autolink(e)}
-        </p>
-      ))}
+      {list.map((e, index) => getItem(e, index))}
     </div>
   );
 }
@@ -78,7 +92,7 @@ export function getItems(list) {
     const isBulleted = e[0] === '-';
     const element = isBulleted ? e.substring(1).trim() : e;
     return (
-      <li key={index} style={isBulleted ? undefined : styles.unbulleted}>
+      <li key={index} style={isBulleted ? null : styles.unbulleted}>
         {autolink(element)}
       </li>
     );

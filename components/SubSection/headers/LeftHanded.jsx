@@ -8,10 +8,13 @@ import styles, {
 const STYLES = {
   inline: {
     display: 'flex',
+    width: '100%',
   },
   left: {
-    width: '40%',
-    marginRight: 20,
+    flexGrow: 1,
+  },
+  right: {
+    flexGrow: 0.15,
   },
 };
 
@@ -27,7 +30,9 @@ export default function SideBySide({ header, subsection, subsectionIndex }) {
     </div>
   );
 
-  const getRight = () => <div>{getItems(other, true)}</div>;
+  const getRight = () => (
+    <div style={STYLES.right}>{getItems(other, true)}</div>
+  );
 
   return (
     <div style={STYLES.inline}>

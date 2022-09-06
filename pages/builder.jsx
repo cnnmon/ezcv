@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
+import Link from 'next/link';
 import Head from 'next/head';
 import ReactToPrint from 'react-to-print';
 import Image from 'next/image';
 import styled from 'styled-components';
 import ScrollContainer from 'react-indiana-drag-scroll';
+import { AiOutlineDownload } from 'react-icons/ai';
 import { useAppContext } from '../context/state';
-import { Resume, Menu, PrintButton } from '../components';
+import { Resume, Menu, Button } from '../components';
 import { parseIntoContent } from '../utils';
 import { SECTIONS, STYLING, COLORS, TRIGGERS } from '../constants';
 import logo from '../public/logo.png';
@@ -14,17 +16,52 @@ const styles = {
   page: {
     height: '100%',
   },
-  logo: {
-    margin: '10px 5px',
+  button: {
+    padding: '20px',
+    borderLeft: `2px solid ${COLORS.darkBrown}`,
+    borderTop: 'none',
+    borderBottom: 'none',
+    borderRight: 'none',
+    fontWeight: 'normal',
+    fontFamily: 'Mabry',
+    fontSize: 20,
+    display: 'flex',
+    alignItems: 'center',
+    background: COLORS.yellow,
   },
-  text: {
-    height: '100%',
+  hover: {
+    background: COLORS.red,
+    color: COLORS.darkBrown,
+  },
+  center: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  logo: {
+    padding: 15,
   },
 };
 
+const Header = styled.div`
+  margin-bottom: 10px;
+  border-bottom: 2px solid ${COLORS.darkBrown};
+  display: flex;
+
+  .left {
+    margin: 20px;
+    cursor: pointer;
+  }
+
+  .right {
+    display: flex;
+    flex-grow: 1;
+    justify-content: flex-end;
+  }
+`;
+
 const Body = styled.div`
   display: flex;
-  height: 100%;
+  justify-content: center;
 
   @media only screen and (max-width: ${TRIGGERS.mobileBreakpoint}) {
     display: block;
@@ -40,14 +77,16 @@ const ColumnLeft = styled.div`
   @media only screen and (max-width: ${TRIGGERS.mobileBreakpoint}) {
     min-width: 100%;
     max-width: 100%;
+    margin-bottom: 10px;
   }
 `;
 
 const ColumnRight = styled(ScrollContainer)`
   margin-left: 10px;
-  border: 1.5px solid ${COLORS.darkBrown};
+  border: 2px solid ${COLORS.darkBrown};
   background-color: ${COLORS.redOrange};
   overflow: scroll;
+  height: 1000px;
 
   @media only screen and (max-width: ${TRIGGERS.mobileBreakpoint}) {
     height: 1000px;
@@ -55,10 +94,22 @@ const ColumnRight = styled(ScrollContainer)`
   }
 `;
 
+function HeaderButton({ content, onClick, style }) {
+  return (
+    <Button
+      content={<div style={styles.content}>{content}</div>}
+      style={{ ...styles.button, ...style }}
+      onClick={onClick}
+      hoverStyle={styles.hover}
+    />
+  );
+}
+
 export default function Builder() {
   const { sections } = useAppContext();
-  const [text, setText] = useState(SECTIONS.getDefaultText(sections)); // SECTIONS.getDefaultText(sections)
+  const [text, setText] = useState(SECTIONS.getDefaultText(sections));
   const [styling, setStyling] = useState(STYLING.getDefaultStyling());
+  const [isCopying, setIsCopying] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -71,6 +122,14 @@ export default function Builder() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleCopyText = () => {
+    navigator.clipboard.writeText(text);
+    setIsCopying(true);
+    setTimeout(() => {
+      setIsCopying(false);
+    }, [600]);
+  };
 
   const handleTextChange = (newText) => {
     localStorage.setItem('text', newText);
@@ -95,12 +154,44 @@ export default function Builder() {
       </Head>
 
       <main style={styles.page}>
+        <Header>
+          <div style={styles.logo}>
+            <Link href="/">
+              <Image
+                className="left"
+                src={logo}
+                alt="logo"
+                width={60}
+                height={60}
+              />
+            </Link>
+          </div>
+
+          <div className="right">
+            <HeaderButton
+              content={isCopying ? 'Copied!' : 'Copy Text'}
+              onClick={handleCopyText}
+            />
+
+            <ReactToPrint
+              documentTitle="Resume"
+              trigger={() =>
+                HeaderButton({
+                  content: (
+                    <div style={styles.center}>
+                      Export <AiOutlineDownload />
+                    </div>
+                  ),
+                  style: { background: COLORS.darkBrown, color: 'white' },
+                })
+              }
+              content={() => resume.current}
+            />
+          </div>
+        </Header>
         <Body>
           <ColumnLeft>
-            <div style={styles.logo}>
-              <Image src={logo} alt="logo" width={80} height={85} />
-            </div>
-            <div style={styles.text}>
+            <div style={styles.page}>
               <Menu
                 content={content}
                 lines={lines}
@@ -114,7 +205,6 @@ export default function Builder() {
             <Resume content={content} styling={styling} ref={resume} />
           </ColumnRight>
         </Body>
-        <ReactToPrint trigger={PrintButton} content={() => resume.current} />
       </main>
 
       <footer />
@@ -122,14 +212,7 @@ export default function Builder() {
       <style jsx global>{`
         body {
           background: ${COLORS.background};
-        }
-
-        html,
-        body,
-        div#__next,
-        div#__next > div {
-          height: 99%;
-          padding: 20;
+          margin: 0;
           font-family: Helvetica;
         }
 
@@ -137,8 +220,8 @@ export default function Builder() {
         input,
         textarea,
         select {
-          font-family: Helvetica;
           font-size: 13px;
+          font-family: Helvetica;
         }
 
         p {
@@ -155,12 +238,11 @@ export default function Builder() {
         }
 
         ::-webkit-scrollbar-thumb {
-          border-radius: 10px;
           background-color: ${COLORS.darkBrown};
         }
 
         ::-webkit-input-placeholder {
-          color: rgba(0, 0, 0, 0.2);
+          color: rgba(0, 0, 0, 0.5);
         }
       `}</style>
     </>

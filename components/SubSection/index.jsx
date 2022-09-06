@@ -1,13 +1,13 @@
 import { Classic, Modern, Handed, Minimalist, Elegant } from './themes';
-import { Center, SideBySide } from './headers';
+import { Center, RightHanded, LeftHanded } from './headers';
 
 const HEADERS = {
   classic: Center,
-  modern: SideBySide,
-  righthanded: SideBySide,
-  lefthanded: SideBySide,
-  minimalist: SideBySide,
-  elegant: SideBySide,
+  modern: Center,
+  righthanded: RightHanded,
+  lefthanded: LeftHanded,
+  minimalist: Center,
+  elegant: Center,
 };
 
 const THEMES = {
@@ -21,7 +21,7 @@ const THEMES = {
 
 export default function Subsection({ styling, type, ...props }) {
   if (!styling) {
-    return null;
+    return THEMES.classic(props);
   }
 
   const { theme } = styling;
