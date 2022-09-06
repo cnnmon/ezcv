@@ -14,6 +14,7 @@ const styles = {
     height: 90,
     padding: 10,
     backgroundColor: COLORS.red,
+    overflowX: 'scroll',
   },
   icon: {
     fontSize: 20,

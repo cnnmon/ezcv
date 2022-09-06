@@ -1,17 +1,20 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { STYLING, COLORS } from '../../../../constants';
+import styled from 'styled-components';
+import { STYLING, COLORS, TRIGGERS } from '../../../../constants';
 import ImageSelect from './ImageSelect';
 
-const styles = {
-  container: {
-    borderTop: `2px solid ${COLORS.darkBrown}`,
-    height: 'calc(100vh - 170px)',
-    border: `2px solid ${COLORS.darkBrown}`,
-    background: COLORS.yellowGreen,
-    overflowX: 'hidden',
-  },
-};
+const Container = styled.div`
+  height: calc(100vh - 170px);
+  border: 2px solid ${COLORS.darkBrown};
+  background: ${COLORS.yellowGreen};
+  overflow-x: hidden;
+  overflow-y: scroll;
+
+  @media only screen and (max-width: ${TRIGGERS.mobileBreakpoint}) {
+    height: 500px;
+  }
+`;
 
 export default function ThemesWindow({ onClick, styling }) {
   const all = STYLING.getStyling();
@@ -22,7 +25,7 @@ export default function ThemesWindow({ onClick, styling }) {
   };
 
   return (
-    <div style={styles.container}>
+    <Container>
       <ImageSelect
         title="Themes"
         description="Spice up your resume in one click."
@@ -44,6 +47,6 @@ export default function ThemesWindow({ onClick, styling }) {
         currentValue={styling.headers}
         onChange={handleStyleSelect}
       />
-    </div>
+    </Container>
   );
 }
