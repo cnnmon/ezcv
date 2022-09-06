@@ -57,7 +57,7 @@ const Header = styled.div`
 const Body = styled.div`
   display: flex;
   justify-content: center;
-  margin-bottom: 30px;
+  margin: 0 10px 30px;
 
   @media only screen and (max-width: ${TRIGGERS.mobileBreakpoint}) {
     display: block;

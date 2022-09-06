@@ -297,9 +297,7 @@ export const getDefaultSections = () =>
 
 // default states
 export const getDefaultText = (sections) => {
-  const text = `${getDefaultStylingText()}\n\n${sections[0].char}\n\n${
-    sections[2].char
-  }\n\n${sections[3].char}\n\n`;
+  const text = `${getDefaultStylingText()}\n\n${sections[0].char}\n\n`;
   return text;
 };
 
