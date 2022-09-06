@@ -4,18 +4,22 @@ import ScrollContainer from 'react-indiana-drag-scroll';
 import { COLORS } from '../../../../constants';
 
 const styles = {
+  container: {
+    margin: '20px 0',
+  },
   title: {
-    padding: '30px 20px 0',
+    padding: '0 20px',
   },
   list: {
     display: 'flex',
     padding: '10px 20px 20px',
     boxSizing: 'border-box',
+    overflowX: 'scroll',
   },
   item: {
     paddingRight: 20,
-    width: 250,
-    minWidth: 250,
+    width: 200,
+    minWidth: 200,
   },
   text: {
     margin: 0,
@@ -55,7 +59,7 @@ export default function ImageSelect({
   });
 
   return (
-    <>
+    <div style={styles.container}>
       <div style={styles.title}>
         <h4 style={styles.text}>{title}</h4>
         <p style={styles.text}>{description}</p>
@@ -77,6 +81,6 @@ export default function ImageSelect({
           </div>
         ))}
       </ScrollContainer>
-    </>
+    </div>
   );
 }

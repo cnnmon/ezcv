@@ -44,16 +44,7 @@ const styles = {
     background: COLORS.darkBrown,
     color: 'white',
     marginTop: -50,
-  },
-  image: {
-    border: `2px solid ${COLORS.darkBrown}`,
-    boxShadow: `5px 5px ${COLORS.red}, 5px 5px 0 2px ${COLORS.darkBrown}`,
-    minWidth: 400,
-    maxWidth: 400,
-    minHeight: 500,
-    maxHeight: 500,
-    marginLeft: 100,
-    marginBottom: -50,
+    zIndex: 1,
   },
   flex: {
     display: 'flex',
@@ -64,6 +55,21 @@ const styles = {
     fontSize: 30,
   },
 };
+
+const SplashImage = styled.div`
+  border: 2px solid ${COLORS.darkBrown};
+  box-shadow: 5px 5px ${COLORS.red}, 5px 5px 0 2px ${COLORS.darkBrown};
+  min-width: 400px;
+  max-width: 400px;
+  min-height: 500px;
+  max-height: 500px;
+  margin-left: 100px;
+  margin-bottom: -50px;
+
+  @media only screen and (max-width: ${TRIGGERS.mobileBreakpoint}) {
+    display: none;
+  }
+`;
 
 const Title = styled.h1`
   font-size: 60px;
@@ -78,6 +84,7 @@ const Header = styled.div`
   position: fixed;
   background: ${COLORS.background};
   top: 0;
+  z-index: 1;
 `;
 
 const Splash = styled.div`
@@ -213,7 +220,6 @@ export default function App() {
             <h3>No sign-in required!</h3>
           </Body>
           <motion.div
-            style={styles.image}
             initial={{ opacity: 0, scale: 1.2 }}
             transition={{ ease: 'easeInOut', duration: 0.8 }}
             animate={{
@@ -223,7 +229,9 @@ export default function App() {
               y: [300, 50],
             }}
           >
-            <Image alt="example resume" src={splash} />
+            <SplashImage>
+              <Image alt="example resume" src={splash} />
+            </SplashImage>
           </motion.div>
         </Splash>
         <Marquee gradient={false} style={styles.marquee}>
