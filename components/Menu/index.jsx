@@ -40,7 +40,7 @@ export default function Menu({ content, styling, lines, text, setText }) {
       getTab: getSectionsWindow,
     },
     {
-      title: 'Themes',
+      title: 'Customize',
       getTab: getThemesWindow,
     },
   ];
