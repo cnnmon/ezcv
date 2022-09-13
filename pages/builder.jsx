@@ -6,7 +6,7 @@ import Image from 'next/image';
 import styled from 'styled-components';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import { AiOutlineDownload } from 'react-icons/ai';
-import { Resume, Menu, Button, Footer } from '../components';
+import { Resume, Menu, Button } from '../components';
 import { parseIntoContent } from '../utils';
 import { SECTIONS, STYLING, COLORS, TRIGGERS } from '../constants';
 import logo from '../public/logo.png';

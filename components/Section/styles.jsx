@@ -19,11 +19,6 @@ const styles = {
   },
 };
 
-// combine dictionary styles easily
-function both(style1, style2) {
-  return { ...style1, ...style2 };
-}
-
 export function autolink(text) {
   return text;
   // <AutoLinkText text={text} linkProps={{ target: '_blank' }} />;
