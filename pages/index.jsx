@@ -11,13 +11,14 @@ import {
   MdFormatPaint,
 } from 'react-icons/md';
 import { HiCursorClick, HiLightningBolt } from 'react-icons/hi';
-import { BsBriefcaseFill } from 'react-icons/bs';
+import { BsBriefcaseFill, BsFillMoonStarsFill } from 'react-icons/bs';
 import { motion } from 'framer-motion';
 import { Button, Content, Textbox } from '../components';
 import { COLORS, TRIGGERS } from '../constants';
 import splash from '../public/splash_image.gif';
 import logo from '../public/logo.png';
 import { parseIntoContent } from '../utils';
+import darkmoderesume from '../public/darkmoderesume.png';
 
 const styles = {
   page: {
@@ -203,6 +204,7 @@ export default function App() {
     `// this is a comment! i’ll use this to describe the keywords (prepended by #) that will make up your resume.\n\n// SECTION HEADER\n// section keyword indicates the start of a new section\n// can be interchanged with other section keywords for different purposes (ex. header and section1/section2 for left/right columns respectively)\n#section Experience\n\n// TITLE\n// the title keyword indicates a new "experience"\n// other keywords under it are optional, and indicate extra information\n#title Job Title\n#subtitle Job Position\n#description Location\n#date Summer 2022\n\n// BODY\n// any "non-keyworded" text written under a certain title is treated as part of the body text of that "experience"\n// start lines with - to form bullet points\nI’m some generic body text.\n- I'm a bullet point!\n- Tell me more about what you did at this job.`
   );
   const { content } = useMemo(() => parseIntoContent(text), [text]);
+  const [darkModeHovering, setDarkModeHovering] = useState(false);
 
   return (
     <>
@@ -291,13 +293,32 @@ export default function App() {
                 <h2>Try out every design</h2>
                 <p>
                   Choose from a curated selection of designs to find what fits
-                  you best, all in a few clicks. Even try out <b>dark mode</b>.
+                  you best.
                 </p>
               </Module>
               <Module>
                 <BsBriefcaseFill style={styles.icon} />
                 <h2>ATS friendly</h2>
                 <p>Bypass those corporate parsers and get the interview.</p>
+              </Module>
+              <Module
+                onMouseOver={() => setDarkModeHovering(true)}
+                onMouseLeave={() => setDarkModeHovering(false)}
+              >
+                <BsFillMoonStarsFill style={styles.icon} />
+                <h2>Dark mode</h2>
+                <p>Make your resume in dark mode 🌚.</p>
+                <div
+                  style={{
+                    position: 'absolute',
+                    width: 300,
+                    left: '40%',
+                    marginBottom: 300,
+                    display: darkModeHovering ? 'block' : 'none',
+                  }}
+                >
+                  <Image alt="dark mode resume" src={darkmoderesume} />
+                </div>
               </Module>
             </Modules>
           </Body>
