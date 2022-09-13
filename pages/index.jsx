@@ -11,7 +11,7 @@ import {
   MdFormatPaint,
 } from 'react-icons/md';
 import { HiCursorClick, HiLightningBolt } from 'react-icons/hi';
-import { AiFillLinkedin } from 'react-icons/ai';
+import { BsBriefcaseFill } from 'react-icons/bs';
 import { motion } from 'framer-motion';
 import { Button, Content, Textbox } from '../components';
 import { COLORS, TRIGGERS } from '../constants';
@@ -291,13 +291,13 @@ export default function App() {
                 <h2>Try out every design</h2>
                 <p>
                   Choose from a curated selection of designs to find what fits
-                  you best, all in a few clicks.
+                  you best, all in a few clicks. Even try out <b>dark mode</b>.
                 </p>
               </Module>
-              <Module style={{ background: COLORS.green }}>
-                <AiFillLinkedin style={styles.icon} />
-                <h2>Import from Linkedin</h2>
-                <p>(Coming Soon)</p>
+              <Module>
+                <BsBriefcaseFill style={styles.icon} />
+                <h2>ATS friendly</h2>
+                <p>Bypass those corporate parsers and get the interview.</p>
               </Module>
             </Modules>
           </Body>

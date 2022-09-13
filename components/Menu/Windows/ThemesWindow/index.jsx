@@ -18,7 +18,7 @@ const Container = styled.div`
 
 export default function ThemesWindow({ appendStyling, styling }) {
   const all = STYLING.getStyling();
-  const { themes, columns, headers, fonts, mode } = all;
+  const { themes, columns, fonts, mode } = all;
 
   const handleStyleSelect = async (object) => {
     const chosen = all[object.type].find(({ name }) => name === object.name);

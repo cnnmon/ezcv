@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 import React from 'react';
 import styled from 'styled-components';
-import { TRIGGERS, COLORS, STYLING } from '../../constants';
+import { TRIGGERS, STYLING } from '../../constants';
 import OneColumn from './OneColumn';
 import TwoColumn from './TwoColumn';
 import Content from './Content';
@@ -19,7 +19,6 @@ const Container = styled.div`
   overflow: hidden;
   transform: scale(${SCALE});
   border: 3px solid black;
-  background-color: white;
 
   @media only screen and (max-width: ${TRIGGERS.mobileBreakpoint}) {
     transform: scale(${MOBILESCALE});
@@ -34,6 +33,10 @@ const Resume = React.forwardRef(({ styling, content }, ref) => {
   const { alignment } = styling.columns;
   const isDarkMode = styling.mode.key === 'dark';
 
+  const getContainerStyle = () => ({
+    background: isDarkMode ? '#242426' : 'white',
+  });
+
   const getContentStyle = () => ({
     padding: 30,
     whiteSpace: 'pre-line',
@@ -41,12 +44,12 @@ const Resume = React.forwardRef(({ styling, content }, ref) => {
     overflow: 'hidden',
     maxHeight: '95%',
     fontFamily: styling.fonts.name,
-    background: isDarkMode ? 'black' : undefined,
     color: isDarkMode ? 'white' : undefined,
+    background: isDarkMode ? '#242426' : 'white',
   });
 
   return (
-    <Container>
+    <Container style={getContainerStyle()}>
       <div style={getContentStyle()} ref={ref}>
         {alignment !== STYLING.ALIGNMENT.CENTER ? (
           <TwoColumn
