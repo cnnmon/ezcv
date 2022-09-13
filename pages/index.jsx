@@ -315,6 +315,7 @@ export default function App() {
                     left: '40%',
                     marginBottom: 300,
                     display: darkModeHovering ? 'block' : 'none',
+                    pointerEvents: 'none',
                   }}
                 >
                   <Image alt="dark mode resume" src={darkmoderesume} />
