@@ -76,7 +76,7 @@ export const STYLING = {
     {
       name: 'Left-Handed',
       body: 'lefthanded',
-      image: 'style_header_right_handed.png',
+      image: 'style_header_left_handed.png',
       description: `Two column, where left side is bigger.`,
     },
   ],
