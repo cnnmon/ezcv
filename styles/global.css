@@ -17,14 +17,14 @@
 }
 
 @font-face {
-  font-family: 'Open Sans';
-  src: url('../public/fonts/OpenSans-Light.ttf');
+  font-family: 'Raleway';
+  src: url('../public/fonts/Raleway-Regular.ttf');
   font-weight: normal;
 }
 
 @font-face {
-  font-family: 'Open Sans';
-  src: url('../public/fonts/OpenSans-Bold.ttf');
+  font-family: 'Raleway';
+  src: url('../public/fonts/Raleway-Bold.ttf');
   font-weight: bold;
 }
 
@@ -41,13 +41,25 @@
 }
 
 @font-face {
-  font-family: 'Space Mono';
-  src: url('../public/fonts/SpaceMono-Regular.ttf');
+  font-family: 'Inconsolata';
+  src: url('../public/fonts/Inconsolata-Regular.ttf');
   font-weight: normal;
 }
 
 @font-face {
-  font-family: 'Space Mono';
-  src: url('../public/fonts/SpaceMono-Bold.ttf');
+  font-family: 'Inconsolata';
+  src: url('../public/fonts/Inconsolata-Bold.ttf');
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'Unna';
+  src: url('../public/fonts/Unna-Regular.ttf');
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'Unna';
+  src: url('../public/fonts/Unna-Bold.ttf');
   font-weight: bold;
 }
