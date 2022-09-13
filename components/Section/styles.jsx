@@ -4,26 +4,14 @@ import React from 'react';
 const styles = {
   /* Global */
   header: {
-    margin: '4px 0 4px',
-    boxSizing: 'border-box',
+    margin: '10px 0 5px',
+    padding: 0,
   },
   flex: {
     display: 'flex',
   },
-  inline: {
-    display: 'flex',
-  },
-  inlineItem: {
-    margin: 0,
-  },
-  inlineSymbol: {
-    margin: '0 5px',
-  },
   text: {
     margin: 0,
-  },
-  centered: {
-    textAlign: 'center',
   },
   /* Lists */
   unbulleted: {
@@ -43,7 +31,13 @@ export function autolink(text) {
 
 export function getLargeSectionHeader(text, isCenter) {
   return (
-    <h1 style={both(styles.header, isCenter ? { textAlign: 'center' } : {})}>
+    <h1
+      style={{
+        textAlign: isCenter ? 'center' : undefined,
+        margin: 0,
+        padding: 0,
+      }}
+    >
       {text}
     </h1>
   );
@@ -78,7 +72,7 @@ export function getInlineItems(list, isCenter) {
           {autolink(element)}
         </li>
         {index < list.length - 1 ? (
-          <p style={styles.inlineSymbol}>&#x2022;</p>
+          <p style={{ margin: '0 5px' }}>&#x2022;</p>
         ) : null}
       </>
     );
@@ -86,7 +80,10 @@ export function getInlineItems(list, isCenter) {
 
   return (
     <div
-      style={both(styles.inline, isCenter ? { justifyContent: 'center' } : {})}
+      style={{
+        display: 'flex',
+        justifyContent: isCenter ? 'center' : undefined,
+      }}
     >
       {list.map((e, index) => getItem(e, index))}
     </div>

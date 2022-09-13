@@ -44,13 +44,13 @@ function Body({ subsection }) {
   const { title, subtitle, description, date, other } = subsection;
 
   return (
-    <>
+    <div style={{ marginBottom: 4 }}>
       <Flex>
         <Title>{getSectionTitle(title, subtitle, description)}</Title>
         <Date>{date}</Date>
       </Flex>
       {getItems(other)}
-    </>
+    </div>
   );
 }
 

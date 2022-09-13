@@ -32,13 +32,13 @@ function Body({ subsection }) {
   const getRight = () => <Right>{date}</Right>;
 
   return (
-    <>
+    <div style={{ marginBottom: 5 }}>
       <div style={styles.flex}>
         {getLeft()}
         {getRight()}
       </div>
       {getItems(other)}
-    </>
+    </div>
   );
 }
 

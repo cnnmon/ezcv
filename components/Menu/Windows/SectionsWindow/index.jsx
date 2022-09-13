@@ -15,6 +15,7 @@ const styles = {
     padding: 10,
     backgroundColor: COLORS.red,
     overflowX: 'scroll',
+    alignItems: 'center',
   },
   icon: {
     fontSize: 20,
@@ -45,10 +46,11 @@ export default function SectionsWindow({ onClick, content }) {
   );
 
   const getButtonStyle = (item, isSelected) => ({
-    margin: '7px 0px 7px 10px',
+    marginRight: '10px',
     width: 120,
     minWidth: 120,
     height: '80%',
+    minHeight: 70,
     backgroundColor: 'color' in item ? item.color : COLORS.yellow,
     borderRadius: isSelected ? 20 : undefined,
     cursor: isSelected ? 'not-allowed' : 'pointer',

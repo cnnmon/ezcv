@@ -38,7 +38,7 @@ function Body({ subsection }) {
   );
 
   return (
-    <div style={styles.flex}>
+    <div style={{ marginBottom: 5, display: 'flex' }}>
       {getLeft()}
       {getRight()}
     </div>

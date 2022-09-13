@@ -81,7 +81,7 @@ export const STYLING = {
       image: 'style_theme_right_handed.png',
       description: `Two column, where right side is bigger.`,
       alignment: ALIGNMENT.RIGHT,
-      color: COLORS.redOrange,
+      color: COLORS.purple,
     },
     {
       name: 'Left-Handed',
@@ -89,7 +89,7 @@ export const STYLING = {
       image: 'style_theme_left_handed.png',
       description: `Two column, where left side is bigger.`,
       alignment: ALIGNMENT.LEFT,
-      color: COLORS.redOrange,
+      color: COLORS.blue,
     },
   ],
   mode: [

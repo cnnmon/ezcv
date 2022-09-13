@@ -24,13 +24,13 @@ function Body({ subsection }) {
   const { title, subtitle, description, date, other } = subsection;
 
   return (
-    <>
+    <div style={{ marginBottom: 5 }}>
       <Subtitle>
         {getSectionTitle(title, subtitle, description)}
         <Date>{date}</Date>
       </Subtitle>
       {getItems(other)}
-    </>
+    </div>
   );
 }
 

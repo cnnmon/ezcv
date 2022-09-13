@@ -11,14 +11,13 @@ import {
   MdFormatPaint,
 } from 'react-icons/md';
 import { HiCursorClick, HiLightningBolt } from 'react-icons/hi';
-import { BsBriefcaseFill, BsFillMoonStarsFill } from 'react-icons/bs';
+import { BsFillMoonStarsFill } from 'react-icons/bs';
 import { motion } from 'framer-motion';
-import { Button, Content, Textbox } from '../components';
+import { Button, Content, Textbox, Footer } from '../components';
 import { COLORS, TRIGGERS } from '../constants';
 import splash from '../public/splash_image.gif';
 import logo from '../public/logo.png';
 import { parseIntoContent } from '../utils';
-import darkmoderesume from '../public/darkmoderesume.png';
 
 const styles = {
   page: {
@@ -55,24 +54,11 @@ const styles = {
   icon: {
     fontSize: 30,
   },
-  footer: {
-    display: 'flex',
-    width: '100%',
-    maxWidth: 1000,
-  },
-  left: {
-    flexGrow: 0.5,
-  },
-  right: {
-    flexGrow: 0.5,
-    justifyContent: 'flex-end',
-    textAlign: 'right',
-  },
 };
 
 const SplashImage = styled.div`
   border: 2px solid ${COLORS.darkBrown};
-  box-shadow: 5px 5px ${COLORS.red}, 5px 5px 0 2px ${COLORS.darkBrown};
+  box-shadow: 20px 40px ${COLORS.red}, 20px 40px 0 2px ${COLORS.darkBrown};
   min-width: 400px;
   max-width: 400px;
   min-height: 500px;
@@ -204,7 +190,6 @@ export default function App() {
     `// this is a comment! i’ll use this to describe the keywords (prepended by #) that will make up your resume.\n\n// SECTION HEADER\n// section keyword indicates the start of a new section\n// can be interchanged with other section keywords for different purposes (ex. header and section1/section2 for left/right columns respectively)\n#section Experience\n\n// TITLE\n// the title keyword indicates a new "experience"\n// other keywords under it are optional, and indicate extra information\n#title Job Title\n#subtitle Job Position\n#description Location\n#date Summer 2022\n\n// BODY\n// any "non-keyworded" text written under a certain title is treated as part of the body text of that "experience"\n// start lines with - to form bullet points\nI’m some generic body text.\n- I'm a bullet point!\n- Tell me more about what you did at this job.`
   );
   const { content } = useMemo(() => parseIntoContent(text), [text]);
-  const [darkModeHovering, setDarkModeHovering] = useState(false);
 
   return (
     <>
@@ -269,57 +254,35 @@ export default function App() {
               <Module>
                 <HiCursorClick style={styles.icon} />
                 <h2>No sign-in needed</h2>
-                <p>
-                  Any text you write will save to your browser, though you may
-                  backup text elsewhere just in case. Just copy and paste and
-                  you&#39;re back!
-                </p>
+                <p>Just copy and paste and you&#39;re back!</p>
               </Module>
               <Module>
                 <HiLightningBolt style={styles.icon} />
-                <h2>Lightning-fast editing</h2>
+                <h2>Speedrun it</h2>
                 <p>
-                  Builder lets you add sections with a click, and editing is as
-                  easy as typing.
+                  Builder lets you add section templates with a click. Creating
+                  is as easy as filling those in.
                 </p>
               </Module>
               <Module>
                 <MdPrint style={styles.icon} />
-                <h2>Print or export as PDF</h2>
-                <p>Select your destination from the print menu.</p>
+                <h2>Print/export as PDF</h2>
+                <p>
+                  Select your destination from the print menu. ATS friendly.
+                </p>
               </Module>
               <Module>
                 <MdFormatPaint style={styles.icon} />
                 <h2>Try out every design</h2>
                 <p>
-                  Choose from a curated selection of designs to find what fits
-                  you best.
+                  Choose your favorite from a curated selection of professional
+                  designs.
                 </p>
               </Module>
               <Module>
-                <BsBriefcaseFill style={styles.icon} />
-                <h2>ATS friendly</h2>
-                <p>Bypass those corporate parsers and get the interview.</p>
-              </Module>
-              <Module
-                onMouseOver={() => setDarkModeHovering(true)}
-                onMouseLeave={() => setDarkModeHovering(false)}
-              >
                 <BsFillMoonStarsFill style={styles.icon} />
                 <h2>Dark mode</h2>
-                <p>Make your resume in dark mode 🌚.</p>
-                <div
-                  style={{
-                    position: 'absolute',
-                    width: 300,
-                    left: '40%',
-                    marginBottom: 300,
-                    display: darkModeHovering ? 'block' : 'none',
-                    pointerEvents: 'none',
-                  }}
-                >
-                  <Image alt="dark mode resume" src={darkmoderesume} />
-                </div>
+                <p>Make your resume in dark mode 🌚. Why not?</p>
               </Module>
             </Modules>
           </Body>
@@ -343,14 +306,19 @@ export default function App() {
         </Box>
         <Box style={{ background: COLORS.darkBrown, color: 'white' }}>
           <Body>
-            <h1>
-              Spend less time on your resume,
-              <br />
-              more on finding your dream job.
-            </h1>
+            <h1>It&#39;s resume making, revamped. </h1>
+            <p>｡･:*:･ﾟ★,｡･:*:･ﾟ☆</p>
             <p>
-              It&#39;s a simple and new way to create, customize, and maintain
-              your body of work.
+              No more agonizingly recreating layouts you&#39;ve seen online, or
+              re-typing bullet points for the umpteenth time.
+              <br />
+              <br />
+              All you have to do is create and export your resume once, copy and
+              paste the text somewhere safe, and paste it back in whenever you
+              want to edit it.
+              <br />
+              <br />
+              It&#39;s as <b>simple as typing</b>! :)
             </p>
           </Body>
         </Box>
@@ -370,27 +338,7 @@ export default function App() {
         </Box>
       </main>
 
-      <footer style={styles.flex}>
-        <Box>
-          <div style={styles.footer}>
-            <div style={styles.left}>
-              <Image alt="logo" src={logo} width={60} height={60} />
-            </div>
-            <div style={styles.right}>
-              <p>
-                Made with ♥ and red velvet lattes by{' '}
-                <a
-                  href="https://twitter.com/cnnmonsugar"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  cnnmon
-                </a>
-              </p>
-            </div>
-          </div>
-        </Box>
-      </footer>
+      <Footer />
 
       <style jsx global>{`
         body {
