@@ -19,12 +19,12 @@ export default function Section({ styling, type, ...props }) {
     return THEMES.classic(props);
   }
 
-  const { themes, headers } = styling;
+  const { themes, headers, columns } = styling;
 
   if (type === 'header') {
     return HEADERS[headers.key](props);
   }
 
   // enlarges/formats header section differently
-  return THEMES[themes.key](props);
+  return THEMES[themes.key]({ columns, ...props });
 }

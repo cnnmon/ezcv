@@ -46,7 +46,7 @@ function Body({ subsection }) {
 export default function Classic({ header, subsections }) {
   return (
     <Container>
-      <Header style={styles.header}>{header}</Header>
+      {header && <Header style={styles.header}>{header}</Header>}
       {subsections.map((s, key) => (
         <Body subsection={s} key={`${key + 1}`} />
       ))}

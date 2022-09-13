@@ -3,3 +3,51 @@
   src: url('../public/fonts/Mabry-Pro-Medium.ttf');
   font-weight: normal;
 }
+
+@font-face {
+  font-family: 'Computer Modern';
+  src: url('../public/fonts/cmunrm.ttf');
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'Computer Modern';
+  src: url('../public/fonts/cmunbx.ttf');
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('../public/fonts/OpenSans-Light.ttf');
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  src: url('../public/fonts/OpenSans-Bold.ttf');
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('../public/fonts/Roboto-Regular.ttf');
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('../public/fonts/Roboto-Bold.ttf');
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'Space Mono';
+  src: url('../public/fonts/SpaceMono-Regular.ttf');
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'Space Mono';
+  src: url('../public/fonts/SpaceMono-Bold.ttf');
+  font-weight: bold;
+}

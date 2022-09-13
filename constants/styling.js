@@ -1,3 +1,4 @@
+import COLORS from './colors';
 import { stylingTrigger } from './triggers';
 
 export const ALIGNMENT = {
@@ -11,9 +12,10 @@ export const STYLING = {
     {
       name: 'One Column',
       body: 'one',
-      image: 'style_theme_right_handed.png',
+      image: 'style_theme_one_column.png',
       description: `Reliable one column format.`,
       alignment: ALIGNMENT.CENTER,
+      color: COLORS.redOrange,
     },
     {
       name: 'Right-Handed',
@@ -21,13 +23,15 @@ export const STYLING = {
       image: 'style_theme_right_handed.png',
       description: `Two column, where right side is bigger.`,
       alignment: ALIGNMENT.RIGHT,
+      color: COLORS.redOrange,
     },
     {
       name: 'Left-Handed',
       body: 'lefthanded',
-      image: 'style_theme_right_handed.png',
+      image: 'style_theme_left_handed.png',
       description: `Two column, where left side is bigger.`,
       alignment: ALIGNMENT.LEFT,
+      color: COLORS.redOrange,
     },
   ],
   themes: [
@@ -52,28 +56,60 @@ export const STYLING = {
     {
       name: 'Simple',
       body: 'simple',
-      image: 'style_theme_elegant.png',
-      description: 'Packed together and perfect for two-column.',
+      image: 'style_theme_tall.png',
+      description: 'Packed together and vertical.',
     },
   ],
   headers: [
     {
       name: 'Center',
       body: 'center',
-      image: 'style_theme_right_handed.png',
+      image: 'style_header_center.png',
       description: `Centered in the middle with dots.`,
     },
     {
       name: 'Right-Handed',
       body: 'righthanded',
-      image: 'style_theme_right_handed.png',
+      image: 'style_header_right_handed.png',
       description: `Two column, where right side is bigger.`,
     },
     {
       name: 'Left-Handed',
       body: 'lefthanded',
-      image: 'style_theme_right_handed.png',
+      image: 'style_header_right_handed.png',
       description: `Two column, where left side is bigger.`,
+    },
+  ],
+  fonts: [
+    {
+      name: 'Roboto',
+      body: 'roboto',
+      image: 'style_font_roboto.png',
+      description: `Simple and readable.`,
+    },
+    {
+      name: 'Open Sans',
+      body: 'opensans',
+      image: 'style_font_opensans.png',
+      description: `A little lighter.`,
+    },
+    {
+      name: 'Computer Modern',
+      body: 'computermodern',
+      image: 'style_font_computermodern.png',
+      description: `For those who switched over from Latex.`,
+    },
+    {
+      name: 'Space Mono',
+      body: 'spacemono',
+      image: 'style_font_spacemono.png',
+      description: `Unique and tech-y.`,
+    },
+    {
+      name: 'Times New Roman',
+      body: 'timesnewroman',
+      image: 'style_font_timesnewroman.png',
+      description: `Elegant and classic.`,
     },
   ],
 };

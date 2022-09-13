@@ -5,6 +5,7 @@ const styles = {
   /* Global */
   header: {
     margin: '4px 0 4px',
+    boxSizing: 'border-box',
   },
   flex: {
     display: 'flex',

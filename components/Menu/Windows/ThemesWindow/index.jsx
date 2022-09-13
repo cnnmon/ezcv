@@ -7,7 +7,7 @@ import ImageSelect from './ImageSelect';
 const Container = styled.div`
   height: calc(100vh - 170px);
   border: 2px solid ${COLORS.darkBrown};
-  background: ${COLORS.yellowGreen};
+  background: ${COLORS.yellow};
   overflow-x: hidden;
   overflow-y: scroll;
 
@@ -16,12 +16,13 @@ const Container = styled.div`
   }
 `;
 
-export default function ThemesWindow({ onClick, styling }) {
+export default function ThemesWindow({ appendStyling, styling }) {
   const all = STYLING.getStyling();
-  const { themes, columns, headers } = all;
+  const { themes, columns, headers, fonts } = all;
 
-  const handleStyleSelect = (object) => {
-    onClick(all[object.type].find(({ name }) => name === object.name));
+  const handleStyleSelect = async (object) => {
+    const chosen = all[object.type].find(({ name }) => name === object.name);
+    appendStyling(chosen);
   };
 
   return (
@@ -34,18 +35,27 @@ export default function ThemesWindow({ onClick, styling }) {
         onChange={handleStyleSelect}
       />
       <ImageSelect
-        title="Columns"
-        description="One column or two columns. Tip: Switch 'section1' and 'section2' to move columns from left to right."
-        items={columns}
-        currentValue={styling.columns}
-        onChange={handleStyleSelect}
-      />
-      <ImageSelect
         title="Headers"
         description="Changes only the #header section."
         items={headers}
         currentValue={styling.headers}
         onChange={handleStyleSelect}
+      />
+      <ImageSelect
+        title="Fonts"
+        description="Change the typeface of your resume."
+        items={fonts}
+        currentValue={styling.fonts}
+        onChange={handleStyleSelect}
+        smallWidth
+      />
+      <ImageSelect
+        title="Columns"
+        description="One column or two columns. Tip: Switch 'section1' and 'section2' to move columns from left to right."
+        items={columns}
+        currentValue={styling.columns}
+        onChange={handleStyleSelect}
+        smallWidth
       />
     </Container>
   );

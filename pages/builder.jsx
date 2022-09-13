@@ -52,12 +52,14 @@ const Header = styled.div`
   margin-bottom: 10px;
   border-bottom: 2px solid ${COLORS.darkBrown};
   display: flex;
+  flex-grow: 1;
 `;
 
 const Body = styled.div`
   display: flex;
   justify-content: center;
   margin: 0 10px 30px;
+  height: calc(100vh - 130px);
 
   @media only screen and (max-width: ${TRIGGERS.mobileBreakpoint}) {
     display: block;
@@ -67,7 +69,7 @@ const Body = styled.div`
 const ColumnLeft = styled.div`
   min-width: 49.5%;
   max-width: 49.5%;
-  display: flex;
+  height: 100%;
   flex-direction: column;
 
   @media only screen and (max-width: ${TRIGGERS.mobileBreakpoint}) {
@@ -82,7 +84,7 @@ const ColumnRight = styled(ScrollContainer)`
   border: 2px solid ${COLORS.darkBrown};
   background-color: ${COLORS.redOrange};
   overflow: scroll;
-  height: 1000px;
+  height: 100%;
 
   @media only screen and (max-width: ${TRIGGERS.mobileBreakpoint}) {
     height: 1000px;
@@ -102,8 +104,8 @@ function HeaderButton({ content, onClick, style }) {
 }
 
 export default function Builder() {
-  const { sections } = useAppContext();
-  const [text, setText] = useState(SECTIONS.getDefaultText(sections));
+  // const { sections } = useAppContext();
+  const [text, setText] = useState(SECTIONS.getDefaultText());
   const [styling, setStyling] = useState(STYLING.getDefaultStyling());
   const [isCopying, setIsCopying] = useState(false);
 

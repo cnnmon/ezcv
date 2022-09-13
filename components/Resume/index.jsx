@@ -11,16 +11,6 @@ const HEIGHT = '11in';
 const SCALE = '0.9';
 const MOBILESCALE = '0.6';
 
-const styles = {
-  content: {
-    padding: 30,
-    whiteSpace: 'pre-line',
-    fontSize: 12.5,
-    overflow: 'hidden',
-    maxHeight: '95%',
-  },
-};
-
 const Container = styled.div`
   max-width: ${WIDTH};
   min-width: ${WIDTH};
@@ -43,9 +33,18 @@ export function getHeader(text) {
 const Resume = React.forwardRef(({ styling, content }, ref) => {
   const { alignment } = styling.columns;
 
+  const getContentStyle = () => ({
+    padding: 30,
+    whiteSpace: 'pre-line',
+    fontSize: 12.5,
+    overflow: 'hidden',
+    maxHeight: '95%',
+    fontFamily: styling.fonts.name,
+  });
+
   return (
     <Container>
-      <div style={styles.content} ref={ref}>
+      <div style={getContentStyle()} ref={ref}>
         {alignment !== STYLING.ALIGNMENT.CENTER ? (
           <TwoColumn
             alignment={alignment}

@@ -15,7 +15,7 @@ import { AiFillLinkedin } from 'react-icons/ai';
 import { motion } from 'framer-motion';
 import { Button, Content, Textbox } from '../components';
 import { COLORS, TRIGGERS } from '../constants';
-import splash from '../public/splash_image.png';
+import splash from '../public/splash_image.gif';
 import logo from '../public/logo.png';
 import { parseIntoContent } from '../utils';
 

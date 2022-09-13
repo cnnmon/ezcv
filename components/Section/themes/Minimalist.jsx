@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { getItems, getSectionTitle } from '../styles';
 
 const Container = styled.div`
-  display: flex;
   margin: 20px 0;
 `;
 
@@ -55,15 +54,19 @@ function Body({ subsection }) {
   );
 }
 
-export default function Minimalist({ header, subsections }) {
+export default function Minimalist({ header, subsections, columns }) {
+  const getColumnStyle = () => ({
+    display: columns.key === 'one' ? 'flex' : 'block',
+  });
+
   return (
-    <Container>
+    <Container style={getColumnStyle()}>
       <Left>
         <Header>{header}</Header>
       </Left>
       <Right>
         {subsections.map((s, key) => (
-          <Body subsection={s} key={`${key + 1}`} />
+          <Body subsection={s} columns={columns} key={`${key + 1}`} />
         ))}
       </Right>
     </Container>

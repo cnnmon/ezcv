@@ -1,22 +1,13 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import TabMenu from './TabMenu';
 import SectionsWindow from './Windows/SectionsWindow';
-import Modal from './Modal';
 import Textbox from './Textbox';
-import ThemesTab from './Windows/ThemesWindow';
+import ThemesWindow from './Windows/ThemesWindow';
 import getAppendJobs from './utils';
 
 export default function Menu({ content, styling, lines, text, setText }) {
-  const [activeItem, setActiveItem] = useState(null);
   const textbox = useRef();
 
-  const openModal = (item) => {
-    setActiveItem(item);
-  };
-
-  const closeModal = () => {
-    setActiveItem(null);
-  };
   const { appendStyling, appendSection } = getAppendJobs(
     lines,
     text,
@@ -29,15 +20,18 @@ export default function Menu({ content, styling, lines, text, setText }) {
       <SectionsWindow
         content={content}
         onClick={appendSection}
-        openModal={openModal}
         key={tab.title}
       />
       <Textbox text={text} setText={setText} textbox={textbox} />
     </>
   );
 
-  const getThemesTab = (tab) => (
-    <ThemesTab styling={styling} onClick={appendStyling} key={tab.title} />
+  const getThemesWindow = (tab) => (
+    <ThemesWindow
+      styling={styling}
+      appendStyling={appendStyling}
+      key={tab.title}
+    />
   );
 
   const TABS = [
@@ -47,21 +41,11 @@ export default function Menu({ content, styling, lines, text, setText }) {
     },
     {
       title: 'Themes',
-      getTab: getThemesTab,
+      getTab: getThemesWindow,
     },
   ];
 
-  return (
-    <>
-      <Modal
-        item={activeItem}
-        closeModal={closeModal}
-        appendSection={appendSection}
-        styling={styling}
-      />
-      <TabMenu tabs={TABS} />
-    </>
-  );
+  return <TabMenu tabs={TABS} />;
 }
 
 export { Textbox };

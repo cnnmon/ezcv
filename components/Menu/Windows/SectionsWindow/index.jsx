@@ -21,7 +21,7 @@ const styles = {
   },
 };
 
-export default function SectionsWindow({ onClick, openModal, content }) {
+export default function SectionsWindow({ onClick, content }) {
   const { sections } = useAppContext();
   const exampleSection = SECTIONS.getExampleSection();
 
@@ -56,9 +56,7 @@ export default function SectionsWindow({ onClick, openModal, content }) {
   });
 
   const buttonProps = (item, isPrimary = false, isSelected = false) => {
-    const handleOnClick = isPrimary
-      ? () => openModal(item)
-      : () => (isSelected ? null : onClick(item.char));
+    const handleOnClick = () => (isSelected ? null : onClick(item.char));
 
     return {
       item,

@@ -296,10 +296,9 @@ export const getDefaultSections = () =>
   SECTIONS.map((section, index) => formatIntoSection({ ...section, index }));
 
 // default states
-export const getDefaultText = (sections) => {
-  const text = `${getDefaultStylingText()}\n\n${sections[0].char}\n\n`;
-  return text;
-};
+export const getDefaultText = () =>
+  // const text = `${getDefaultStylingText()}\n\n${sections[0].char}\n\n`;
+  '';
 
 export const formatSubmittedResume = (data) =>
   SECTIONS.map((section, index) => {

@@ -9,17 +9,14 @@ const styles = {
   },
   title: {
     padding: '0 20px',
+    paddingBottom: 10,
+    borderBottom: `2px solid ${COLORS.darkBrown}`,
   },
   list: {
     display: 'flex',
     padding: '10px 20px 20px',
     boxSizing: 'border-box',
     overflowX: 'scroll',
-  },
-  item: {
-    paddingRight: 20,
-    width: 200,
-    minWidth: 200,
   },
   text: {
     margin: 0,
@@ -47,15 +44,22 @@ export default function ImageSelect({
   items,
   currentValue,
   onChange,
-  color = COLORS.red,
+  smallWidth = false,
 }) {
   const PUBLIC_FILEPATH = '../../../../';
 
-  const getOptionStyle = (isCurrent) => ({
+  const getItemStyle = () => ({
+    paddingRight: 20,
+    width: smallWidth ? 150 : 200,
+    minWidth: smallWidth ? 150 : 200,
+  });
+
+  const getOptionStyle = (isCurrent, color = 'white') => ({
     background: color,
     cursor: isCurrent ? 'not-allowed' : undefined,
     opacity: isCurrent ? '0.5' : undefined,
     borderRadius: isCurrent ? 20 : undefined,
+    padding: 10,
   });
 
   return (
@@ -66,10 +70,13 @@ export default function ImageSelect({
       </div>
       <ScrollContainer style={styles.list}>
         {items.map((item) => (
-          <div style={styles.item} key={item.name}>
+          <div style={getItemStyle()} key={item.name}>
             <Option
               src={`${PUBLIC_FILEPATH}${item.image}`}
-              style={getOptionStyle(item.name === currentValue.name)}
+              style={getOptionStyle(
+                item.name === currentValue.name,
+                item.color
+              )}
               onClick={() => onChange(item)}
               alt=""
               key={item.name}
