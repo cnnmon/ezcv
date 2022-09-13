@@ -17,7 +17,7 @@ const Subtitle = styled.p`
 `;
 
 const Date = styled.span`
-  color: rgba(0, 0, 0, 0.6);
+  opacity: 0.6;
 `;
 
 function Body({ subsection }) {

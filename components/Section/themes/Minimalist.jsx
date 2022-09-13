@@ -56,7 +56,7 @@ function Body({ subsection }) {
 
 export default function Minimalist({ header, subsections, columns }) {
   const getColumnStyle = () => ({
-    display: columns.key === 'one' ? 'flex' : 'block',
+    display: columns.key === 'onecolumn' ? 'flex' : 'block',
   });
 
   return (

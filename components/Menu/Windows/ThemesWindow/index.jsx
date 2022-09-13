@@ -18,7 +18,7 @@ const Container = styled.div`
 
 export default function ThemesWindow({ appendStyling, styling }) {
   const all = STYLING.getStyling();
-  const { themes, columns, headers, fonts } = all;
+  const { themes, columns, headers, fonts, mode } = all;
 
   const handleStyleSelect = async (object) => {
     const chosen = all[object.type].find(({ name }) => name === object.name);
@@ -28,6 +28,21 @@ export default function ThemesWindow({ appendStyling, styling }) {
   return (
     <Container>
       <ImageSelect
+        title="Themes"
+        description="Spice up your resume in one click."
+        items={themes}
+        currentValue={styling.themes}
+        onChange={handleStyleSelect}
+      />
+      <ImageSelect
+        title="Fonts"
+        description="Change the typeface of your resume."
+        items={fonts}
+        currentValue={styling.fonts}
+        onChange={handleStyleSelect}
+        smallWidth
+      />
+      <ImageSelect
         title="Columns"
         description="One column or two columns. Tip: Switch 'section1' and 'section2' to move columns from left to right."
         items={columns}
@@ -36,24 +51,10 @@ export default function ThemesWindow({ appendStyling, styling }) {
         smallWidth
       />
       <ImageSelect
-        title="Themes"
-        description="Spice up your resume in one click."
-        items={themes}
-        currentValue={styling.themes}
-        onChange={handleStyleSelect}
-      />
-      <ImageSelect
-        title="Headers"
-        description="Changes only the #header section."
-        items={headers}
-        currentValue={styling.headers}
-        onChange={handleStyleSelect}
-      />
-      <ImageSelect
-        title="Fonts"
-        description="Change the typeface of your resume."
-        items={fonts}
-        currentValue={styling.fonts}
+        title="Mode"
+        description="For kicks."
+        items={mode}
+        currentValue={styling.mode}
         onChange={handleStyleSelect}
         smallWidth
       />

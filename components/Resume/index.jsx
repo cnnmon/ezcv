@@ -18,7 +18,7 @@ const Container = styled.div`
   min-height: ${HEIGHT};
   overflow: hidden;
   transform: scale(${SCALE});
-  border: 3px solid ${COLORS.darkBrown};
+  border: 3px solid black;
   background-color: white;
 
   @media only screen and (max-width: ${TRIGGERS.mobileBreakpoint}) {
@@ -32,6 +32,7 @@ export function getHeader(text) {
 
 const Resume = React.forwardRef(({ styling, content }, ref) => {
   const { alignment } = styling.columns;
+  const isDarkMode = styling.mode.key === 'dark';
 
   const getContentStyle = () => ({
     padding: 30,
@@ -40,6 +41,8 @@ const Resume = React.forwardRef(({ styling, content }, ref) => {
     overflow: 'hidden',
     maxHeight: '95%',
     fontFamily: styling.fonts.name,
+    background: isDarkMode ? 'black' : undefined,
+    color: isDarkMode ? 'white' : undefined,
   });
 
   return (

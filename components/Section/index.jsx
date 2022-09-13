@@ -2,7 +2,7 @@ import { Classic, Modern, Minimalist, Simple } from './themes';
 import { Center, LeftHanded, RightHanded } from './headers';
 
 const HEADERS = {
-  center: Center,
+  onecolumn: Center,
   lefthanded: LeftHanded,
   righthanded: RightHanded,
 };
@@ -19,12 +19,12 @@ export default function Section({ styling, type, ...props }) {
     return THEMES.classic(props);
   }
 
-  const { themes, headers, columns } = styling;
+  const { themes, columns, mode } = styling;
 
   if (type === 'header') {
-    return HEADERS[headers.key](props);
+    return HEADERS[columns.key](props);
   }
 
   // enlarges/formats header section differently
-  return THEMES[themes.key]({ columns, ...props });
+  return THEMES[themes.key]({ columns, mode, ...props });
 }

@@ -20,7 +20,6 @@ const Right = styled.p`
 const Header = styled.h2`
   padding-top: 4px;
   padding-bottom: 4px;
-  border-bottom: 1px solid black;
 `;
 
 function Body({ subsection }) {
@@ -43,10 +42,19 @@ function Body({ subsection }) {
   );
 }
 
-export default function Classic({ header, subsections }) {
+export default function Classic({ mode, header, subsections }) {
+  const isDarkMode = mode.key === 'dark';
+  const getBottomBorder = () => ({
+    borderBottom: `1px solid ${isDarkMode ? 'white' : 'black'}`,
+  });
+
   return (
     <Container>
-      {header && <Header style={styles.header}>{header}</Header>}
+      {header && (
+        <Header style={{ ...getBottomBorder(), ...styles.header }}>
+          {header}
+        </Header>
+      )}
       {subsections.map((s, key) => (
         <Body subsection={s} key={`${key + 1}`} />
       ))}

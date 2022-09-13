@@ -8,32 +8,6 @@ export const ALIGNMENT = {
 };
 
 export const STYLING = {
-  columns: [
-    {
-      name: 'One Column',
-      body: 'one',
-      image: 'style_theme_one_column.png',
-      description: `Reliable one column format.`,
-      alignment: ALIGNMENT.CENTER,
-      color: COLORS.redOrange,
-    },
-    {
-      name: 'Right-Handed',
-      body: 'righthanded',
-      image: 'style_theme_right_handed.png',
-      description: `Two column, where right side is bigger.`,
-      alignment: ALIGNMENT.RIGHT,
-      color: COLORS.redOrange,
-    },
-    {
-      name: 'Left-Handed',
-      body: 'lefthanded',
-      image: 'style_theme_left_handed.png',
-      description: `Two column, where left side is bigger.`,
-      alignment: ALIGNMENT.LEFT,
-      color: COLORS.redOrange,
-    },
-  ],
   themes: [
     {
       name: 'Classic',
@@ -58,26 +32,6 @@ export const STYLING = {
       body: 'simple',
       image: 'style_theme_tall.png',
       description: 'Packed together and vertical.',
-    },
-  ],
-  headers: [
-    {
-      name: 'Center',
-      body: 'center',
-      image: 'style_header_center.png',
-      description: `Centered in the middle with dots.`,
-    },
-    {
-      name: 'Right-Handed',
-      body: 'righthanded',
-      image: 'style_header_right_handed.png',
-      description: `Two column, where right side is bigger.`,
-    },
-    {
-      name: 'Left-Handed',
-      body: 'lefthanded',
-      image: 'style_header_left_handed.png',
-      description: `Two column, where left side is bigger.`,
     },
   ],
   fonts: [
@@ -110,6 +64,49 @@ export const STYLING = {
       body: 'timesnewroman',
       image: 'style_font_timesnewroman.png',
       description: `Elegant and classic.`,
+    },
+  ],
+  columns: [
+    {
+      name: 'One Column',
+      body: 'onecolumn',
+      image: 'style_theme_one_column.png',
+      description: `Reliable one column format.`,
+      alignment: ALIGNMENT.CENTER,
+      color: COLORS.redOrange,
+    },
+    {
+      name: 'Right-Handed',
+      body: 'righthanded',
+      image: 'style_theme_right_handed.png',
+      description: `Two column, where right side is bigger.`,
+      alignment: ALIGNMENT.RIGHT,
+      color: COLORS.redOrange,
+    },
+    {
+      name: 'Left-Handed',
+      body: 'lefthanded',
+      image: 'style_theme_left_handed.png',
+      description: `Two column, where left side is bigger.`,
+      alignment: ALIGNMENT.LEFT,
+      color: COLORS.redOrange,
+    },
+  ],
+  mode: [
+    {
+      name: 'Light Mode',
+      body: 'light',
+      image: 'style_mode_light.png',
+      description: `Lights on.`,
+      alignment: ALIGNMENT.CENTER,
+    },
+    {
+      name: 'Dark Mode',
+      body: 'dark',
+      image: 'style_mode_dark.png',
+      description: `Lights out.`,
+      alignment: ALIGNMENT.CENTER,
+      color: COLORS.darkBrown,
     },
   ],
 };
