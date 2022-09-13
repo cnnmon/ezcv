@@ -1,8 +1,8 @@
 import React from 'react';
 import { COLORS } from '../../../constants';
 
-const styles = {
-  textarea: {
+export default function Textbox({ text, setText, textbox, readOnly = false }) {
+  const getStyle = () => ({
     width: '100%',
     border: `2px solid ${COLORS.darkBrown}`,
     backgroundColor: COLORS.yellow,
@@ -14,15 +14,14 @@ const styles = {
     fontFamily: 'Inter',
     fontSize: 13,
     height: '100%',
-  },
-};
+    cursor: readOnly ? 'not-allowed' : undefined,
+  });
 
-export default function Textbox({ text, setText, textbox, readOnly = false }) {
   return (
     <textarea
       value={text}
       ref={textbox}
-      style={styles.textarea}
+      style={getStyle()}
       readOnly={readOnly}
       onChange={(e) => setText(e.target.value)}
       placeholder="Click on the sections above to start building your resume!"

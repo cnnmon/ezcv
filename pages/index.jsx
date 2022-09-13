@@ -54,6 +54,19 @@ const styles = {
   icon: {
     fontSize: 30,
   },
+  footer: {
+    display: 'flex',
+    width: '100%',
+    maxWidth: 1000,
+  },
+  left: {
+    flexGrow: 0.5,
+  },
+  right: {
+    flexGrow: 0.5,
+    justifyContent: 'flex-end',
+    textAlign: 'right',
+  },
 };
 
 const SplashImage = styled.div`
@@ -335,11 +348,25 @@ export default function App() {
         </Box>
       </main>
 
-      <footer>
+      <footer style={styles.flex}>
         <Box>
-          <Body>
-            <Image alt="logo" src={logo} width={60} height={60} />
-          </Body>
+          <div style={styles.footer}>
+            <div style={styles.left}>
+              <Image alt="logo" src={logo} width={60} height={60} />
+            </div>
+            <div style={styles.right}>
+              <p>
+                Made with ♥ and red velvet lattes by{' '}
+                <a
+                  href="https://twitter.com/cnnmonsugar"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  cnnmon
+                </a>
+              </p>
+            </div>
+          </div>
         </Box>
       </footer>
 
