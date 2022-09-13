@@ -1,11 +1,26 @@
+/* eslint-disable react/no-danger */
 import React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
+import Script from 'next/script';
 
 class MyDocument extends Document {
   render() {
     return (
       <Html>
         <Head>
+          <Script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-GX15CQ8MZZ"
+          />
+          <Script id="google-tag" strategy="afterInteractive">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', 'G-GX15CQ8MZZ');
+            `}
+          </Script>
           <link rel="preconnect" href="https://fonts.googleapis.com" />
           <link
             rel="preconnect"
