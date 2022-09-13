@@ -28,6 +28,14 @@ export default function ThemesWindow({ appendStyling, styling }) {
   return (
     <Container>
       <ImageSelect
+        title="Columns"
+        description="One column or two columns. Tip: Switch 'section1' and 'section2' to move columns from left to right."
+        items={columns}
+        currentValue={styling.columns}
+        onChange={handleStyleSelect}
+        smallWidth
+      />
+      <ImageSelect
         title="Themes"
         description="Spice up your resume in one click."
         items={themes}
@@ -46,14 +54,6 @@ export default function ThemesWindow({ appendStyling, styling }) {
         description="Change the typeface of your resume."
         items={fonts}
         currentValue={styling.fonts}
-        onChange={handleStyleSelect}
-        smallWidth
-      />
-      <ImageSelect
-        title="Columns"
-        description="One column or two columns. Tip: Switch 'section1' and 'section2' to move columns from left to right."
-        items={columns}
-        currentValue={styling.columns}
         onChange={handleStyleSelect}
         smallWidth
       />
