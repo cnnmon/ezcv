@@ -15,9 +15,7 @@
     "prettier.config.js": true,
     "pages/.vscode": true,
     "jsconfig.json": true,
-    ".eslintrc.js": true,
-    "next.config.js": true,
-    "package-lock.json": true
+    ".eslintrc.js": true
   },
   "hide-files.files": [
     ".prettierrc",
@@ -29,8 +27,6 @@
     "prettier.config.js",
     "pages/.vscode",
     "jsconfig.json",
-    ".eslintrc.js",
-    "next.config.js",
-    "package-lock.json"
+    ".eslintrc.js"
   ]
 }
