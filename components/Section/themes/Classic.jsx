@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import styles, { getItems, getSectionTitle } from '../styles';
 
 const Container = styled.div`
-  line-height: 1.3;
+  line-height: 1.2;
 `;
 
 const Left = styled.div`
