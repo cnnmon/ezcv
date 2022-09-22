@@ -63,3 +63,7 @@
   src: url('../public/fonts/Unna-Bold.ttf');
   font-weight: bold;
 }
+
+a {
+  color: black;
+}
