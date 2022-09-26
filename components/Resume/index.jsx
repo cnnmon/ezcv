@@ -33,23 +33,22 @@ const Resume = React.forwardRef(({ styling, content }, ref) => {
   const { alignment } = styling.columns;
   const isDarkMode = styling.mode.key === 'dark';
 
-  const getContainerStyle = () => ({
-    background: isDarkMode ? '#242426' : 'white',
-  });
-
   const getContentStyle = () => ({
     padding: 30,
     whiteSpace: 'pre-line',
     fontSize: 12.5,
+    maxWidth: WIDTH,
+    minWidth: WIDTH,
+    maxHeight: `calc(${HEIGHT} - 20px)`,
+    minHeight: `calc(${HEIGHT} - 20px)`,
     overflow: 'hidden',
-    maxHeight: '95%',
     fontFamily: styling.fonts.name,
     color: isDarkMode ? 'white' : undefined,
     background: isDarkMode ? '#242426' : 'white',
   });
 
   return (
-    <Container style={getContainerStyle()}>
+    <Container>
       <div style={getContentStyle()} ref={ref}>
         {alignment !== STYLING.ALIGNMENT.CENTER ? (
           <TwoColumn
