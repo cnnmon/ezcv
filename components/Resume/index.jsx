@@ -37,8 +37,6 @@ const Resume = React.forwardRef(({ styling, content }, ref) => {
     padding: 30,
     whiteSpace: 'pre-line',
     fontSize: 12.5,
-    maxWidth: WIDTH,
-    minWidth: WIDTH,
     maxHeight: `calc(${HEIGHT} - 20px)`,
     minHeight: `calc(${HEIGHT} - 20px)`,
     overflow: 'hidden',
