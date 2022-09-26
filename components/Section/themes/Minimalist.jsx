@@ -35,7 +35,7 @@ const Title = styled.div`
 
 const Date = styled.p`
   margin: 0;
-  color: rgba(0, 0, 0, 0.5);
+  opacity: 0.5;
   text-align: right;
   flex: 0.4;
 `;
