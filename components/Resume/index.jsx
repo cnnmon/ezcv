@@ -35,12 +35,13 @@ const Resume = React.forwardRef(({ styling, content }, ref) => {
 
   const getContentStyle = () => ({
     padding: 30,
+    boxSizing: 'border-box',
     whiteSpace: 'pre-line',
     fontSize: 12.5,
-    maxWidth: `calc(${WIDTH} - 60px)`,
-    minWidth: `calc(${WIDTH} - 60px)`,
-    maxHeight: `calc(${HEIGHT} - 60px)`,
-    minHeight: `calc(${HEIGHT} - 60px)`,
+    maxWidth: WIDTH,
+    minWidth: WIDTH,
+    maxHeight: HEIGHT,
+    minHeight: HEIGHT,
     overflow: 'hidden',
     fontFamily: styling.fonts.name,
     color: isDarkMode ? 'white' : undefined,
