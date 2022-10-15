@@ -32,7 +32,7 @@
     "styled-components": "^5.3.5",
     "tracer": "^1.1.6",
     "underscore": "^1.13.4",
-    "watch": "^1.0.2",
+    "watch": "^0.13.0",
     "ws": "^8.8.1"
   },
   "devDependencies": {
