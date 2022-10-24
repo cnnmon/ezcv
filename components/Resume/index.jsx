@@ -38,8 +38,7 @@ const Resume = React.forwardRef(({ styling, content }, ref) => {
     boxSizing: 'border-box',
     whiteSpace: 'pre-line',
     fontSize: 12.5,
-    maxWidth: WIDTH,
-    minWidth: WIDTH,
+    maxWidth: '100%',
     maxHeight: HEIGHT,
     minHeight: HEIGHT,
     overflow: 'hidden',
@@ -62,7 +61,7 @@ const Resume = React.forwardRef(({ styling, content }, ref) => {
         )}
         <style jsx global>{`
           a {
-            color: black;
+            color: ${isDarkMode ? 'white' : 'black'};
             text-decoration: none;
           }
         `}</style>
