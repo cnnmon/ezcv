@@ -214,7 +214,6 @@ export default function App() {
           <Image
             src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=359637&theme=light"
             alt="ezcv - Turn&#0032;text&#0032;into&#0032;a&#0032;beautiful&#0032;resume&#0032;in&#0032;seconds&#0046; | Product Hunt"
-            dangerouslyAllowSVG
             width={250}
             height={54}
           />
