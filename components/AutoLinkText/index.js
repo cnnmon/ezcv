@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable class-methods-use-this */
 /* Taken from https://github.com/schneidmaster/react-autolink-text/blob/master/src/index.js */

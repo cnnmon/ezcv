@@ -14,8 +14,7 @@
     "README.md": true,
     "prettier.config.js": true,
     "pages/.vscode": true,
-    "jsconfig.json": true,
-    ".eslintrc.js": true
+    "jsconfig.json": true
   },
   "hide-files.files": [
     ".prettierrc",
@@ -26,7 +25,6 @@
     "README.md",
     "prettier.config.js",
     "pages/.vscode",
-    "jsconfig.json",
-    ".eslintrc.js"
+    "jsconfig.json"
   ]
 }
