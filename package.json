@@ -22,6 +22,7 @@
     "nextjs-cors": "^2.1.1",
     "pdf-to-text": "^0.0.7",
     "react": "^18.2.0",
+    "react-autolink-text2": "github:mmathys/react-autolink-text",
     "react-dom": "^18.2.0",
     "react-drag-drop-files": "^2.3.7",
     "react-fast-marquee": "^1.3.5",
