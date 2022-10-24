@@ -20,7 +20,6 @@ const styles = {
 };
 
 export function autolink(text) {
-  //return text;
   return <AutoLinkText text={text} linkProps={{ target: '_blank' }} />;
 }
 
