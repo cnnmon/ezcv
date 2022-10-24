@@ -1,5 +1,5 @@
 import React from 'react';
-import AutoLinkText from 'react-autolink-text2';
+import AutoLinkText from '../AutoLinkText';
 
 const styles = {
   /* Global */

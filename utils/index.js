@@ -1,4 +1,6 @@
 import { STYLING, SECTIONS, TRIGGERS } from '../constants';
+import React from 'react';
+import matchParser from '../components/AutoLinkText/match_parser.js';
 
 function getFirst(text, symbol, defaultValue) {
   const index = text.indexOf(symbol);
