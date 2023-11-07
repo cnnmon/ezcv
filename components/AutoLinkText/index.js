@@ -13,10 +13,8 @@ export default class AutoLinkText extends PureComponent {
     const elements = [];
     let lastIndex = 0;
 
-    /* check both urlMatches and formatterMatches for the next match,
-     * and add the next element to the list of elements
-     */
-    while (urlMatches.length > 0 || formatterMatches.length > 0) {
+    // TODO: only allow one formatting match per section since otherwise it breaks (nesting)
+    if (urlMatches.length > 0 || formatterMatches.length > 0) {
       let nextMatch;
 
       if (urlMatches.length === 0) {
@@ -59,32 +57,6 @@ export default class AutoLinkText extends PureComponent {
     if (lastIndex < text.length) {
       elements.push(React.createElement('span', {}, text.slice(lastIndex)));
     }
-
-    /*
-    urlMatches.forEach((match) => {
-      if (match.position.start !== 0) {
-        elements.push(
-          React.createElement(
-            'span',
-            {},
-            text.slice(lastIndex, match.position.start)
-          )
-        );
-      }
-      elements.push(
-        React.createElement(
-          'a',
-          { href: match.getAnchorHref(), ...this.props.linkProps },
-          match.getAnchorText()
-        )
-      );
-      lastIndex = match.position.end;
-    });
-
-    if (lastIndex < text.length) {
-      elements.push(React.createElement('span', {}, text.slice(lastIndex)));
-    }
-    */
 
     return elements;
   }
