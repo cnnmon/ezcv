@@ -4,15 +4,64 @@
 /* Taken from https://github.com/schneidmaster/react-autolink-text/blob/master/src/index.js */
 
 import React, { PureComponent } from 'react';
-
 import matchParser from './match_parser';
+import URLMatch from './url_match';
+import formatterMatchParser, { FormatMatch } from './match_format';
 
 export default class AutoLinkText extends PureComponent {
-  prepareElements(matches, text) {
+  prepareElements(urlMatches, formatterMatches, text) {
     const elements = [];
     let lastIndex = 0;
 
-    matches.forEach((match) => {
+    /* check both urlMatches and formatterMatches for the next match,
+     * and add the next element to the list of elements
+     */
+    while (urlMatches.length > 0 || formatterMatches.length > 0) {
+      let nextMatch;
+
+      if (urlMatches.length === 0) {
+        nextMatch = formatterMatches.shift();
+      } else if (formatterMatches.length === 0) {
+        nextMatch = urlMatches.shift();
+      } else if (
+        urlMatches[0].position.start < formatterMatches[0].position.start
+      ) {
+        nextMatch = urlMatches.shift();
+      } else {
+        nextMatch = formatterMatches.shift();
+      }
+
+      if (nextMatch.position.start !== 0) {
+        elements.push(
+          React.createElement(
+            'span',
+            {},
+            text.slice(lastIndex, nextMatch.position.start)
+          )
+        );
+      }
+
+      if (nextMatch instanceof URLMatch) {
+        elements.push(
+          React.createElement(
+            'a',
+            { href: nextMatch.getAnchorHref(), ...this.props.linkProps },
+            nextMatch.getAnchorText()
+          )
+        );
+      } else if (nextMatch instanceof FormatMatch) {
+        elements.push(nextMatch.render());
+      }
+
+      lastIndex = nextMatch.position.end;
+    }
+
+    if (lastIndex < text.length) {
+      elements.push(React.createElement('span', {}, text.slice(lastIndex)));
+    }
+
+    /*
+    urlMatches.forEach((match) => {
       if (match.position.start !== 0) {
         elements.push(
           React.createElement(
@@ -35,6 +84,7 @@ export default class AutoLinkText extends PureComponent {
     if (lastIndex < text.length) {
       elements.push(React.createElement('span', {}, text.slice(lastIndex)));
     }
+    */
 
     return elements;
   }
@@ -79,6 +129,7 @@ export default class AutoLinkText extends PureComponent {
       this.truncate(
         this.prepareElements(
           matchParser(text, this.props.disableUrlStripping),
+          formatterMatchParser(text),
           text
         )
       )
