@@ -64,32 +64,11 @@ export const TYPES = {
   // two column format
   SECTION1: 'section1',
   SECTION2: 'section2',
+  // page break
+  PAGEBREAK: 'pagebreak',
 };
 
 /* SECTIONS */
-const EXAMPLE_SECTION = {
-  name: 'Example Section',
-  placeholder: 'Custom',
-  body: [
-    {
-      title: 'This is your subsection!',
-      subtitle: 'subtitle',
-      date: 'Date #1 - Date #2',
-      description: 'description',
-      other: ['Write something here.', '- Maybe use bullet points!'],
-    },
-    {
-      title: 'Another Subsection',
-      date: 'Date #3',
-      other: [
-        "- Remove as much information as you'd like.",
-        "- Add as much information as you'd like.",
-      ],
-    },
-  ],
-  type: TYPES.SECTION1,
-};
-
 const SECTIONS = [
   {
     name: 'John Doe',
@@ -254,6 +233,16 @@ const SECTIONS = [
   },
 ];
 
+const PAGEBREAK_SECTION = {
+  name: 'Page Break',
+  body: [
+    {
+      other: ['#pagebreak\nScroll down to see me!'],
+    },
+  ],
+  type: TYPES.PAGEBREAK,
+};
+
 // empty subsection contents
 // for text parsing
 export const getEmptySubsection = () => ({
@@ -274,9 +263,9 @@ export function formatIntoSection({
   icon = () => null,
   color = undefined,
 }) {
-  const char = `${trigger}${type} ${name}\n\n${getMultiSectionDefaultFieldsString(
-    body
-  )}`;
+  const titleChar =
+    type !== TYPES.PAGEBREAK ? `${trigger}${type} ${name}\n\n` : '';
+  const char = `${titleChar}${getMultiSectionDefaultFieldsString(body)}`;
   return {
     key: index,
     name,
@@ -290,7 +279,7 @@ export function formatIntoSection({
 }
 
 // empty section contents
-export const getExampleSection = () => formatIntoSection(EXAMPLE_SECTION);
+export const getNewPageSection = () => formatIntoSection(PAGEBREAK_SECTION);
 
 export const getDefaultSections = () =>
   SECTIONS.map((section, index) => formatIntoSection({ ...section, index }));
@@ -302,7 +291,7 @@ export const getDefaultText = () =>
 
 export const formatSubmittedResume = (data) =>
   SECTIONS.map((section, index) => {
-    if (data && data !== {}) {
+    if (data && Object.keys(data).length > 0) {
       const { name, placeholder, body, ...rest } = section;
       const key = (placeholder || name).toLowerCase();
 

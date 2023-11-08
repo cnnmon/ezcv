@@ -1,6 +1,4 @@
 import { STYLING, SECTIONS, TRIGGERS } from '../constants';
-import React from 'react';
-import matchParser from '../components/AutoLinkText/match_parser.js';
 
 function getFirst(text, symbol, defaultValue) {
   const index = text.indexOf(symbol);
@@ -74,6 +72,7 @@ export function parseIntoContent(text, styling = {}, setStyling = () => null) {
         currentFields[k] = value;
       }
     } else {
+      console.log(currentBody);
       currentFields.other.push(t.trim());
     }
   }
@@ -89,6 +88,20 @@ export function parseIntoContent(text, styling = {}, setStyling = () => null) {
       case TRIGGERS.trigger:
         // if HEADER or SECTION
         if (Object.values(SECTIONS.TYPES).includes(key)) {
+          if (key === SECTIONS.TYPES.PAGEBREAK) {
+            state.push({
+              header: '',
+              body: [
+                {
+                  ...SECTIONS.getEmptySubsection(),
+                  type: SECTIONS.TYPES.PAGEBREAK,
+                },
+              ],
+              type: key,
+            });
+            break;
+          }
+
           // sets key -> k to ensure "header" gets picked up
           if (!isCurrentSectionEmpty(currentSection)) {
             state.push({
@@ -96,13 +109,14 @@ export function parseIntoContent(text, styling = {}, setStyling = () => null) {
               body: [SECTIONS.getEmptySubsection()],
               type: key,
             });
-          } else {
-            currentSection.header = value;
-            currentSection.type = key;
+            break;
           }
-        } else {
-          pushSectionToState(trimmedLine, key, value);
+
+          currentSection.header = value;
+          currentSection.type = key;
+          break;
         }
+        pushSectionToState(trimmedLine, key, value);
         break;
       case TRIGGERS.stylingTrigger:
         // eslint-disable-next-line no-case-declarations

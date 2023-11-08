@@ -24,7 +24,7 @@ const styles = {
 
 export default function SectionsWindow({ onClick, content }) {
   const { sections } = useAppContext();
-  const exampleSection = SECTIONS.getExampleSection();
+  const newPageSection = SECTIONS.getNewPageSection();
 
   const canFindInContent = (item) => {
     if (item.type === SECTIONS.TYPES.HEADER) {
@@ -38,7 +38,7 @@ export default function SectionsWindow({ onClick, content }) {
     canFindInContent(x)
   );
 
-  const getButtonContent = ({ placeholder, name, getIcon }) => (
+  const getButtonContent = ({ placeholder, name, getIcon = () => null }) => (
     <>
       <div style={styles.icon}>{getIcon()}</div>
       {placeholder ?? name}
@@ -58,7 +58,12 @@ export default function SectionsWindow({ onClick, content }) {
   });
 
   const buttonProps = (item, isPrimary = false, isSelected = false) => {
-    const handleOnClick = () => (isSelected ? null : onClick(item.char));
+    const handleOnClick = () => {
+      if (isSelected) {
+        return;
+      }
+      onClick(item.char);
+    };
 
     return {
       item,
@@ -71,7 +76,7 @@ export default function SectionsWindow({ onClick, content }) {
 
   return (
     <ScrollContainer style={styles.container}>
-      <Button {...buttonProps(exampleSection, true)} />
+      <Button {...buttonProps(newPageSection, true)} />
 
       {notSelected.map((item, index) => (
         <div key={`${index + 1}`}>
