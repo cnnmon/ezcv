@@ -12,7 +12,7 @@ const Left = styled.div`
 `;
 
 const Right = styled.p`
-  flex: 0.3;
+  flex: 0 0 auto;
   margin: 0;
   text-align: right;
 `;
