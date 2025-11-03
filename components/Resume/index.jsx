@@ -94,8 +94,6 @@ const Resume = React.forwardRef(({ styling, content }, ref) => {
   }
   contents.push(currentPage);
 
-  console.log(contents);
-
   return (
     <>
       {/* container will hide the overflow of the page, but we need to include it here for react-to-print; the next page displays are separate */}

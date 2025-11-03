@@ -1,4 +1,4 @@
-import { Classic, Modern, Minimalist, Simple } from './themes';
+import { Classic, Modern, Minimalist, Simple, Oak } from './themes';
 import { Center, LeftHanded, RightHanded } from './headers';
 
 const HEADERS = {
@@ -12,6 +12,7 @@ const THEMES = {
   modern: Modern,
   minimalist: Minimalist,
   simple: Simple,
+  oak: Oak,
 };
 
 export default function Section({ styling, type, ...props }) {

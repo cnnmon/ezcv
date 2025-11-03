@@ -1,15 +1,15 @@
 {
-    "files.exclude": {
-        "**/.git": true,
-        "**/.svn": true,
-        "**/.hg": true,
-        "**/CVS": true,
-        "**/.DS_Store": true,
-        "**/Thumbs.db": true,
-        "**/.buckd": true,
-        "**/buck-out": true,
-        "**/.lsp.buckd": true,
-        "**/.lsp-buck-out": true
-    },
-    "hide-files.files": []
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/.buckd": true,
+    "**/buck-out": true,
+    "**/.lsp.buckd": true,
+    "**/.lsp-buck-out": true
+  },
+  "hide-files.files": []
 }

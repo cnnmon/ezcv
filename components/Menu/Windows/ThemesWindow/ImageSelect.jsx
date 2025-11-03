@@ -32,6 +32,8 @@ const Option = styled.img`
   box-sizing: border-box;
   transition: border-radius 0.2s ease-in-out, opacity 0.2s ease-in-out;
   width: 100%;
+  height: 80%;
+  object-fit: cover;
 
   &:hover {
     border-radius: 20px;

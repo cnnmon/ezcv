@@ -33,6 +33,12 @@ export const STYLING = {
       image: 'style_theme_tall.png',
       description: 'Packed together and vertical.',
     },
+    {
+      name: 'Oak',
+      body: 'oak',
+      image: 'style_theme_oak.png',
+      description: 'A classic look with a modern twist.',
+    },
   ],
   fonts: [
     {

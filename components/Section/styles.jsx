@@ -17,6 +17,10 @@ const styles = {
   unbulleted: {
     listStyleType: 'none',
   },
+  bulleted: {
+    listStyleType: 'disc',
+    marginLeft: '10px',
+  },
 };
 
 export function autolink(text) {
@@ -89,7 +93,7 @@ export function getItems(list) {
     const isBulleted = e[0] === '-';
     const element = isBulleted ? e.substring(1).trim() : e;
     return (
-      <li key={index} style={isBulleted ? null : styles.unbulleted}>
+      <li key={index} style={isBulleted ? styles.bulleted : styles.unbulleted}>
         {autolink(element)}
       </li>
     );
