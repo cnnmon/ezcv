@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import { AiOutlineDownload } from 'react-icons/ai';
 import { Resume, Menu, Button } from '../components';
+import AccountBar from '../components/Account';
 import { parseIntoContent } from '../utils';
 import { SECTIONS, STYLING, COLORS, TRIGGERS } from '../constants';
 import logo from '../public/logo.png';
@@ -107,18 +108,33 @@ export default function Builder() {
   const [text, setText] = useState(SECTIONS.getDefaultText());
   const [styling, setStyling] = useState(STYLING.getDefaultStyling());
   const [isCopying, setIsCopying] = useState(false);
+  const [resumeId, setResumeId] = useState(null);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const storedText = localStorage.getItem('text');
+      const storedId = localStorage.getItem('ezcv-resume-id');
 
-      // if not taking from resume
       if (storedText !== null && storedText !== '') {
         setText(storedText);
+      }
+      if (storedId) {
+        setResumeId(storedId);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleResumeId = (id) => {
+    setResumeId(id);
+    if (typeof window !== 'undefined') {
+      if (id) {
+        localStorage.setItem('ezcv-resume-id', id);
+      } else {
+        localStorage.removeItem('ezcv-resume-id');
+      }
+    }
+  };
 
   const handleCopyText = () => {
     navigator.clipboard.writeText(text);
@@ -159,6 +175,12 @@ export default function Builder() {
           </div>
 
           <div style={styles.right}>
+            <AccountBar
+              text={text}
+              setText={handleTextChange}
+              resumeId={resumeId}
+              setResumeId={handleResumeId}
+            />
             <HeaderButton
               content={isCopying ? 'Copied!' : 'Copy Text'}
               onClick={handleCopyText}

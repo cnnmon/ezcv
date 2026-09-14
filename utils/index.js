@@ -52,6 +52,12 @@ export function parseIntoContent(text, styling = {}, setStyling = () => null) {
     return isEmpty;
   }
 
+  function trimTrailingBlanks(fields) {
+    while (fields.other.length > 0 && fields.other[fields.other.length - 1] === '') {
+      fields.other.pop();
+    }
+  }
+
   function pushSectionToState(t, key = null, value = null) {
     const currentSection = state[state.length - 1];
     const currentBody = currentSection.body;
@@ -63,6 +69,7 @@ export function parseIntoContent(text, styling = {}, setStyling = () => null) {
     if (k && k in emptySubsection) {
       if (k === 'title' && !isCurrentFieldsEmpty(currentFields)) {
         // If title & last fields is not empty
+        trimTrailingBlanks(currentFields);
         const emptyFields = emptySubsection;
         emptyFields.title = value;
         currentBody.push(emptyFields);
@@ -104,6 +111,7 @@ export function parseIntoContent(text, styling = {}, setStyling = () => null) {
 
           // sets key -> k to ensure "header" gets picked up
           if (!isCurrentSectionEmpty(currentSection)) {
+            trimTrailingBlanks(currentSection.body[currentSection.body.length - 1]);
             state.push({
               header: value,
               body: [SECTIONS.getEmptySubsection()],
@@ -130,12 +138,19 @@ export function parseIntoContent(text, styling = {}, setStyling = () => null) {
       default:
         if (line.length > 0) {
           pushSectionToState(line);
+        } else {
+          const currentFields = currentSection.body[currentSection.body.length - 1];
+          if (currentFields.other.some((item) => item !== '')) {
+            currentFields.other.push('');
+          }
         }
         break;
     }
   }
 
   setStyling(style);
+  const lastSection = state[state.length - 1];
+  trimTrailingBlanks(lastSection.body[lastSection.body.length - 1]);
   return { lines, content: state };
 }
 

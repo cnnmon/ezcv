@@ -12,6 +12,7 @@ module.exports = {
     sourceType: 'module',
   },
   plugins: ['react', 'prettier'],
+  ignorePatterns: ['convex/**', 'scripts/**'],
   rules: {
     'prettier/prettier': 'error',
     'react/prop-types': 'off',

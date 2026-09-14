@@ -5,13 +5,18 @@ import { STYLING } from '../../constants';
 function Content({ content, styling = STYLING.getDefaultStyling() }) {
   return (
     <>
-      {content.map(({ body, header, type }, i) => (
-        <div key={`${i + 1}`}>
+      {content.map((section, i) => (
+        <div
+          key={`${i + 1}`}
+          data-resume-section={
+            section.pageId !== undefined ? section.pageId : i
+          }
+        >
           <Section
             styling={styling}
-            type={type}
-            header={header}
-            subsections={body}
+            type={section.type}
+            header={section.header}
+            subsections={section.body}
           />
         </div>
       ))}

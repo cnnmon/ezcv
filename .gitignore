@@ -23,6 +23,7 @@ npm-debug.log*
 
 # local env files
 .env.local
+.convex/
 .env.development.local
 .env.test.local
 .env.production.local

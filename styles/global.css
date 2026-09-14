@@ -64,6 +64,62 @@
   font-weight: bold;
 }
 
+@font-face {
+  font-family: 'Neue Montreal';
+  src: url('../public/fonts/NeueMontreal-Light.otf');
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Neue Montreal';
+  src: url('../public/fonts/NeueMontreal-LightItalic.otf');
+  font-weight: 200;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Neue Montreal';
+  src: url('../public/fonts/NeueMontreal-Italic.otf');
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Neue Montreal';
+  src: url('../public/fonts/NeueMontreal-Regular.otf');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Neue Montreal';
+  src: url('../public/fonts/NeueMontreal-Medium.otf');
+  font-weight: 600;
+  font-style: bold;
+}
+
+@font-face {
+  font-family: 'Neue Montreal';
+  src: url('../public/fonts/NeueMontreal-MediumItalic.otf');
+  font-weight: 600;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Argent Pixel';
+  src: url('../public/fonts/ArgentPixelCF-Regular.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Argent Pixel';
+  src: url('../public/fonts/ArgentPixelCF-Italic.otf');
+  font-weight: normal;
+  font-style: italic;
+}
+
 a {
   color: black;
 }

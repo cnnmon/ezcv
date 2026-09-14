@@ -1,0 +1,18 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /resumes/{resumeId} {
+      allow read: if true;
+      allow create: if request.auth != null
+        && request.resource.data.ownerId == request.auth.uid;
+      allow update, delete: if request.auth != null
+        && resource.data.ownerId == request.auth.uid;
+
+      match /versions/{versionId} {
+        allow read, create: if request.auth != null
+          && get(/databases/$(database)/documents/resumes/$(resumeId)).data.ownerId
+            == request.auth.uid;
+      }
+    }
+  }
+}

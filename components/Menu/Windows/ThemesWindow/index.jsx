@@ -3,6 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { STYLING, COLORS, TRIGGERS } from '../../../../constants';
 import ImageSelect from './ImageSelect';
+import ColorPicker from './ColorPicker';
 
 const Container = styled.div`
   height: calc(100vh - 170px);
@@ -41,6 +42,7 @@ export default function ThemesWindow({ appendStyling, styling }) {
         currentValue={styling.fonts}
         onChange={handleStyleSelect}
         smallWidth
+        preview="font"
       />
       <ImageSelect
         title="Columns"
@@ -49,6 +51,7 @@ export default function ThemesWindow({ appendStyling, styling }) {
         currentValue={styling.columns}
         onChange={handleStyleSelect}
         smallWidth
+        preview="layout"
       />
       <ImageSelect
         title="Mode"
@@ -57,6 +60,12 @@ export default function ThemesWindow({ appendStyling, styling }) {
         currentValue={styling.mode}
         onChange={handleStyleSelect}
         smallWidth
+      />
+      <ColorPicker
+        title="Link Color"
+        description="Hyperlinks stay colored. Pick any accent."
+        value={styling.links}
+        onChange={appendStyling}
       />
     </Container>
   );

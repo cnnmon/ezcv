@@ -7,12 +7,16 @@
   },
   "scripts": {
     "dev": "next dev",
+    "convex": "convex dev --typecheck disable",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "format": "npx prettier --write ."
   },
   "dependencies": {
+    "@auth/core": "^0.41.1",
+    "@convex-dev/auth": "^0.0.95",
+    "convex": "^1.45.0",
     "framer-motion": "^7.2.1",
     "net": "^1.0.2",
     "next": "^12.3.1",

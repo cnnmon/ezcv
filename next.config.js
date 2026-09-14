@@ -1,17 +1,21 @@
 /* eslint-disable no-param-reassign */
 module.exports = {
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: 'https://api.example.com/:path*',
-      },
-    ];
+  experimental: {
+    esmExternals: 'loose',
   },
   webpack(config) {
     config.module.rules.push({
       test: /\.svg$/,
       use: ['@svgr/webpack'],
+    });
+    config.module.rules.push({
+      test: /\.m?js$/,
+      include:
+        /node_modules\/(@convex-dev|convex|@auth|jose|oauth4webapi|lucia|@oslojs)/,
+      type: 'javascript/auto',
+      resolve: {
+        fullySpecified: false,
+      },
     });
 
     return config;

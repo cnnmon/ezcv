@@ -90,6 +90,12 @@ export function getInlineItems(list, isCenter) {
 
 export function getItems(list) {
   const getItem = (e, index) => {
+    if (e === '') {
+      return (
+        <li key={index} style={{ ...styles.unbulleted, height: '1.25em' }} />
+      );
+    }
+
     const isBulleted = e[0] === '-';
     const element = isBulleted ? e.substring(1).trim() : e;
     return (

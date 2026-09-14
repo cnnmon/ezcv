@@ -39,6 +39,12 @@ export const STYLING = {
       image: 'style_theme_oak.png',
       description: 'A classic look with a modern twist.',
     },
+    {
+      name: 'Academic',
+      body: 'academic',
+      image: 'style_theme_academic.png',
+      description: 'Stacked CV. Dates on the right; blank lines stay in paragraphs.',
+    },
   ],
   fonts: [
     {
@@ -70,6 +76,18 @@ export const STYLING = {
       body: 'unna',
       image: 'style_font_unna.png',
       description: `A classier Times New Roman.`,
+    },
+    {
+      name: 'Neue Montreal',
+      body: 'neuemontreal',
+      image: 'style_font_neuemontreal.png',
+      description: `Geometric and clean.`,
+    },
+    {
+      name: 'Argent Pixel',
+      body: 'argentpixel',
+      image: 'style_font_argentpixel.png',
+      description: `Pixel serif.`,
     },
   ],
   columns: [
@@ -116,6 +134,53 @@ export const STYLING = {
     },
   ],
 };
+
+export const DEFAULT_LINK_COLOR = '#0563c1';
+
+const LINK_ALIASES = {
+  blue: '#0563c1',
+  sky: '#3b82f6',
+  red: COLORS.red,
+  teal: '#0f766e',
+  purple: '#6d28d9',
+  brown: COLORS.darkBrown,
+};
+
+export function normalizeHex(value) {
+  if (!value) {
+    return undefined;
+  }
+
+  let hex = value.trim().toLowerCase();
+  if (LINK_ALIASES[hex]) {
+    return LINK_ALIASES[hex];
+  }
+
+  if (hex[0] !== '#') {
+    hex = `#${hex}`;
+  }
+
+  if (/^#[0-9a-f]{6}$/.test(hex)) {
+    return hex;
+  }
+
+  if (/^#[0-9a-f]{3}$/.test(hex)) {
+    return `#${hex[1]}${hex[1]}${hex[2]}${hex[2]}${hex[3]}${hex[3]}`;
+  }
+
+  return undefined;
+}
+
+export function getLinkStyling(value = DEFAULT_LINK_COLOR) {
+  const color = normalizeHex(value) || DEFAULT_LINK_COLOR;
+  return {
+    name: color,
+    char: `${stylingTrigger}links ${color}`,
+    key: color,
+    type: 'links',
+    color,
+  };
+}
 
 function getStylingFormat({
   tag,
@@ -167,6 +232,7 @@ export const getDefaultStyling = () => {
     styling[k] = v;
   }
 
+  styling.links = getLinkStyling();
   return styling;
 };
 
@@ -179,6 +245,11 @@ export const getDefaultStylingText = () => {
 };
 
 export const isValidStyling = (k, value) => {
+  if (k === 'links') {
+    const color = normalizeHex(value);
+    return color ? getLinkStyling(color) : undefined;
+  }
+
   const styling = getStyling();
   if (k in styling) {
     return styling[k].find(({ key }) => key === value.toLowerCase());
