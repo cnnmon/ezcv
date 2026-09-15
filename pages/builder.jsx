@@ -187,7 +187,6 @@ export default function Builder() {
           <div style={styles.right}>
             <AccountBar
               text={text}
-              setText={handleTextChange}
               resumeId={resumeId}
               setResumeId={handleResumeId}
             />

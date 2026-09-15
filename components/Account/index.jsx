@@ -4,7 +4,6 @@ import { useMutation, useQuery } from 'convex/react';
 import { COLORS } from '../../constants';
 import { useAuth } from '../../context/auth';
 import { api } from '../../convex/_generated/api';
-import { formatRelative, formatStamp, versionPreview } from '../../lib/resumes';
 import isConvexEnabled from '../../lib/convex';
 import Button from '../Button';
 
@@ -33,28 +32,61 @@ const Wrap = styled.div`
   position: relative;
 `;
 
-const Avatar = styled.img`
+const AvatarFrame = styled.span`
+  display: inline-block;
   width: 28px;
   height: 28px;
   border-radius: 50%;
   border: 2px solid ${COLORS.darkBrown};
   margin-right: 8px;
+  background: #c8c8c8;
+  flex-shrink: 0;
+  overflow: hidden;
+  box-sizing: border-box;
 `;
+
+const AvatarImg = styled.img`
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: ${(p) => (p.$ready ? 1 : 0)};
+  transition: opacity 0.15s ease-out;
+`;
+
+function UserAvatar({ src }) {
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    setReady(false);
+  }, [src]);
+
+  if (!src) return null;
+
+  return (
+    <AvatarFrame>
+      <AvatarImg
+        src={src}
+        alt=""
+        referrerPolicy="no-referrer"
+        $ready={ready}
+        onLoad={() => setReady(true)}
+      />
+    </AvatarFrame>
+  );
+}
 
 const Panel = styled.div`
   position: absolute;
   top: 100%;
   right: 0;
-  width: 360px;
-  max-height: calc(100vh - 110px);
+  width: 320px;
   z-index: 20;
   background: ${COLORS.yellow};
   border: 2px solid ${COLORS.darkBrown};
   box-sizing: border-box;
   font-family: Helvetica;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
+  padding: 20px;
 `;
 
 const Backdrop = styled.div`
@@ -63,27 +95,26 @@ const Backdrop = styled.div`
   z-index: 19;
 `;
 
-const PanelBody = styled.div`
-  padding: 16px 16px 0;
-  flex-shrink: 0;
-`;
-
-const PanelFooter = styled.div`
-  padding: 12px 16px 16px;
-  flex-shrink: 0;
-  border-top: 2px solid ${COLORS.darkBrown};
-`;
-
-const SectionTitle = styled.h4`
-  margin: 0 0 10px;
+const Title = styled.h4`
+  margin: 0 0 6px;
   font-family: Mabry;
   font-weight: normal;
-  font-size: 16px;
+  font-size: 18px;
+  line-height: 1.2;
 `;
 
-const Hint = styled.div`
-  margin: 10px 0 0;
+const Sub = styled.p`
+  margin: 0 0 16px;
+  font-size: 14px;
+  line-height: 1.45;
+  opacity: 0.7;
+`;
+
+const Hint = styled.p`
+  margin: 8px 0 0;
   font-size: 13px;
+  line-height: 1.35;
+  opacity: 0.65;
   min-height: 1.2em;
 `;
 
@@ -95,112 +126,21 @@ const Row = styled.div`
 
 const Actions = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 8px;
   margin-top: 12px;
 `;
 
 const Prefix = styled.span`
-  opacity: 0.65;
+  opacity: 0.55;
   font-size: 13px;
   flex-shrink: 0;
-`;
-
-const VersionsBlock = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  min-height: 0;
-  margin-top: 16px;
-  border-top: 2px solid ${COLORS.darkBrown};
-`;
-
-const VersionsHeader = styled.div`
-  padding: 12px 16px 8px;
-  flex-shrink: 0;
-`;
-
-const VersionsHint = styled.p`
-  margin: 4px 0 0;
-  font-size: 12px;
-  opacity: 0.65;
-  line-height: 1.35;
-`;
-
-const VersionsScroll = styled.div`
-  flex: 1;
-  min-height: 140px;
-  max-height: 280px;
-  overflow-y: auto;
-  padding: 0 12px 12px;
-  box-sizing: border-box;
-
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: ${COLORS.darkBrown};
-  }
-`;
-
-const VersionCard = styled.button`
-  display: block;
-  width: 100%;
-  text-align: left;
-  margin: 0 0 8px;
-  padding: 10px 12px;
-  border: 2px solid ${COLORS.darkBrown};
-  background: ${(p) => (p.$active ? 'white' : COLORS.background)};
-  cursor: pointer;
-  font-family: Helvetica;
-  box-sizing: border-box;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-
-  &:hover {
-    background: white;
-  }
-`;
-
-const VersionMeta = styled.div`
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 4px;
-  font-family: Mabry;
-  font-size: 13px;
-`;
-
-const VersionTitle = styled.div`
-  font-size: 14px;
-  line-height: 1.3;
-`;
-
-const VersionSnippet = styled.div`
-  margin-top: 4px;
-  font-size: 12px;
-  opacity: 0.6;
-  line-height: 1.35;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-`;
-
-const VersionBadge = styled.span`
-  flex-shrink: 0;
-  font-size: 11px;
-  opacity: 0.7;
 `;
 
 const Field = styled.input`
   flex: 1;
   min-width: 0;
-  padding: 8px;
+  padding: 8px 10px;
   border: 2px solid ${COLORS.darkBrown};
   background: white;
   font-family: Helvetica;
@@ -217,13 +157,37 @@ const SmallButton = styled.button`
   white-space: nowrap;
 `;
 
+const SaveButton = styled(SmallButton)`
+  width: 100%;
+  margin-top: 16px;
+  padding: 10px 12px;
+`;
+
+const SignOut = styled.button`
+  display: block;
+  width: 100%;
+  margin-top: 16px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: Helvetica;
+  font-size: 13px;
+  opacity: 0.55;
+  text-align: center;
+
+  &:hover {
+    opacity: 0.9;
+  }
+`;
+
 const GoogleButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   width: 100%;
-  margin-top: 12px;
+  margin-top: 4px;
   padding: 12px;
   border: 2px solid ${COLORS.darkBrown};
   background: white;
@@ -307,7 +271,7 @@ function viewUrl(slug) {
   return `${window.location.origin}/view/${slug}`;
 }
 
-function AccountBarLive({ text, setText, resumeId, setResumeId }) {
+function AccountBarLive({ text, resumeId, setResumeId }) {
   const { user, ready, signIn, logOut } = useAuth();
   const { labels, setLabel, clearLabel } = useFlashLabels();
   const [open, setOpen] = useState(false);
@@ -317,12 +281,6 @@ function AccountBarLive({ text, setText, resumeId, setResumeId }) {
   const saveResume = useMutation(api.resumes.save);
   const setSlugMutation = useMutation(api.resumes.setSlug);
   const resumesQuery = useQuery(api.resumes.listMine, user ? {} : 'skip');
-
-  const versions =
-    useQuery(
-      api.resumes.listVersions,
-      user && resumeId ? { resumeId } : 'skip'
-    ) || [];
 
   const availability = useQuery(
     api.resumes.isSlugAvailable,
@@ -419,14 +377,6 @@ function AccountBarLive({ text, setText, resumeId, setResumeId }) {
     }
   };
 
-  const handleRestoreVersion = (version) => {
-    if (!setText) {
-      return;
-    }
-    setText(version.text || '');
-    setLabel(`version:${version.id}`, 'Loaded');
-  };
-
   const slugHint = (() => {
     if (!slugDraft) {
       return '';
@@ -438,7 +388,7 @@ function AccountBarLive({ text, setText, resumeId, setResumeId }) {
       return '';
     }
     if (availability.ok) {
-      return availability.slug === slug ? 'Current link' : 'Available';
+      return availability.slug === slug ? 'Live link' : 'Available';
     }
     if (availability.reason === 'taken') {
       return 'Already taken';
@@ -470,9 +420,7 @@ function AccountBarLive({ text, setText, resumeId, setResumeId }) {
       <HeaderButton
         content={
           <span style={{ display: 'flex', alignItems: 'center' }}>
-            {ready && user && user.photoURL ? (
-              <Avatar src={user.photoURL} alt="" />
-            ) : null}
+            {ready && user ? <UserAvatar src={user.photoURL} /> : null}
             {publishLabel}
           </span>
         }
@@ -490,39 +438,32 @@ function AccountBarLive({ text, setText, resumeId, setResumeId }) {
             }}
           />
           <Panel>
-            <PanelBody style={{ paddingBottom: 16 }}>
-              <SectionTitle>Want to log in?</SectionTitle>
-              <p style={{ margin: 0, lineHeight: 1.4 }}>
-                Sign in with Google to publish a live link and keep version
-                history.
-              </p>
-              <GoogleButton type="button" onClick={handleSignIn}>
-                <span style={{ fontWeight: 'bold' }}>G</span>
-                {labels.google || 'Continue with Google'}
-              </GoogleButton>
-              <SmallButton
-                type="button"
-                style={{ width: '100%', marginTop: 8 }}
-                onClick={() => {
-                  clearLabel('google');
-                  setLoginOpen(false);
-                }}
-              >
-                Not now
-              </SmallButton>
-            </PanelBody>
+            <Title>Log in</Title>
+            <Sub>Sign in with Google to publish a live link.</Sub>
+            <GoogleButton type="button" onClick={handleSignIn}>
+              <span style={{ fontWeight: 'bold' }}>G</span>
+              {labels.google || 'Continue with Google'}
+            </GoogleButton>
+            <SignOut
+              type="button"
+              onClick={() => {
+                clearLabel('google');
+                setLoginOpen(false);
+              }}
+            >
+              Not now
+            </SignOut>
           </Panel>
         </>
       ) : null}
 
       {open && user ? (
-        <Panel>
-          <PanelBody>
-            <SectionTitle>Published link</SectionTitle>
+        <>
+          <Backdrop aria-hidden="true" onClick={() => setOpen(false)} />
+          <Panel>
+            <Title>Your link</Title>
             {!resumeId ? (
-              <p style={{ margin: 0, lineHeight: 1.4 }}>
-                Hit Publish to create your live link.
-              </p>
+              <Sub>Publish to create a live page.</Sub>
             ) : (
               <>
                 <Row>
@@ -537,11 +478,11 @@ function AccountBarLive({ text, setText, resumeId, setResumeId }) {
                     {labels.set || 'Set'}
                   </SmallButton>
                 </Row>
-                <Hint>Status: {slugHint}</Hint>
+                <Hint>{slugHint}</Hint>
+                <SaveButton type="button" $primary onClick={handleSave}>
+                  {labels.save || 'Save'}
+                </SaveButton>
                 <Actions>
-                  <SmallButton type="button" $primary onClick={handleSave}>
-                    {labels.save || 'Save'}
-                  </SmallButton>
                   <SmallButton type="button" onClick={handleCopyLink}>
                     {labels.copy || 'Copy link'}
                   </SmallButton>
@@ -559,84 +500,23 @@ function AccountBarLive({ text, setText, resumeId, setResumeId }) {
                 </Actions>
               </>
             )}
-          </PanelBody>
-
-          <VersionsBlock>
-            <VersionsHeader>
-              <SectionTitle style={{ marginBottom: 0 }}>History</SectionTitle>
-              <VersionsHint>
-                Click a version to load it into the editor. Save to publish it.
-              </VersionsHint>
-            </VersionsHeader>
-            <VersionsScroll>
-              {!resumeId ? (
-                <p style={{ margin: '4px 4px 0', opacity: 0.7 }}>
-                  Publish once to start keeping history.
-                </p>
-              ) : null}
-              {resumeId && versions.length === 0 ? (
-                <p style={{ margin: '4px 4px 0', opacity: 0.7 }}>
-                  No versions yet.
-                </p>
-              ) : null}
-              {versions.map((version, index) => {
-                const preview = versionPreview(version.text);
-                const isCurrent = version.text === text;
-                const loaded = labels[`version:${version.id}`];
-                return (
-                  <VersionCard
-                    type="button"
-                    key={version.id}
-                    $active={isCurrent}
-                    onClick={() => handleRestoreVersion(version)}
-                    title={formatStamp(version.createdAt)}
-                  >
-                    <VersionMeta>
-                      <span>{formatRelative(version.createdAt)}</span>
-                      <VersionBadge>
-                        {(() => {
-                          if (loaded) {
-                            return loaded;
-                          }
-                          if (isCurrent) {
-                            return 'In editor';
-                          }
-                          if (index === 0) {
-                            return 'Latest';
-                          }
-                          return '';
-                        })()}
-                      </VersionBadge>
-                    </VersionMeta>
-                    <VersionTitle>{preview.title}</VersionTitle>
-                    {preview.snippet ? (
-                      <VersionSnippet>{preview.snippet}</VersionSnippet>
-                    ) : null}
-                  </VersionCard>
-                );
-              })}
-            </VersionsScroll>
-          </VersionsBlock>
-
-          <PanelFooter>
-            <SmallButton
+            <SignOut
               type="button"
-              style={{ width: '100%' }}
               onClick={async () => {
                 await logOut();
                 setOpen(false);
               }}
             >
               Sign out
-            </SmallButton>
-          </PanelFooter>
-        </Panel>
+            </SignOut>
+          </Panel>
+        </>
       ) : null}
     </Wrap>
   );
 }
 
-export default function AccountBar({ text, setText, resumeId, setResumeId }) {
+export default function AccountBar({ text, resumeId, setResumeId }) {
   const [loginOpen, setLoginOpen] = useState(false);
   const { labels, setLabel } = useFlashLabels();
 
@@ -651,23 +531,20 @@ export default function AccountBar({ text, setText, resumeId, setResumeId }) {
               onClick={() => setLoginOpen(false)}
             />
             <Panel>
-              <PanelBody style={{ paddingBottom: 16 }}>
-                <SectionTitle>Want to log in?</SectionTitle>
-                <p style={{ margin: 0, lineHeight: 1.4 }}>
-                  Add NEXT_PUBLIC_CONVEX_URL in .env.local to enable publishing.
-                  See the README.
-                </p>
-                <SmallButton
-                  type="button"
-                  style={{ width: '100%', marginTop: 12 }}
-                  onClick={() => {
-                    setLabel('close', 'Not configured');
-                    setLoginOpen(false);
-                  }}
-                >
-                  {labels.close || 'Close'}
-                </SmallButton>
-              </PanelBody>
+              <Title>Log in</Title>
+              <Sub>
+                Add NEXT_PUBLIC_CONVEX_URL in .env.local to enable publishing.
+              </Sub>
+              <SmallButton
+                type="button"
+                style={{ width: '100%' }}
+                onClick={() => {
+                  setLabel('close', 'Not configured');
+                  setLoginOpen(false);
+                }}
+              >
+                {labels.close || 'Close'}
+              </SmallButton>
             </Panel>
           </>
         ) : null}
@@ -678,7 +555,6 @@ export default function AccountBar({ text, setText, resumeId, setResumeId }) {
   return (
     <AccountBarLive
       text={text}
-      setText={setText}
       resumeId={resumeId}
       setResumeId={setResumeId}
     />
