@@ -43,7 +43,8 @@ export const STYLING = {
       name: 'Academic',
       body: 'academic',
       image: 'style_theme_academic.png',
-      description: 'Stacked CV. Dates on the right; blank lines stay in paragraphs.',
+      description:
+        'Stacked CV. Dates on the right; blank lines stay in paragraphs.',
     },
   ],
   fonts: [

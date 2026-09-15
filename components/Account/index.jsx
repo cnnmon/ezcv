@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useMutation, useQuery } from 'convex/react';
+import { MdCheck, MdContentCopy, MdOpenInNew } from 'react-icons/md';
 import { COLORS } from '../../constants';
 import { useAuth } from '../../context/auth';
 import { api } from '../../convex/_generated/api';
@@ -31,50 +32,6 @@ const Wrap = styled.div`
   display: flex;
   position: relative;
 `;
-
-const AvatarFrame = styled.span`
-  display: inline-block;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 2px solid ${COLORS.darkBrown};
-  margin-right: 8px;
-  background: #c8c8c8;
-  flex-shrink: 0;
-  overflow: hidden;
-  box-sizing: border-box;
-`;
-
-const AvatarImg = styled.img`
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: ${(p) => (p.$ready ? 1 : 0)};
-  transition: opacity 0.15s ease-out;
-`;
-
-function UserAvatar({ src }) {
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    setReady(false);
-  }, [src]);
-
-  if (!src) return null;
-
-  return (
-    <AvatarFrame>
-      <AvatarImg
-        src={src}
-        alt=""
-        referrerPolicy="no-referrer"
-        $ready={ready}
-        onLoad={() => setReady(true)}
-      />
-    </AvatarFrame>
-  );
-}
 
 const Panel = styled.div`
   position: absolute;
@@ -110,41 +67,68 @@ const Sub = styled.p`
   opacity: 0.7;
 `;
 
-const Hint = styled.p`
-  margin: 8px 0 0;
-  font-size: 13px;
-  line-height: 1.35;
-  opacity: 0.65;
-  min-height: 1.2em;
-`;
-
 const Row = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
 `;
 
-const Actions = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-top: 12px;
+const FieldWrap = styled.div`
+  position: relative;
+  flex: 1;
+  min-width: 0;
 `;
 
 const Prefix = styled.span`
+  position: absolute;
+  left: 10px;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
   opacity: 0.55;
   font-size: 13px;
-  flex-shrink: 0;
+  pointer-events: none;
 `;
 
+const FIELD_BG = {
+  taken: COLORS.red,
+  checking: COLORS.yellowGreen,
+};
+
 const Field = styled.input`
-  flex: 1;
+  width: 100%;
   min-width: 0;
-  padding: 8px 10px;
+  padding: 8px 56px 8px 52px;
   border: 2px solid ${COLORS.darkBrown};
-  background: white;
+  background: ${(p) => FIELD_BG[p.$status] || 'white'};
   font-family: Helvetica;
   box-sizing: border-box;
+  transition: background 0.15s ease-out;
+`;
+
+const FieldIcons = styled.div`
+  position: absolute;
+  right: 6px;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+`;
+
+const IconBtn = styled.button`
+  display: flex;
+  align-items: center;
+  padding: 0 4px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  opacity: 0.55;
+  color: inherit;
+
+  &:hover {
+    opacity: 0.9;
+  }
 `;
 
 const SmallButton = styled.button`
@@ -161,12 +145,18 @@ const SaveButton = styled(SmallButton)`
   width: 100%;
   margin-top: 16px;
   padding: 10px 12px;
+  font-size: 16px;
+  color: black;
+  background: ${COLORS.green};
+  &:hover {
+    background: ${COLORS.red};
+  }
 `;
 
 const SignOut = styled.button`
   display: block;
   width: 100%;
-  margin-top: 16px;
+  margin-top: 4px;
   padding: 0;
   border: none;
   background: none;
@@ -361,6 +351,13 @@ function AccountBarLive({ text, resumeId, setResumeId }) {
     setLabel('copy', 'Copied!');
   };
 
+  const handleOpenLink = () => {
+    const url = viewUrl(slug);
+    if (url) {
+      window.open(url, '_blank', 'noopener,noreferrer');
+    }
+  };
+
   const handleSaveSlug = async () => {
     if (!resumeId) {
       setLabel('set', 'Publish first');
@@ -377,29 +374,17 @@ function AccountBarLive({ text, resumeId, setResumeId }) {
     }
   };
 
-  const slugHint = (() => {
+  const slugStatus = (() => {
     if (!slugDraft) {
       return '';
     }
     if (availability === undefined) {
-      return 'Checking…';
+      return 'checking';
     }
-    if (!availability) {
+    if (!availability || availability.ok) {
       return '';
     }
-    if (availability.ok) {
-      return availability.slug === slug ? 'Live link' : 'Available';
-    }
-    if (availability.reason === 'taken') {
-      return 'Already taken';
-    }
-    if (availability.reason === 'reserved') {
-      return 'Reserved';
-    }
-    if (availability.reason === 'invalid') {
-      return 'Letters, numbers, hyphens only';
-    }
-    return 'Too short';
+    return 'taken';
   })();
 
   const publishLabel = (() => {
@@ -410,7 +395,7 @@ function AccountBarLive({ text, resumeId, setResumeId }) {
       return 'Login';
     }
     if (published) {
-      return 'Edit';
+      return 'Edit published';
     }
     return 'Publish';
   })();
@@ -418,9 +403,11 @@ function AccountBarLive({ text, resumeId, setResumeId }) {
   return (
     <Wrap>
       <HeaderButton
+        style={{
+          background: COLORS.green,
+        }}
         content={
           <span style={{ display: 'flex', alignItems: 'center' }}>
-            {ready && user ? <UserAvatar src={user.photoURL} /> : null}
             {publishLabel}
           </span>
         }
@@ -461,43 +448,52 @@ function AccountBarLive({ text, resumeId, setResumeId }) {
         <>
           <Backdrop aria-hidden="true" onClick={() => setOpen(false)} />
           <Panel>
-            <Title>Your link</Title>
+            <Title>Your live resume page</Title>
             {!resumeId ? (
               <Sub>Publish to create a live page.</Sub>
             ) : (
               <>
                 <Row>
-                  <Prefix>/view/</Prefix>
-                  <Field
-                    value={slugDraft}
-                    onChange={(e) => setSlugDraft(e.target.value)}
-                    placeholder="your-name"
-                    spellCheck={false}
-                  />
+                  <FieldWrap>
+                    <Prefix>/view/</Prefix>
+                    <Field
+                      value={slugDraft}
+                      onChange={(e) => setSlugDraft(e.target.value)}
+                      placeholder="your-name"
+                      spellCheck={false}
+                      $status={slugStatus}
+                      aria-invalid={slugStatus === 'taken'}
+                    />
+                    <FieldIcons>
+                      <IconBtn
+                        type="button"
+                        aria-label="Copy link"
+                        title="Copy link"
+                        onClick={handleCopyLink}
+                      >
+                        {labels.copy === 'Copied!' ? (
+                          <MdCheck size={16} />
+                        ) : (
+                          <MdContentCopy size={16} />
+                        )}
+                      </IconBtn>
+                      <IconBtn
+                        type="button"
+                        aria-label="Open"
+                        title="Open"
+                        onClick={handleOpenLink}
+                      >
+                        <MdOpenInNew size={16} />
+                      </IconBtn>
+                    </FieldIcons>
+                  </FieldWrap>
                   <SmallButton type="button" onClick={handleSaveSlug}>
                     {labels.set || 'Set'}
                   </SmallButton>
                 </Row>
-                <Hint>{slugHint}</Hint>
                 <SaveButton type="button" $primary onClick={handleSave}>
                   {labels.save || 'Save'}
                 </SaveButton>
-                <Actions>
-                  <SmallButton type="button" onClick={handleCopyLink}>
-                    {labels.copy || 'Copy link'}
-                  </SmallButton>
-                  <SmallButton
-                    type="button"
-                    onClick={() => {
-                      const url = viewUrl(slug);
-                      if (url) {
-                        window.open(url, '_blank', 'noopener,noreferrer');
-                      }
-                    }}
-                  >
-                    Open
-                  </SmallButton>
-                </Actions>
               </>
             )}
             <SignOut
@@ -507,7 +503,7 @@ function AccountBarLive({ text, resumeId, setResumeId }) {
                 setOpen(false);
               }}
             >
-              Sign out
+              (Sign out)
             </SignOut>
           </Panel>
         </>
@@ -526,10 +522,7 @@ export default function AccountBar({ text, resumeId, setResumeId }) {
         <HeaderButton content="Publish" onClick={() => setLoginOpen(true)} />
         {loginOpen ? (
           <>
-            <Backdrop
-              aria-hidden="true"
-              onClick={() => setLoginOpen(false)}
-            />
+            <Backdrop aria-hidden="true" onClick={() => setLoginOpen(false)} />
             <Panel>
               <Title>Log in</Title>
               <Sub>
@@ -553,10 +546,6 @@ export default function AccountBar({ text, resumeId, setResumeId }) {
   }
 
   return (
-    <AccountBarLive
-      text={text}
-      resumeId={resumeId}
-      setResumeId={setResumeId}
-    />
+    <AccountBarLive text={text} resumeId={resumeId} setResumeId={setResumeId} />
   );
 }

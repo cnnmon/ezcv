@@ -53,7 +53,10 @@ export function parseIntoContent(text, styling = {}, setStyling = () => null) {
   }
 
   function trimTrailingBlanks(fields) {
-    while (fields.other.length > 0 && fields.other[fields.other.length - 1] === '') {
+    while (
+      fields.other.length > 0 &&
+      fields.other[fields.other.length - 1] === ''
+    ) {
       fields.other.pop();
     }
   }
@@ -110,7 +113,9 @@ export function parseIntoContent(text, styling = {}, setStyling = () => null) {
 
           // sets key -> k to ensure "header" gets picked up
           if (!isCurrentSectionEmpty(currentSection)) {
-            trimTrailingBlanks(currentSection.body[currentSection.body.length - 1]);
+            trimTrailingBlanks(
+              currentSection.body[currentSection.body.length - 1]
+            );
             state.push({
               header: value,
               body: [SECTIONS.getEmptySubsection()],
@@ -138,7 +143,8 @@ export function parseIntoContent(text, styling = {}, setStyling = () => null) {
         if (line.length > 0) {
           pushSectionToState(line);
         } else {
-          const currentFields = currentSection.body[currentSection.body.length - 1];
+          const currentFields =
+            currentSection.body[currentSection.body.length - 1];
           if (currentFields.other.some((item) => item !== '')) {
             currentFields.other.push('');
           }
