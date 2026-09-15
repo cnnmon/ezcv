@@ -57,6 +57,12 @@ const Panel = styled.div`
   overflow: hidden;
 `;
 
+const Backdrop = styled.div`
+  position: fixed;
+  inset: 0;
+  z-index: 19;
+`;
+
 const PanelBody = styled.div`
   padding: 16px 16px 0;
   flex-shrink: 0;
@@ -475,29 +481,38 @@ function AccountBarLive({ text, setText, resumeId, setResumeId }) {
       />
 
       {loginOpen && !user ? (
-        <Panel>
-          <PanelBody style={{ paddingBottom: 16 }}>
-            <SectionTitle>Want to log in?</SectionTitle>
-            <p style={{ margin: 0, lineHeight: 1.4 }}>
-              Sign in with Google to publish a live link and keep version
-              history.
-            </p>
-            <GoogleButton type="button" onClick={handleSignIn}>
-              <span style={{ fontWeight: 'bold' }}>G</span>
-              {labels.google || 'Continue with Google'}
-            </GoogleButton>
-            <SmallButton
-              type="button"
-              style={{ width: '100%', marginTop: 8 }}
-              onClick={() => {
-                clearLabel('google');
-                setLoginOpen(false);
-              }}
-            >
-              Not now
-            </SmallButton>
-          </PanelBody>
-        </Panel>
+        <>
+          <Backdrop
+            aria-hidden="true"
+            onClick={() => {
+              clearLabel('google');
+              setLoginOpen(false);
+            }}
+          />
+          <Panel>
+            <PanelBody style={{ paddingBottom: 16 }}>
+              <SectionTitle>Want to log in?</SectionTitle>
+              <p style={{ margin: 0, lineHeight: 1.4 }}>
+                Sign in with Google to publish a live link and keep version
+                history.
+              </p>
+              <GoogleButton type="button" onClick={handleSignIn}>
+                <span style={{ fontWeight: 'bold' }}>G</span>
+                {labels.google || 'Continue with Google'}
+              </GoogleButton>
+              <SmallButton
+                type="button"
+                style={{ width: '100%', marginTop: 8 }}
+                onClick={() => {
+                  clearLabel('google');
+                  setLoginOpen(false);
+                }}
+              >
+                Not now
+              </SmallButton>
+            </PanelBody>
+          </Panel>
+        </>
       ) : null}
 
       {open && user ? (
@@ -630,25 +645,31 @@ export default function AccountBar({ text, setText, resumeId, setResumeId }) {
       <Wrap>
         <HeaderButton content="Publish" onClick={() => setLoginOpen(true)} />
         {loginOpen ? (
-          <Panel>
-            <PanelBody style={{ paddingBottom: 16 }}>
-              <SectionTitle>Want to log in?</SectionTitle>
-              <p style={{ margin: 0, lineHeight: 1.4 }}>
-                Add NEXT_PUBLIC_CONVEX_URL in .env.local to enable publishing.
-                See the README.
-              </p>
-              <SmallButton
-                type="button"
-                style={{ width: '100%', marginTop: 12 }}
-                onClick={() => {
-                  setLabel('close', 'Not configured');
-                  setLoginOpen(false);
-                }}
-              >
-                {labels.close || 'Close'}
-              </SmallButton>
-            </PanelBody>
-          </Panel>
+          <>
+            <Backdrop
+              aria-hidden="true"
+              onClick={() => setLoginOpen(false)}
+            />
+            <Panel>
+              <PanelBody style={{ paddingBottom: 16 }}>
+                <SectionTitle>Want to log in?</SectionTitle>
+                <p style={{ margin: 0, lineHeight: 1.4 }}>
+                  Add NEXT_PUBLIC_CONVEX_URL in .env.local to enable publishing.
+                  See the README.
+                </p>
+                <SmallButton
+                  type="button"
+                  style={{ width: '100%', marginTop: 12 }}
+                  onClick={() => {
+                    setLabel('close', 'Not configured');
+                    setLoginOpen(false);
+                  }}
+                >
+                  {labels.close || 'Close'}
+                </SmallButton>
+              </PanelBody>
+            </Panel>
+          </>
         ) : null}
       </Wrap>
     );

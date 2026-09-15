@@ -85,11 +85,21 @@ const ColumnRight = styled(ScrollContainer)`
   background-color: ${COLORS.redOrange};
   overflow: scroll;
   height: 100%;
+  box-sizing: border-box;
 
   @media only screen and (max-width: ${TRIGGERS.mobileBreakpoint}) {
     height: 1000px;
     margin-left: 0;
   }
+`;
+
+const PreviewPad = styled.div`
+  padding: 24px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 100%;
 `;
 
 function HeaderButton({ content, onClick, style }) {
@@ -215,7 +225,9 @@ export default function Builder() {
             </div>
           </ColumnLeft>
           <ColumnRight>
-            <Resume content={content} styling={styling} ref={resume} />
+            <PreviewPad>
+              <Resume content={content} styling={styling} ref={resume} />
+            </PreviewPad>
           </ColumnRight>
         </Body>
       </main>

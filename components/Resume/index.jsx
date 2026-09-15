@@ -252,7 +252,6 @@ const Resume = React.forwardRef(({ styling, content, plain = false }, ref) => {
           );
         })}
       </div>
-      {plain ? null : <div style={{ marginBottom: '24px' }} />}
     </>
   );
 });
