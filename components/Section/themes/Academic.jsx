@@ -50,7 +50,11 @@ function Body({ subsection }) {
       <Entry>
         <Row>
           <div style={{ flex: 1 }}>
-            <Lines title={title} subtitle={subtitle} description={description} />
+            <Lines
+              title={title}
+              subtitle={subtitle}
+              description={description}
+            />
           </div>
           <DateRight>{date}</DateRight>
         </Row>

@@ -137,6 +137,17 @@ function link(text) {
   return <AutoLinkText text={text} linkProps={{ target: '_blank' }} />;
 }
 
+function keyed(list, prefix = '') {
+  const seen = {};
+  return list.map((item) => {
+    const base = `${prefix}:${
+      typeof item === 'string' ? item : JSON.stringify(item)
+    }`;
+    seen[base] = (seen[base] || 0) + 1;
+    return { item, key: `${base}#${seen[base]}` };
+  });
+}
+
 function isEmptySubsection(s) {
   if (!s) return true;
   const { title, subtitle, date, description, other } = s;
@@ -186,18 +197,18 @@ function EntryBody({ subsection }) {
   if (!hasStructured && lines.length > 0) {
     return (
       <Entry>
-        {lines.map((line, i) => {
-          if (line === '') return <Prose key={`b-${i}`}>&nbsp;</Prose>;
+        {keyed(lines, 'b').map(({ item: line, key }) => {
+          if (line === '') return <Prose key={key}>&nbsp;</Prose>;
           const bullet = line[0] === '-';
           const text = bullet ? line.substring(1).trim() : line;
           if (bullet) {
             return (
-              <List key={`b-${i}`}>
+              <List key={key}>
                 <Item $bullet>{link(text)}</Item>
               </List>
             );
           }
-          return <Prose key={`b-${i}`}>{link(text)}</Prose>;
+          return <Prose key={key}>{link(text)}</Prose>;
         })}
       </Entry>
     );
@@ -214,14 +225,14 @@ function EntryBody({ subsection }) {
       {meta ? <EntryMeta>{link(meta)}</EntryMeta> : null}
       {lines.length > 0 ? (
         <List>
-          {lines.map((line, i) => {
+          {keyed(lines, 'l').map(({ item: line, key }) => {
             if (line === '') {
-              return <Item key={`l-${i}`} style={{ height: '0.75em' }} />;
+              return <Item key={key} style={{ height: '0.75em' }} />;
             }
             const bullet = line[0] === '-';
             const text = bullet ? line.substring(1).trim() : line;
             return (
-              <Item key={`l-${i}`} $bullet={bullet}>
+              <Item key={key} $bullet={bullet}>
                 {link(text)}
               </Item>
             );
@@ -239,8 +250,8 @@ function SectionBlock({ header, subsections = [] }) {
   return (
     <Block>
       {header ? <SectionLabel>{header}</SectionLabel> : null}
-      {items.map((s, i) => (
-        <EntryBody key={`${header}-${i}`} subsection={s} />
+      {keyed(items, header || 'section').map(({ item: s, key }) => (
+        <EntryBody key={key} subsection={s} />
       ))}
     </Block>
   );
@@ -249,13 +260,13 @@ function SectionBlock({ header, subsections = [] }) {
 export default function WebView({ content = [] }) {
   return (
     <Profile>
-      {content.map((section, i) => {
+      {keyed(content, 'section').map(({ item: section, key }) => {
         if (section.type === SECTIONS.TYPES.PAGEBREAK) return null;
 
         if (section.type === SECTIONS.TYPES.HEADER) {
           return (
             <HeaderBlock
-              key={`h-${i}`}
+              key={key}
               header={section.header}
               subsections={section.body}
             />
@@ -264,7 +275,7 @@ export default function WebView({ content = [] }) {
 
         return (
           <SectionBlock
-            key={`s-${i}`}
+            key={key}
             header={section.header}
             subsections={section.body}
           />
