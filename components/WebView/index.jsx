@@ -8,6 +8,7 @@ const Profile = styled.article`
   max-width: 640px;
   margin: 0 auto;
   font-family: 'Neue Montreal', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 15px;
   color: #1c1c1c;
   line-height: 1.3;
   letter-spacing: -0.01em;
@@ -30,7 +31,7 @@ const Profile = styled.article`
 const Name = styled.h1`
   margin: 0 0 12px;
   font-weight: 500;
-  font-size: clamp(2rem, 3vw, 2.75rem);
+  font-size: clamp(1.85rem, 2.8vw, 2.5rem);
   letter-spacing: -0.03em;
   line-height: 1.15;
 `;

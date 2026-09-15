@@ -156,7 +156,7 @@ const SaveButton = styled(SmallButton)`
 const SignOut = styled.button`
   display: block;
   width: 100%;
-  margin-top: 4px;
+  margin-top: 10px;
   padding: 0;
   border: none;
   background: none;
