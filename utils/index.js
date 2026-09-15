@@ -79,7 +79,6 @@ export function parseIntoContent(text, styling = {}, setStyling = () => null) {
         currentFields[k] = value;
       }
     } else {
-      console.log(currentBody);
       currentFields.other.push(t.trim());
     }
   }

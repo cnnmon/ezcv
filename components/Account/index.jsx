@@ -450,6 +450,9 @@ function AccountBarLive({ text, setText, resumeId, setResumeId }) {
     if (labels.publish) {
       return labels.publish;
     }
+    if (!user) {
+      return 'Login';
+    }
     if (published) {
       return 'Edit';
     }
