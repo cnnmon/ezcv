@@ -53,7 +53,7 @@ const Backdrop = styled.div`
 `;
 
 const Title = styled.h4`
-  margin: 0 0 6px;
+  margin: 0 0 10px;
   font-family: Mabry;
   font-weight: normal;
   font-size: 18px;
@@ -143,11 +143,13 @@ const SmallButton = styled.button`
 
 const SaveButton = styled(SmallButton)`
   width: 100%;
-  margin-top: 16px;
+  margin-top: 10px;
   padding: 10px 12px;
   font-size: 16px;
   color: black;
-  background: ${COLORS.green};
+  opacity: ${(p) => (!p.$dirty ? 0.55 : 1)};
+  cursor: ${(p) => (!p.$dirty ? 'not-allowed' : 'pointer')};
+  pointer-events: ${(p) => (!p.$dirty ? 'none' : 'auto')};
   &:hover {
     background: ${COLORS.red};
   }
@@ -307,6 +309,10 @@ function AccountBarLive({ text, resumeId, setResumeId }) {
   };
 
   const published = Boolean(resumeId);
+  const savedText = resumesQuery?.find((row) => row.id === resumeId)?.text;
+  const dirty = Boolean(
+    resumeId && savedText !== undefined && savedText !== text
+  );
 
   const handleSave = async () => {
     setOpen(true);
@@ -448,7 +454,7 @@ function AccountBarLive({ text, resumeId, setResumeId }) {
         <>
           <Backdrop aria-hidden="true" onClick={() => setOpen(false)} />
           <Panel>
-            <Title>Your live resume page</Title>
+            <Title>Your published page</Title>
             {!resumeId ? (
               <Sub>Publish to create a live page.</Sub>
             ) : (
@@ -491,8 +497,8 @@ function AccountBarLive({ text, resumeId, setResumeId }) {
                     {labels.set || 'Set'}
                   </SmallButton>
                 </Row>
-                <SaveButton type="button" $primary onClick={handleSave}>
-                  {labels.save || 'Save'}
+                <SaveButton type="button" $dirty={dirty} onClick={handleSave}>
+                  {labels.save || (dirty ? 'Save' : 'Saved')}
                 </SaveButton>
               </>
             )}

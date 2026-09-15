@@ -74,7 +74,7 @@ const SectionLabel = styled.h2`
 `;
 
 const Entry = styled.div`
-  margin: 0 0 22px;
+  margin: 0 0 20px;
 
   &:last-child {
     margin-bottom: 0;
@@ -102,7 +102,7 @@ const EntryDate = styled.p`
 `;
 
 const EntryMeta = styled.p`
-  margin: 0 0 0px;
+  margin: 0 0 4px;
   color: #5a5a5a;
 `;
 
