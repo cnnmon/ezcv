@@ -5,6 +5,7 @@ import { TRIGGERS, STYLING } from '../../constants';
 import OneColumn from './OneColumn';
 import TwoColumn from './TwoColumn';
 import Content from './Content';
+import { collectIntervals, paginate } from '../../utils/paginate';
 
 const WIDTH = '8.2in';
 const HEIGHT = '11in';
@@ -99,53 +100,14 @@ function renderBody(alignment, page, styling) {
   return <OneColumn content={page} styling={styling} />;
 }
 
-function packSections(heights, area) {
-  const pages = [];
-  let current = [];
-  let used = 0;
-
-  const flush = () => {
-    if (current.length) {
-      pages.push({ ids: current, slice: 0 });
-      current = [];
-      used = 0;
-    }
-  };
-
-  for (let id = 0; id < heights.length; id += 1) {
-    const height = heights[id] || 0;
-
-    if (height > area) {
-      flush();
-      const count = Math.max(1, Math.ceil(height / area));
-      for (let slice = 0; slice < count; slice += 1) {
-        pages.push({ ids: [id], slice });
-      }
-    } else if (current.length > 0 && used + height > area) {
-      flush();
-      current.push(id);
-      used = height;
-    } else {
-      current.push(id);
-      used += height;
-    }
-  }
-
-  flush();
-  return pages.length ? pages : [{ ids: heights.map((_, i) => i), slice: 0 }];
-}
-
 const Resume = React.forwardRef(({ styling, content, plain = false }, ref) => {
   const { alignment } = styling.columns;
   const isDarkMode = styling.mode.key === 'dark';
   const measureRef = useRef(null);
   const probeRef = useRef(null);
-  const [pages, setPages] = useState([{ ids: [], slice: 0 }]);
-  const [slicePx, setSlicePx] = useState(0);
+  const [pages, setPages] = useState([{ start: 0, end: 0 }]);
 
-  const flow = content
-    .filter((c) => c.type !== 'pagebreak')
-    .map((c, i) => ({ ...c, pageId: i }));
+  const flow = content.filter((c) => c.type !== 'pagebreak');
   const pageStyle = getContentStyle(styling, isDarkMode);
 
   useLayoutEffect(() => {
@@ -158,21 +120,16 @@ const Resume = React.forwardRef(({ styling, content, plain = false }, ref) => {
     const update = () => {
       const pagePx = probe.offsetHeight;
       const cs = window.getComputedStyle(measure);
-      const pad =
-        (parseFloat(cs.paddingTop) || 0) + (parseFloat(cs.paddingBottom) || 0);
+      const padTop = parseFloat(cs.paddingTop) || 0;
+      const pad = padTop + (parseFloat(cs.paddingBottom) || 0);
       const area = Math.max(1, pagePx - pad);
-      const nodes = [...measure.querySelectorAll('[data-resume-section]')];
-      const heights = flow.map(() => 0);
+      const contentTop = measure.getBoundingClientRect().top + padTop;
+      const intervals = collectIntervals(measure, contentTop, area);
+      const next = paginate(intervals, measure.offsetHeight - pad, area);
 
-      nodes.forEach((node) => {
-        const id = Number(node.getAttribute('data-resume-section'));
-        if (!Number.isNaN(id)) {
-          heights[id] = node.offsetHeight;
-        }
-      });
-
-      setSlicePx(area);
-      setPages(packSections(heights, area));
+      setPages((prev) =>
+        JSON.stringify(prev) === JSON.stringify(next) ? prev : next
+      );
     };
 
     update();
@@ -205,10 +162,9 @@ const Resume = React.forwardRef(({ styling, content, plain = false }, ref) => {
       </MeasureClip>
       <div ref={ref}>
         {pages.map((page, index) => {
-          const pageContent = flow.filter((c) => page.ids.includes(c.pageId));
           // Builder always uses letter pages. Public view sizes the last page
           // to content so short resumes aren't mostly empty whitespace.
-          const fill = !plain || page.slice > 0 || index < pages.length - 1;
+          const fill = !plain || index < pages.length - 1;
           return (
             <Container
               key={`page-${index.toString()}`}
@@ -235,16 +191,18 @@ const Resume = React.forwardRef(({ styling, content, plain = false }, ref) => {
               >
                 <div
                   style={{
-                    height: fill ? '100%' : 'auto',
-                    overflow: 'hidden',
+                    height: page.end - page.start,
+                    // page breaks fall between blocks, so this only hides the
+                    // neighboring pages. clip-path (unlike overflow: hidden)
+                    // leaves the left open, out to the page edge, so list
+                    // markers can hang into the padding. The right stays
+                    // clipped so long unbroken text can't run into it.
+                    clipPath: `inset(0 0 0 -${pageStyle.padding}px)`,
+                    display: 'flow-root',
                   }}
                 >
-                  <div
-                    style={{
-                      marginTop: page.slice ? -page.slice * slicePx : 0,
-                    }}
-                  >
-                    {renderBody(alignment, pageContent, styling)}
+                  <div style={{ marginTop: -page.start }}>
+                    {renderBody(alignment, flow, styling)}
                   </div>
                 </div>
               </div>

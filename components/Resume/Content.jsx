@@ -6,12 +6,7 @@ function Content({ content, styling = STYLING.getDefaultStyling() }) {
   return (
     <>
       {content.map((section, i) => (
-        <div
-          key={`${i + 1}`}
-          data-resume-section={
-            section.pageId !== undefined ? section.pageId : i
-          }
-        >
+        <div key={`${i + 1}`}>
           <Section
             styling={styling}
             type={section.type}
