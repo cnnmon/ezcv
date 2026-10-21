@@ -19,7 +19,7 @@ const styles = {
   },
   bulleted: {
     listStyleType: 'disc',
-    marginLeft: '10px',
+    marginLeft: '14px',
   },
 };
 
